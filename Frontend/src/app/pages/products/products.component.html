@@ -175,6 +175,7 @@
       </div>
     </div>
 
+    <!-- PAGINATION -->
     <div class="d-flex justify-content-center">
       <pagination
         [boundaryLinks]="true"
@@ -211,6 +212,23 @@
         <h2>Nie znaleziono produktów!</h2>
         <p>Spróbuj zmienić filtry wyszukiwania.</p>
       </div>
+    </div>
+
+    <!-- PAGINATION -->
+    <div class="d-flex justify-content-center" *ngIf="products.length > 0 && !isLoading">
+      <pagination
+        [boundaryLinks]="true"
+        [totalItems]="totalAmountOfItems"
+        [itemsPerPage]="itemsPerPage"
+        (pageChanged)="pageChanged($event)"
+        [(ngModel)]="currentPage"
+        [maxSize]="10"
+        previousText="&lsaquo;"
+        nextText="&rsaquo;"
+        firstText="&laquo;"
+        lastText="&raquo;"
+      >
+      </pagination>
     </div>
   </div>
 </div>
