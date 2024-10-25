@@ -21,36 +21,36 @@ public class ShopCartController {
     private final ShopCardService shopCardService;
 
 
-    @GetMapping("/shop-card")
-    public ResponseEntity<Response> getShopCard(){
+    // @GetMapping("/shop-card")
+    // public ResponseEntity<Response> getShopCard(){
 
-        try {
+    //     try {
 
-            return ResponseEntity.ok(
-                    Response.builder()
-                            .timeStamp(LocalDateTime.now())
-                            .data(Map.of("data", shopCardService.getShopCard()))
-                            .message("Shop card returned successfully")
-                            .status(HttpStatus.OK)
-                            .statusCode(HttpStatus.OK.value())
-                            .build()
-            );
-        }catch (Exception e){
+    //         return ResponseEntity.ok(
+    //                 Response.builder()
+    //                         .timeStamp(LocalDateTime.now())
+    //                         .data(Map.of("data", shopCardService.getShopCard()))
+    //                         .message("Shop card returned successfully")
+    //                         .status(HttpStatus.OK)
+    //                         .statusCode(HttpStatus.OK.value())
+    //                         .build()
+    //         );
+    //     }catch (Exception e){
 
-            return ResponseEntity.badRequest().body(
-                    Response.builder()
-                            .timeStamp(LocalDateTime.now())
-                            .data(Map.of("Message", e.getMessage()))
-                            .message("Shop card were not returned successfully")
-                            .status(HttpStatus.BAD_REQUEST)
-                            .statusCode(HttpStatus.BAD_REQUEST.value())
-                            .build()
-            );
-
-
-        }
+    //         return ResponseEntity.badRequest().body(
+    //                 Response.builder()
+    //                         .timeStamp(LocalDateTime.now())
+    //                         .data(Map.of("Message", e.getMessage()))
+    //                         .message("Shop card were not returned successfully")
+    //                         .status(HttpStatus.BAD_REQUEST)
+    //                         .statusCode(HttpStatus.BAD_REQUEST.value())
+    //                         .build()
+    //         );
 
 
-    }
+    //     }
+
+
+    // }
 
 }

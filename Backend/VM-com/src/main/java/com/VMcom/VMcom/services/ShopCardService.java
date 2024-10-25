@@ -18,10 +18,10 @@ public class ShopCardService {
     
     
     
-    public ShopCard getShopCard() {
-        // TODO Auto-generated method stub
+    // public ShopCard getShopCard() {
+    //     // TODO Auto-generated method stub
         
-    }
+    // }
 
 
 
