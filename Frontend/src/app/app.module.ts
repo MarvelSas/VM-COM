@@ -29,6 +29,7 @@ import { Toast, ToastrModule } from 'ngx-toastr';
 import { AuthInterceptorService } from './shared/services/auth-interceptor.service';
 import { ProductListItemComponent } from './shared/components/product-list-item/product-list-item.component';
 import { TabsModule } from 'ngx-bootstrap/tabs';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
 
 @NgModule({
   declarations: [
@@ -62,6 +63,7 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
     ToastrModule.forRoot(),
     TabsModule,
     FormsModule,
+    PaginationModule,
   ],
   providers: [
     {
