@@ -9,10 +9,22 @@ export class AuthInterceptorService {
   constructor(private authService: AuthService) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
+    if (req.headers.has('skipInterceptor')) {
+      const modifiedReq = req.clone({
+        headers: req.headers.delete('skipInterceptor'),
+      });
+      return next.handle(modifiedReq);
+    }
+
     return this.authService.user.pipe(
       take(1),
       exhaustMap((user) => {
         if (!user) {
+          this.authService.refreshToken().subscribe({
+            next: (res) => {
+              console.log(res);
+            },
+          });
           return next.handle(req);
         }
 
