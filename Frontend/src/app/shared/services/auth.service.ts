@@ -86,6 +86,7 @@ export class AuthService implements OnInit {
     const refreshToken = localStorage.getItem('refreshToken');
     this.TOKEN = accessToken;
     this.REFRESH_TOKEN = refreshToken;
+
     if (!accessToken) {
       console.log('No access token found!');
       this.toastr.error('Błąd autologowania!', null, {
@@ -127,7 +128,7 @@ export class AuthService implements OnInit {
         },
       });
     } else {
-      console.log('Token is not valid!');
+      console.log('Tokens is not valid!');
       this.toastr.error('Błąd autologowania!', null, {
         positionClass: 'toast-bottom-right',
       });

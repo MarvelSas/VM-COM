@@ -22,7 +22,12 @@ export class ProductsService {
 
   getProducts(): Observable<IProductsResponseData> {
     return this.http.get<IProductsResponseData>(
-      `${this.API_URL + endpoints.getAllProducts}`
+      `${this.API_URL + endpoints.getAllProducts}`,
+      {
+        headers: {
+          skipInterceptor: 'true',
+        },
+      }
     );
   }
 
@@ -67,13 +72,14 @@ export class ProductsService {
 
     return this.http.get<IProductsResponseData>(
       `${this.API_URL + endpoints.getPageableProducts}`,
-      { params: pageableParams }
+      { params: pageableParams, headers: { skipInterceptor: 'true' } }
     );
   }
 
   getProduct(id: number): Observable<OneProductResponseData> {
     return this.http.get<OneProductResponseData>(
-      `${this.API_URL + endpoints.getProduct}/${id}`
+      `${this.API_URL + endpoints.getProduct}/${id}`,
+      { headers: { skipInterceptor: 'true' } }
     );
   }
 
@@ -84,7 +90,7 @@ export class ProductsService {
       .set('pageSize', '5');
     return this.http.get<IProductsResponseData>(
       `${this.API_URL + endpoints.getPageableProducts}`,
-      { params }
+      { params, headers: { skipInterceptor: 'true' } }
     );
   }
 

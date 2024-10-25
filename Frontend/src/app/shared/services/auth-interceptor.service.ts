@@ -20,12 +20,16 @@ export class AuthInterceptorService {
       take(1),
       exhaustMap((user) => {
         if (!user) {
-          this.authService.refreshToken().subscribe({
-            next: (res) => {
-              console.log(res);
-            },
-          });
-          return next.handle(req);
+          if (this.authService.REFRESH_TOKEN) {
+            this.authService.refreshToken().subscribe({
+              next: (res) => {
+                console.log(res);
+              },
+            });
+            return next.handle(req);
+          } else {
+            return next.handle(req);
+          }
         }
 
         const decodedToken = jwtDecode(user.token);
