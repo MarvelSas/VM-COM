@@ -2,6 +2,7 @@ package com.VMcom.VMcom.services;
 
 import org.springframework.stereotype.Service;
 
+import com.VMcom.VMcom.model.ShopCard;
 import com.VMcom.VMcom.repository.ShopCardLineRepository;
 import com.VMcom.VMcom.repository.ShopCardRepository;
 
@@ -13,7 +14,15 @@ public class ShopCardService {
 
     private final ShopCardRepository shopCardRepository;
     private final ShopCardLineRepository shopCardLineRepository;
-
     
+    
+    
+    
+    public ShopCard getShopCard() {
+        // TODO Auto-generated method stub
+        
+    }
+
+
 
 }
