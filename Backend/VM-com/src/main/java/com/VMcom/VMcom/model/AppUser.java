@@ -47,6 +47,9 @@ public class AppUser implements UserDetails {
     @OneToMany(mappedBy = "appUser")
     private List<Address> addresses;
 
+    @OneToOne(mappedBy = "appUser")
+    private ShopCard shopCard;
+
 
 
     public AppUser(String firstName, String lastName, String username, String password, AppUserRole appUserRole, Boolean locked, Boolean enabled) {
