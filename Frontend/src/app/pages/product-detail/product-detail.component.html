@@ -11,15 +11,15 @@
                     <h4>Cena: {{product.price}} zł</h4>
                 </div>
                 <div class="btnContainer">
-                    <button class="btn" (click)="onBuyProduct()">Dodaj do koszyka!</button>
+                    <button class="button" (click)="onBuyProduct()">Dodaj do koszyka!</button>
                 </div>
             </div>
             <div class="imageSection">
-                <button class="btn" (click)="onPreviousImage()">Poprzednie zdjęcie</button>
+                <button class="button" (click)="onPreviousImage()">Poprzednie zdjęcie</button>
                 <p>{{selectedImage + 1}} / {{product.photos.length}}</p>
                 <img [src]="imageUrl" alt="{{product.name}}" class="gallery"
                     (click)="onImageClick(API_IMG + product.photos[selectedImage])">
-                <button class="btn" (click)="onNextImage()">Następne zdjęcie</button>
+                <button class="button" (click)="onNextImage()">Następne zdjęcie</button>
             </div>
         </div>
         <tabset>

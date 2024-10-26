@@ -13,7 +13,7 @@
     />
 
     <div class="dropdown">
-      <button class="btn btnDropdown">{{ searchCategory }}</button>
+      <button class="button btnDropdown">{{ searchCategory }}</button>
       <div class="dropdownContent">
         <a routerLink="#" (click)="onChangeCategory($event)">Laptopy</a>
         <a routerLink="#" (click)="onChangeCategory($event)">Smartfony</a>
@@ -23,7 +23,7 @@
       </div>
     </div>
 
-    <button class="btn">Szukaj</button>
+    <button class="button">Szukaj</button>
     <div class="searchResults" *ngIf="searchResults.length">
       <ul>
         <li
@@ -36,12 +36,12 @@
     </div>
   </div>
   <div>
-    <button class="btn" routerLink="admin" *ngIf="user">Administracja</button>
+    <button class="button" routerLink="admin" *ngIf="user">Administracja</button>
     <!-- TODO: IF USER ROLE === ADMIN -->
-    <button class="btn" routerLink="profile" *ngIf="user">Profil</button>
-    <button class="btn" routerLink="login" *ngIf="!user">Zaloguj</button>
-    <button class="btn" routerLink="register" *ngIf="!user">Register</button>
-    <button class="btn" (click)="logout()" *ngIf="user">Wyloguj</button>
-    <button class="btn" routerLink="cart">Koszyk</button>
+    <button class="button" routerLink="profile" *ngIf="user">Profil</button>
+    <button class="button" routerLink="login" *ngIf="!user">Zaloguj</button>
+    <button class="button" routerLink="register" *ngIf="!user">Register</button>
+    <button class="button" (click)="logout()" *ngIf="user">Wyloguj</button>
+    <button class="button" routerLink="cart">Koszyk</button>
   </div>
 </div>

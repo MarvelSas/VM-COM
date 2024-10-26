@@ -22,7 +22,7 @@
   border-radius: 6px;
 }
 
-.btn {
+.button {
   margin: 0.25rem;
   padding: 0.5rem;
   background-color: $nav-button-background-color;
@@ -33,7 +33,7 @@
   transition: opacity 0.3s, transform 0.3s;
 }
 
-.btn:hover {
+.button:hover {
   opacity: 0.85;
   transform: translateY(-2px);
   // background-color: $nav-button-hover-background-color;

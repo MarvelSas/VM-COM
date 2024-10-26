@@ -5,8 +5,8 @@
         <li class="productItem" *ngFor="let product of products">
             <span class="productName">{{product.name}} [{{product.id}}]</span>
             <span class="productActions">
-                <button class="btn btn-edit" (click)="onEditProduct(product.id)">Edytuj</button>
-                <button class="btn btn-delete" (click)="onDeleteProduct(product.id)">Usuń</button>
+                <button class="button btn-edit" (click)="onEditProduct(product.id)">Edytuj</button>
+                <button class="button btn-delete" (click)="onDeleteProduct(product.id)">Usuń</button>
             </span>
         </li>
     </ul>
@@ -69,7 +69,7 @@
     </div>
 
     <div class="buttonsSection">
-        <button class="btn btn-submit" type="submit">{{isEditing ? 'Zapisz zmiany' : 'Dodaj produkt'}}</button>
-        <button class="btn btn-clear" (click)="onClear()">{{isEditing ? 'Anuluj' : 'Wyczyść'}}</button>
+        <button class="button btn-submit" type="submit">{{isEditing ? 'Zapisz zmiany' : 'Dodaj produkt'}}</button>
+        <button class="button btn-clear" (click)="onClear()">{{isEditing ? 'Anuluj' : 'Wyczyść'}}</button>
     </div>
 </form>

@@ -3,8 +3,8 @@
     <li class="categoryItem" *ngFor="let category of categories">
         <span class="categoryName">{{category.name}}</span>
         <span class="categoryActions">
-            <button class="btn btn-edit" (click)="onEditCategory(category.id)">Edytuj</button>
-            <button class="btn btn-delete" (click)="onDeleteCategory(category.id)">Usuń</button>
+            <button class="button btn-edit" (click)="onEditCategory(category.id)">Edytuj</button>
+            <button class="button btn-delete" (click)="onDeleteCategory(category.id)">Usuń</button>
         </span>
     </li>
 </ul>
@@ -16,7 +16,7 @@
         <input type="text" name="categoryName" formControlName="categoryName" placeholder="Komputery">
     </div>
     <div class="buttonsSection">
-        <button class="btn btn-submit" type="submit">{{isEditing ? 'Zapisz' : 'Dodaj kategorię'}}</button>
-        <button class="btn btn-clear" (click)="onClear($event)">{{isEditing ? 'Cofnij' : 'Wyczyść'}}</button>
+        <button class="button btn-submit" type="submit">{{isEditing ? 'Zapisz' : 'Dodaj kategorię'}}</button>
+        <button class="button btn-clear" (click)="onClear($event)">{{isEditing ? 'Cofnij' : 'Wyczyść'}}</button>
     </div>
 </form>
