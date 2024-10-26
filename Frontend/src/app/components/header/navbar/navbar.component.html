@@ -3,17 +3,18 @@
     <!-- <p>navbar works!</p> -->
     <img class="logoImg" src="../../../../assets/vm-com.png" />
   </div>
-  <div class="searchContainer">
+  <div class="searchContainer d-flex align-items-center">
     <input
       name="search"
       type="text"
       placeholder="Czego szukasz?"
-      class="searchInput"
+      class="form-control me-1"
       (input)="onSearch($event)"
     />
-
-    <div class="dropdown">
-      <button class="button btnDropdown">{{ searchCategory }}</button>
+    <div class="dropdown me-1">
+      <button class="btn btn-primary">
+        {{ searchCategory }}
+      </button>
       <div class="dropdownContent">
         <a routerLink="#" (click)="onChangeCategory($event)">Laptopy</a>
         <a routerLink="#" (click)="onChangeCategory($event)">Smartfony</a>
@@ -22,8 +23,7 @@
         <a routerLink="#" (click)="onChangeCategory($event)">Akcesoria</a>
       </div>
     </div>
-
-    <button class="button">Szukaj</button>
+    <button class="btn btn-primary">Szukaj</button>
     <div class="searchResults" *ngIf="searchResults.length">
       <ul>
         <li
@@ -36,12 +36,22 @@
     </div>
   </div>
   <div>
-    <button class="button" routerLink="admin" *ngIf="user">Administracja</button>
+    <button class="btn btn-primary m-1" routerLink="admin" *ngIf="user">
+      Administracja
+    </button>
     <!-- TODO: IF USER ROLE === ADMIN -->
-    <button class="button" routerLink="profile" *ngIf="user">Profil</button>
-    <button class="button" routerLink="login" *ngIf="!user">Zaloguj</button>
-    <button class="button" routerLink="register" *ngIf="!user">Register</button>
-    <button class="button" (click)="logout()" *ngIf="user">Wyloguj</button>
-    <button class="button" routerLink="cart">Koszyk</button>
+    <button class="btn btn-primary m-1" routerLink="profile" *ngIf="user">
+      Profil
+    </button>
+    <button class="btn btn-primary m-1" routerLink="login" *ngIf="!user">
+      Zaloguj
+    </button>
+    <button class="btn btn-primary m-1" routerLink="register" *ngIf="!user">
+      Register
+    </button>
+    <button class="btn btn-primary m-1" (click)="logout()" *ngIf="user">
+      Wyloguj
+    </button>
+    <button class="btn btn-primary m-1" routerLink="cart">Koszyk</button>
   </div>
 </div>
