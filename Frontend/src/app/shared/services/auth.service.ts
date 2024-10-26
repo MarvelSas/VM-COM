@@ -143,7 +143,8 @@ export class AuthService implements OnInit {
 
   signOut() {
     this.user.next(null);
-    localStorage.removeItem('token');
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
     this.toastr.info('Wylogowano pomyślnie!', null, {
       positionClass: 'toast-bottom-right',
     });
@@ -179,11 +180,6 @@ export class AuthService implements OnInit {
         })
       );
   }
-
-  // private handleAuthentication(email: string, token: string) {
-  //   const user = new User(email, token);
-  //   this.user.next(user);
-  // }
 
   ngOnInit(): void {}
 }
