@@ -30,6 +30,7 @@ import { AuthInterceptorService } from './shared/services/auth-interceptor.servi
 import { ProductListItemComponent } from './shared/components/product-list-item/product-list-item.component';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
     AdminProductsComponent,
     LoadingSpinnerComponent,
     ProductListItemComponent,
+    UserProfileComponent,
   ],
   imports: [
     BrowserModule,
