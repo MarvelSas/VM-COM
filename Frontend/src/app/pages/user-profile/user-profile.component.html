@@ -1,1 +1,87 @@
-<p>user-profile works!</p>
+<!-- user-profile.component.html -->
+
+<div class="card w-100">
+  <div class="card-header bg-primary text-white">
+    <h4 class="mb-0">User Profile</h4>
+  </div>
+  <div class="card-body">
+    <form [formGroup]="userForm" (ngSubmit)="saveChanges()">
+      <div *ngIf="editMode; else displayMode">
+        <div class="mb-3">
+          <label for="firstName" class="form-label">First Name</label>
+          <input
+            id="firstName"
+            formControlName="firstName"
+            type="text"
+            class="form-control"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label for="lastName" class="form-label">Last Name</label>
+          <input
+            id="lastName"
+            formControlName="lastName"
+            type="text"
+            class="form-control"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input
+            id="email"
+            formControlName="email"
+            type="email"
+            class="form-control"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label for="phone" class="form-label">Phone</label>
+          <input
+            id="phone"
+            formControlName="phone"
+            type="text"
+            class="form-control"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label for="address" class="form-label">Address</label>
+          <input
+            id="address"
+            formControlName="address"
+            type="text"
+            class="form-control"
+          />
+        </div>
+
+        <button
+          type="submit"
+          class="btn btn-success me-2"
+          [disabled]="userForm.invalid"
+        >
+          Save
+        </button>
+        <button type="button" class="btn btn-secondary" (click)="toggleEdit()">
+          Cancel
+        </button>
+      </div>
+
+      <ng-template #displayMode>
+        <p>
+          <strong>First Name:</strong> {{ userForm.get("firstName")?.value }}
+        </p>
+        <p><strong>Last Name:</strong> {{ userForm.get("lastName")?.value }}</p>
+        <p><strong>Email:</strong> {{ userForm.get("email")?.value }}</p>
+        <p><strong>Phone:</strong> {{ userForm.get("phone")?.value }}</p>
+        <p><strong>Address:</strong> {{ userForm.get("address")?.value }}</p>
+
+        <button type="button" class="btn btn-primary" (click)="toggleEdit()">
+          Edit
+        </button>
+      </ng-template>
+    </form>
+  </div>
+</div>

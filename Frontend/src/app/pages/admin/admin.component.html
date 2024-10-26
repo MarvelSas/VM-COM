@@ -1,15 +1,17 @@
-<div style="width: 80vw;">
+<div class="custom-container">
+  <div style="width: 80vw">
     <tabset>
-        <tab heading="Zarządzanie produktami">
-            <app-admin-products></app-admin-products>
-        </tab>
-        <tab heading="Zarządzanie kategoriami">
-            <app-admin-categories></app-admin-categories>
-        </tab>
+      <tab heading="Zarządzanie produktami">
+        <app-admin-products></app-admin-products>
+      </tab>
+      <tab heading="Zarządzanie kategoriami">
+        <app-admin-categories></app-admin-categories>
+      </tab>
     </tabset>
+  </div>
+  <!-- <div class="controlsPanel">
+        <button class="button" (click)="onProductsButton()">Zarządzanie produktami</button>
+        <button class="button" (click)="onCategoriesButton()">Zarządzanie kategoriami</button>
+    </div>
+    <router-outlet></router-outlet> -->
 </div>
-<!-- <div class="controlsPanel">
-    <button class="button" (click)="onProductsButton()">Zarządzanie produktami</button>
-    <button class="button" (click)="onCategoriesButton()">Zarządzanie kategoriami</button>
-</div>
-<router-outlet></router-outlet> -->

@@ -2,71 +2,74 @@
 <!-- <app-slideshow [slides]="slides"></app-slideshow> -->
 
 <!-- POWITANIE -->
-
-<div class="section">
-  <h3 class="title">Witamy w VM-com!</h3>
-  <div class="introduction">
-    <p>
-      Oferujemy najwyższej jakości komputery, laptopy, smartfony oraz akcesoria,
-      które spełnią oczekiwania nawet najbardziej wymagających użytkowników.
-    </p>
-    <p>
-      Nasz szeroki asortyment obejmuje najnowsze modele sprzętu od renomowanych
-      producentów, gwarantując najwyższą wydajność i niezawodność.
-    </p>
-    <h4>Z nami zyskujesz:</h4>
-    <ul>
-      <li>Szybką dostawę prosto do Twojego domu.</li>
-      <li>Atrakcyjne ceny i regularne promocje.</li>
-      <li>Profesjonalną obsługę i doradztwo przy zakupie.</li>
-      <li>Bezpieczne zakupy dzięki nowoczesnym metodom płatności.</li>
-    </ul>
-    <p>
-      Dołącz do grona naszych zadowolonych klientów i odkryj, jak łatwe może być
-      kupowanie sprzętu komputerowego online.
-    </p>
-    <p><b>VM-com</b> – Twój zaufany partner w świecie technologii!</p>
-  </div>
-</div>
-
-<!-- POLECANE PRODUKTY -->
-<div class="section">
-  <h2 class="title">Polecane produkty</h2>
-
-  <div class="newProductsList">
-    <loading-spinner *ngIf="isLoading"></loading-spinner>
-    <ng-container *ngIf="products.length > 0 && !isLoading">
-      <app-product-item
-        *ngFor="let productEl of products"
-        [id]="productEl.id"
-        [name]="productEl.name"
-        [price]="productEl.price"
-        [photos]="productEl.photos"
-        [mainPhotoId]="productEl.mainPhotoId"
-      ></app-product-item>
-    </ng-container>
+<div class="custom-container">
+  <div class="section">
+    <h3 class="title">Witamy w VM-com!</h3>
+    <div class="introduction">
+      <p>
+        Oferujemy najwyższej jakości komputery, laptopy, smartfony oraz
+        akcesoria, które spełnią oczekiwania nawet najbardziej wymagających
+        użytkowników.
+      </p>
+      <p>
+        Nasz szeroki asortyment obejmuje najnowsze modele sprzętu od
+        renomowanych producentów, gwarantując najwyższą wydajność i
+        niezawodność.
+      </p>
+      <h4>Z nami zyskujesz:</h4>
+      <ul>
+        <li>Szybką dostawę prosto do Twojego domu.</li>
+        <li>Atrakcyjne ceny i regularne promocje.</li>
+        <li>Profesjonalną obsługę i doradztwo przy zakupie.</li>
+        <li>Bezpieczne zakupy dzięki nowoczesnym metodom płatności.</li>
+      </ul>
+      <p>
+        Dołącz do grona naszych zadowolonych klientów i odkryj, jak łatwe może
+        być kupowanie sprzętu komputerowego online.
+      </p>
+      <p><b>VM-com</b> – Twój zaufany partner w świecie technologii!</p>
+    </div>
   </div>
 
-  <div class="newProductsControls">
-    <button class="btn btn-primary p-3" (click)="onShowMore()">
-      Pokaż więcej produktów
-    </button>
-  </div>
-</div>
+  <!-- POLECANE PRODUKTY -->
+  <div class="section">
+    <h2 class="title">Polecane produkty</h2>
 
-<!-- NEWSLETTER -->
-<div class="section">
-  <h3 class="title">Zapisz się do naszego newslettera</h3>
-  <div class="newProductsList">
-    <form action="#" method="post" class="d-flex justify-content-between">
-      <input
-        type="email"
-        name="email"
-        placeholder="Wpisz swój email"
-        required
-        class="form-control me-2"
-      />
-      <button type="submit" class="btn btn-primary w-50">Zapisz się</button>
-    </form>
+    <div class="newProductsList">
+      <loading-spinner *ngIf="isLoading"></loading-spinner>
+      <ng-container *ngIf="products.length > 0 && !isLoading">
+        <app-product-item
+          *ngFor="let productEl of products"
+          [id]="productEl.id"
+          [name]="productEl.name"
+          [price]="productEl.price"
+          [photos]="productEl.photos"
+          [mainPhotoId]="productEl.mainPhotoId"
+        ></app-product-item>
+      </ng-container>
+    </div>
+
+    <div class="newProductsControls">
+      <button class="btn btn-primary p-3" (click)="onShowMore()">
+        Pokaż więcej produktów
+      </button>
+    </div>
+  </div>
+
+  <!-- NEWSLETTER -->
+  <div class="section">
+    <h3 class="title">Zapisz się do naszego newslettera</h3>
+    <div class="newProductsList">
+      <form action="#" method="post" class="d-flex justify-content-between">
+        <input
+          type="email"
+          name="email"
+          placeholder="Wpisz swój email"
+          required
+          class="form-control me-2"
+        />
+        <button type="submit" class="btn btn-primary w-50">Zapisz się</button>
+      </form>
+    </div>
   </div>
 </div>
