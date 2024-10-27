@@ -1,6 +1,5 @@
-<div class="container">
-  <!-- PAGINATION SECTION -->
-  <div class="pagination">
+<!-- PAGINATION SECTION -->
+<!-- <div class="pagination">
     <div>
       <button
         (click)="changePage(currentPage - 1)"
@@ -86,6 +85,110 @@
       </select>
     </div>
     <p>Dostępne produkty: {{ totalAmountOfItems }}</p>
+  </div> -->
+
+<div class="custom-container">
+  <div class="row mb-3">
+    <!-- ITEMS PER PAGE -->
+    <div class="col-auto">
+      <label for="itemsPerPage" class="form-label">Ilość:</label>
+      <select
+        id="itemsPerPage"
+        [(ngModel)]="itemsPerPage"
+        (change)="getPageableProducts()"
+        class="form-select"
+      >
+        <option [value]="5">5</option>
+        <option [value]="10">10</option>
+        <option [value]="15">15</option>
+        <option [value]="20">20</option>
+      </select>
+    </div>
+    <!-- SORT BY -->
+    <div class="col-auto">
+      <label for="sortBy" class="form-label">Sortuj po:</label>
+      <select
+        id="sortBy"
+        [(ngModel)]="sortBy"
+        (change)="getPageableProducts()"
+        class="form-select"
+      >
+        <option value="name">Nazwa</option>
+        <option value="price">Cena</option>
+      </select>
+    </div>
+    <!-- ORDER BY -->
+    <div class="col-auto">
+      <label for="orderBy" class="form-label">Kolejność:</label>
+      <select
+        id="orderBy"
+        [(ngModel)]="order"
+        (change)="getPageableProducts()"
+        class="form-select"
+      >
+        <option value="asc">Rosnąco</option>
+        <option value="dsc">Malejąco</option>
+      </select>
+    </div>
+    <!-- CATEGORY -->
+    <div class="col-auto">
+      <label for="category" class="form-label">Kategoria:</label>
+      <select
+        id="category"
+        [(ngModel)]="category"
+        (change)="getPageableProducts()"
+        class="form-select"
+      >
+        <option value="All">Wszystkie</option>
+        <option
+          *ngFor="let category of avalibleCategories"
+          [value]="category.name"
+        >
+          {{ category.name }}
+        </option>
+      </select>
+    </div>
+    <!-- MIN PRICE -->
+    <div class="col-auto">
+      <label for="minPrice" class="form-label">Minimalna cena:</label>
+      <input
+        type="number"
+        id="minPrice"
+        [(ngModel)]="minPrice"
+        (input)="getPageableProducts()"
+        class="form-control w-50"
+        placeholder="0"
+      />
+    </div>
+    <!-- MAX PRICE -->
+    <div class="col-auto">
+      <label for="maxPrice" class="form-label">Minimalna cena:</label>
+      <input
+        type="number"
+        id="minPrice"
+        [(ngModel)]="maxPrice"
+        (input)="getPageableProducts()"
+        class="form-control w-50"
+        placeholder="1000"
+      />
+    </div>
+  </div>
+
+  <!-- PAGINATION -->
+  <div class="d-flex justify-content-center">
+    <pagination
+      [boundaryLinks]="true"
+      [totalItems]="totalAmountOfItems"
+      [itemsPerPage]="itemsPerPage"
+      (pageChanged)="pageChanged($event)"
+      [(ngModel)]="currentPage"
+      [maxSize]="10"
+      previousText="&lsaquo;"
+      nextText="&rsaquo;"
+      firstText="&laquo;"
+      lastText="&raquo;"
+    >
+    </pagination>
   </div>
 
   <!-- PRODUCTS LIST SECTION -->
@@ -108,5 +211,25 @@
       <h2>Nie znaleziono produktów!</h2>
       <p>Spróbuj zmienić filtry wyszukiwania.</p>
     </div>
+  </div>
+
+  <!-- PAGINATION -->
+  <div
+    class="d-flex justify-content-center"
+    *ngIf="products.length > 0 && !isLoading"
+  >
+    <pagination
+      [boundaryLinks]="true"
+      [totalItems]="totalAmountOfItems"
+      [itemsPerPage]="itemsPerPage"
+      (pageChanged)="pageChanged($event)"
+      [(ngModel)]="currentPage"
+      [maxSize]="10"
+      previousText="&lsaquo;"
+      nextText="&rsaquo;"
+      firstText="&laquo;"
+      lastText="&raquo;"
+    >
+    </pagination>
   </div>
 </div>

@@ -1,75 +1,117 @@
 <h3 class="subtitle">Zarządzanie produktami</h3>
 <div class="form-item">
-    <h4>Lista produktów:</h4>
-    <ul class="productList">
-        <li class="productItem" *ngFor="let product of products">
-            <span class="productName">{{product.name}} [{{product.id}}]</span>
-            <span class="productActions">
-                <button class="btn btn-edit" (click)="onEditProduct(product.id)">Edytuj</button>
-                <button class="btn btn-delete" (click)="onDeleteProduct(product.id)">Usuń</button>
-            </span>
-        </li>
-    </ul>
+  <h4>Lista produktów:</h4>
+  <ul class="productList">
+    <li class="productItem" *ngFor="let product of products">
+      <span class="productName">{{ product.name }} [{{ product.id }}]</span>
+      <span class="productActions">
+        <button class="button btn-edit" (click)="onEditProduct(product.id)">
+          Edytuj
+        </button>
+        <button class="button btn-delete" (click)="onDeleteProduct(product.id)">
+          Usuń
+        </button>
+      </span>
+    </li>
+  </ul>
 </div>
 
-<h3 class="subtitle">{{isEditing ? 'Edytuj produkt' : 'Dodaj nowy produkt'}}</h3>
+<h3 class="subtitle">
+  {{ isEditing ? "Edytuj produkt" : "Dodaj nowy produkt" }}
+</h3>
 <form [formGroup]="addProductForm" (ngSubmit)="onSubmitNew()">
-    <div class="form-item">
-        <label for="productName">Nazwa: </label>
-        <div>
-            <input type="text" name="productName" placeholder="Nazwa produktu" formControlName="productName">
-        </div>
+  <div class="form-item">
+    <label for="productName">Nazwa: </label>
+    <div>
+      <input
+        type="text"
+        name="productName"
+        placeholder="Nazwa produktu"
+        formControlName="productName"
+      />
     </div>
+  </div>
 
-    <div class="form-item">
-        <label for="productDescription">Opis: </label>
-        <div>
-            <textarea type="text" rows="10" cols="50" name="productDescription" placeholder="Opis produktu"
-                formControlName="productDescription"></textarea>
-            <div class="characterCount">
-                {{characterCount}} / 8000
-            </div>
-        </div>
+  <div class="form-item">
+    <label for="productDescription">Opis: </label>
+    <div>
+      <textarea
+        type="text"
+        rows="10"
+        cols="50"
+        name="productDescription"
+        placeholder="Opis produktu"
+        formControlName="productDescription"
+      ></textarea>
+      <div class="characterCount">{{ characterCount }} / 8000</div>
     </div>
+  </div>
 
-    <div class="form-item">
-        <label for="productPrice">Cena produktu: </label>
-        <div>
-            <input type="number" min="0" step="0.01" name="productPrice" placeholder="Cena"
-                formControlName="productPrice">
-        </div>
+  <div class="form-item">
+    <label for="productPrice">Cena produktu: </label>
+    <div>
+      <input
+        type="number"
+        min="0"
+        step="0.01"
+        name="productPrice"
+        placeholder="Cena"
+        formControlName="productPrice"
+      />
     </div>
+  </div>
 
-    <div class="form-item">
-        <label for="productAmount">Dostępna ilość: </label>
-        <div>
-            <input type="number" min="0" step="1" name="productAmount" placeholder="Ilość"
-                formControlName="productAmount">
-        </div>
+  <div class="form-item">
+    <label for="productAmount">Dostępna ilość: </label>
+    <div>
+      <input
+        type="number"
+        min="0"
+        step="1"
+        name="productAmount"
+        placeholder="Ilość"
+        formControlName="productAmount"
+      />
     </div>
+  </div>
 
-    <div class="form-item">
-        <label for="productImage">Zdjęcie: </label>
-        <div>
-            <input type="file" name="productImage" formControlName="productImage" (change)="onAddImage($event)"
-                multiple>
-        </div>
-        <div class="imageGallery">
-            <img [src]="image.imageUrl" alt="Podgląd zdjęcia" *ngFor="let image of images; let i = index"
-                (click)="selectMainPhoto(i)" />
-        </div>
+  <div class="form-item">
+    <label for="productImage">Zdjęcie: </label>
+    <div>
+      <input
+        type="file"
+        name="productImage"
+        formControlName="productImage"
+        (change)="onAddImage($event)"
+        multiple
+      />
     </div>
+    <div class="imageGallery">
+      <img
+        [src]="image.imageUrl"
+        alt="Podgląd zdjęcia"
+        *ngFor="let image of images; let i = index"
+        (click)="selectMainPhoto(i)"
+      />
+    </div>
+  </div>
 
-    <div class="form-item">
-        <label for="productCategory">Kategoria: </label>
-        <select name="productCategory" formControlName="productCategory">
-            <option value="" disabled selected>Wybierz kategorię</option>
-            <option *ngFor="let category of categories" [value]="category.id">{{category.name}}</option>
-        </select>
-    </div>
+  <div class="form-item">
+    <label for="productCategory">Kategoria: </label>
+    <select name="productCategory" formControlName="productCategory">
+      <option value="" disabled selected>Wybierz kategorię</option>
+      <option *ngFor="let category of categories" [value]="category.id">
+        {{ category.name }}
+      </option>
+    </select>
+  </div>
 
-    <div class="buttonsSection">
-        <button class="btn btn-submit" type="submit">{{isEditing ? 'Zapisz zmiany' : 'Dodaj produkt'}}</button>
-        <button class="btn btn-clear" (click)="onClear()">{{isEditing ? 'Anuluj' : 'Wyczyść'}}</button>
-    </div>
+  <div class="buttonsSection">
+    <button class="button btn-submit" type="submit">
+      {{ isEditing ? "Zapisz zmiany" : "Dodaj produkt" }}
+    </button>
+    <button class="button btn-clear" (click)="onClear()">
+      {{ isEditing ? "Anuluj" : "Wyczyść" }}
+    </button>
+  </div>
 </form>

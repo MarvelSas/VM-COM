@@ -29,6 +29,8 @@ import { Toast, ToastrModule } from 'ngx-toastr';
 import { AuthInterceptorService } from './shared/services/auth-interceptor.service';
 import { ProductListItemComponent } from './shared/components/product-list-item/product-list-item.component';
 import { TabsModule } from 'ngx-bootstrap/tabs';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +54,7 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
     AdminProductsComponent,
     LoadingSpinnerComponent,
     ProductListItemComponent,
+    UserProfileComponent,
   ],
   imports: [
     BrowserModule,
@@ -62,6 +65,7 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
     ToastrModule.forRoot(),
     TabsModule,
     FormsModule,
+    PaginationModule,
   ],
   providers: [
     {

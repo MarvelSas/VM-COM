@@ -1,43 +1,55 @@
 <!-- <h3>Product ID: {{id}}</h3> -->
-<div class="container">
-    <loading-spinner *ngIf="isLoading"></loading-spinner>
-    <ng-container *ngIf="!isLoading">
-        <div class="titleContainer">
-            <div class="infoSection">
-                <div>
-                    <h2>{{product.name}}</h2>
-                </div>
-                <div>
-                    <h4>Cena: {{product.price}} zł</h4>
-                </div>
-                <div class="btnContainer">
-                    <button class="btn" (click)="onBuyProduct()">Dodaj do koszyka!</button>
-                </div>
-            </div>
-            <div class="imageSection">
-                <button class="btn" (click)="onPreviousImage()">Poprzednie zdjęcie</button>
-                <p>{{selectedImage + 1}} / {{product.photos.length}}</p>
-                <img [src]="imageUrl" alt="{{product.name}}" class="gallery"
-                    (click)="onImageClick(API_IMG + product.photos[selectedImage])">
-                <button class="btn" (click)="onNextImage()">Następne zdjęcie</button>
-            </div>
+<div class="custom-container">
+  <loading-spinner *ngIf="isLoading"></loading-spinner>
+  <ng-container *ngIf="!isLoading">
+    <div class="titleContainer">
+      <div class="infoSection">
+        <div>
+          <h2>{{ product.name }}</h2>
         </div>
-        <tabset>
-            <tab heading="Opis produktu">
-                <div class="descriptionContainer">
-                    <pre>{{product.description}}</pre>
-                </div>
-            </tab>
-            <tab heading="Specyfikacja produktu">
-                <div class="specsContainer">
-                    <pre *ngFor="let spec of productSpecs"><strong>{{spec.name}}:</strong> {{spec.value}}</pre>
-                </div>
-            </tab>
-            <tab heading="Dodatkowe informacje">
-                <div class="descriptionContainer">
-                    <pre>Tu będą kiedyś dodatkowe informacje o produkcie</pre>
-                </div>
-            </tab>
-        </tabset>
-    </ng-container>
+        <div>
+          <h4>Cena: {{ product.price }} zł</h4>
+        </div>
+        <div class="btnContainer">
+          <button class="btn btn-primary" (click)="onBuyProduct()">
+            Dodaj do koszyka!
+          </button>
+        </div>
+      </div>
+      <div class="imageSection">
+        <button class="btn btn-primary m-2" (click)="onPreviousImage()">
+          Poprzednie zdjęcie
+        </button>
+        <p>{{ selectedImage + 1 }} / {{ product.photos.length }}</p>
+        <img
+          [src]="imageUrl"
+          alt="{{ product.name }}"
+          class="gallery"
+          (click)="onImageClick(API_IMG + product.photos[selectedImage])"
+        />
+        <button class="btn btn-primary m-2" (click)="onNextImage()">
+          Następne zdjęcie
+        </button>
+      </div>
+    </div>
+    <tabset>
+      <tab heading="Opis produktu">
+        <div class="descriptionContainer">
+          <pre>{{ product.description }}</pre>
+        </div>
+      </tab>
+      <tab heading="Specyfikacja produktu">
+        <div class="specsContainer">
+          <pre
+            *ngFor="let spec of productSpecs"
+          ><strong>{{spec.name}}:</strong> {{spec.value}}</pre>
+        </div>
+      </tab>
+      <tab heading="Dodatkowe informacje">
+        <div class="descriptionContainer">
+          <pre>Tu będą kiedyś dodatkowe informacje o produkcie</pre>
+        </div>
+      </tab>
+    </tabset>
+  </ng-container>
 </div>

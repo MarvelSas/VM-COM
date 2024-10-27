@@ -84,7 +84,11 @@ export class AuthService implements OnInit {
   autoLogin() {
     const accessToken = localStorage.getItem('accessToken');
     const refreshToken = localStorage.getItem('refreshToken');
+    this.TOKEN = accessToken;
+    this.REFRESH_TOKEN = refreshToken;
+
     if (!accessToken) {
+      console.log('No access token found!');
       this.toastr.error('Błąd autologowania!', null, {
         positionClass: 'toast-bottom-right',
       });
@@ -113,7 +117,18 @@ export class AuthService implements OnInit {
         refreshToken
       );
       this.user.next(user);
+    } else if (this.tokenIsValid(refreshToken)) {
+      console.log('Odswiezam token!');
+      this.refreshToken().subscribe({
+        next: (res) => {
+          console.log(res);
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      });
     } else {
+      console.log('Tokens is not valid!');
       this.toastr.error('Błąd autologowania!', null, {
         positionClass: 'toast-bottom-right',
       });
@@ -128,7 +143,8 @@ export class AuthService implements OnInit {
 
   signOut() {
     this.user.next(null);
-    localStorage.removeItem('token');
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
     this.toastr.info('Wylogowano pomyślnie!', null, {
       positionClass: 'toast-bottom-right',
     });
@@ -136,7 +152,16 @@ export class AuthService implements OnInit {
 
   refreshToken() {
     return this.http
-      .post<AuthResponseData>(`${this.API_URL + endpoints.tokenRefresh}`, {})
+      .post<AuthResponseData>(
+        `${this.API_URL + endpoints.tokenRefresh}`,
+        {},
+        {
+          headers: {
+            skipInterceptor: 'true',
+            Authorization: `Bearer ${this.REFRESH_TOKEN}`,
+          },
+        }
+      )
       .pipe(
         tap((res) => {
           const accessToken = res.data.token.accessToken;
@@ -148,15 +173,13 @@ export class AuthService implements OnInit {
             accessToken,
             refreshToken
           );
+
+          localStorage.setItem('accessToken', accessToken);
+          localStorage.setItem('refreshToken', refreshToken);
           this.user.next(user);
         })
       );
   }
-
-  // private handleAuthentication(email: string, token: string) {
-  //   const user = new User(email, token);
-  //   this.user.next(user);
-  // }
 
   ngOnInit(): void {}
 }

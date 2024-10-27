@@ -18,13 +18,13 @@ export class ProductsComponent {
   currentPage: number = 1;
   totalPages: number = 1;
   totalAmountOfItems: number = 0;
-  pageSize: number = 10;
-  category: string = '';
+  itemsPerPage: number = 10;
+  category: string = 'All';
   minPrice: number | undefined = undefined;
   maxPrice: number | undefined = undefined;
   inStock: boolean = true;
-  sortBy: string = '';
-  order: string = '';
+  sortBy: string = 'name';
+  order: string = 'asc';
   name: string = '';
 
   constructor(
@@ -38,7 +38,10 @@ export class ProductsComponent {
     // this.getPageableProducts();
 
     this.route.queryParams.subscribe((queryParams) => {
-      this.category = queryParams['category'];
+      if (queryParams['category']) {
+        this.category = queryParams['category'];
+      }
+
       this.getPageableProducts();
     });
   }
@@ -77,7 +80,7 @@ export class ProductsComponent {
   getPageableProducts() {
     const newParams: IPageableParams = {
       page: this.currentPage,
-      pageSize: this.pageSize,
+      pageSize: this.itemsPerPage,
       category: this.category,
       minPrice: this.minPrice,
       maxPrice: this.maxPrice,
@@ -100,21 +103,28 @@ export class ProductsComponent {
     });
   }
 
-  changePage(newPage: number): void {
-    if (newPage >= 1 && newPage <= this.totalPages) {
-      this.currentPage = newPage;
+  // changePage(newPage: number): void {
+  //   if (newPage >= 1 && newPage <= this.totalPages) {
+  //     this.currentPage = newPage;
+  //   }
+  //   // if (pageSize > 0) {
+  //   //   this.pageSize = parseInt(pageSize);
+  //   // } else {
+  //   //   pageSize = 10;
+  //   // }
+  //   this.getPageableProducts();
+  //   // console.log(pageSize);
+  // }
+
+  pageChanged(event: any) {
+    if (this.currentPage !== event.page) {
+      this.currentPage = event.page;
+      this.getPageableProducts();
     }
-    // if (pageSize > 0) {
-    //   this.pageSize = parseInt(pageSize);
-    // } else {
-    //   pageSize = 10;
-    // }
-    this.getPageableProducts();
-    // console.log(pageSize);
   }
 
   changePageSize(newPageSize: string) {
-    this.pageSize = parseInt(newPageSize);
+    this.itemsPerPage = parseInt(newPageSize);
     this.currentPage = 1;
     this.getPageableProducts();
   }
