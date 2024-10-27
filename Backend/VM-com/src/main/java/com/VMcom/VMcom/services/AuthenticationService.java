@@ -128,13 +128,20 @@ public class AuthenticationService {
         username = jwtService.extractEmail(refreshToken);
         if(username != null){
             var user = this.appUserRepository.findByUsername(username).orElseThrow();
-            if(jwtService.isTokenValid(refreshToken,user)){
-                revokeAllAccessAppUserToken(user);
-                String accessToken = jwtService.generateToken(user);
+            boolean isTokenValid = tokenRepository.findByToken(refreshToken)
+            .map(t -> !t.isExpired() && !t.isRevoked())
+            .orElse(false);
+            if(jwtService.isTokenValid(refreshToken,user) && isTokenValid){
+                revokeAllAccessAndRefreshAppUserTokens(user);
+                HashMap<String,Object> claims = new HashMap<>();
+                claims.put("roles",user.getAppUserRole());
+                String accessToken = jwtService.generateToken(claims,user);
                 saveUserToken(user, accessToken,TokenType.ACCESS);
+                String newRefreshToken = jwtService.generateRefreshToken(user);
+                saveUserToken(user,newRefreshToken,TokenType.REFRESH);
                 authenciationResponse = AuthenciationResponse.builder()
                         .accessToken(accessToken)
-                        .refreshToken(refreshToken)
+                        .refreshToken(newRefreshToken)
                         .build();
 
             }
