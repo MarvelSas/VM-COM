@@ -33,8 +33,8 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
         AppUser admin = new AppUser(
                 "Admin",
                 "",
-                "admin@gmail.com",
-                passwordEncoder.encode("admin123"),
+                "admin@mail.com",
+                passwordEncoder.encode("password"),
                 AppUserRole.ROLE_ADMIN,
                 false,
                 true);
@@ -45,8 +45,8 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
         AppUser user = new AppUser(
                 "User",
                 "",
-                "user@gmail.com",
-                passwordEncoder.encode("user123"),
+                "user@mail.com",
+                passwordEncoder.encode("password"),
                 AppUserRole.ROLE_USER,
                 false,
                 true);
