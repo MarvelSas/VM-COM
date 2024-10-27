@@ -7,8 +7,9 @@ import { environment } from 'src/environments/environment';
 import { endpoints } from 'src/enums/endpoints.enum';
 
 import { AuthResponseData, JwtPayload } from '../models/auth.model';
-import { User } from '../models/user.model';
+import { IUser, User } from '../models/user.model';
 import { ToastrService } from 'ngx-toastr';
+import { RoleService } from './role.service';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +20,11 @@ export class AuthService implements OnInit {
   TOKEN = null;
   REFRESH_TOKEN = null;
 
-  constructor(private http: HttpClient, private toastr: ToastrService) {}
+  constructor(
+    private http: HttpClient,
+    private toastr: ToastrService,
+    private roleService: RoleService
+  ) {}
 
   signIn(loginData) {
     const body = {
@@ -36,20 +41,14 @@ export class AuthService implements OnInit {
             const accessToken = resData.data.token.accessToken;
             const refreshToken = resData.data.token.refreshToken;
             const decodedToken: JwtPayload = jwtDecode(accessToken);
-            this.user.next(
-              new User(
-                decodedToken.sub,
-                decodedToken.roles,
-                accessToken,
-                refreshToken
-              )
+            const user = new User(
+              decodedToken.sub,
+              decodedToken.roles,
+              accessToken,
+              refreshToken
             );
-            // console.log('Access token: ', accessToken);
-            // console.log('Refresh token: ', refreshToken);
-            this.TOKEN = accessToken;
-            this.REFRESH_TOKEN = refreshToken;
-            localStorage.setItem('accessToken', accessToken);
-            localStorage.setItem('refreshToken', refreshToken);
+
+            this.authorizeUser(user, accessToken, refreshToken);
           }
         })
       );
@@ -70,12 +69,16 @@ export class AuthService implements OnInit {
           if (resData.statusCode === 200) {
             const accessToken = resData.data.token.accessToken;
             const refreshToken = resData.data.token.refreshToken;
-            // console.log('Access token: ', accessToken);
-            // console.log('Refresh token: ', refreshToken);
-            this.TOKEN = accessToken;
-            this.REFRESH_TOKEN = refreshToken;
-            localStorage.setItem('accessToken', accessToken);
-            localStorage.setItem('refreshToken', refreshToken);
+
+            const decodedToken: JwtPayload = jwtDecode(accessToken);
+
+            const user = new User(
+              decodedToken.sub,
+              decodedToken.roles,
+              accessToken,
+              refreshToken
+            );
+            this.authorizeUser(user, accessToken, refreshToken);
           }
         })
       );
@@ -116,7 +119,7 @@ export class AuthService implements OnInit {
         accessToken,
         refreshToken
       );
-      this.user.next(user);
+      this.authorizeUser(user, accessToken, refreshToken);
     } else if (this.tokenIsValid(refreshToken)) {
       console.log('Odswiezam token!');
       this.refreshToken().subscribe({
@@ -145,6 +148,8 @@ export class AuthService implements OnInit {
     this.user.next(null);
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
+    this.roleService.setRoles([]);
+
     this.toastr.info('Wylogowano pomyślnie!', null, {
       positionClass: 'toast-bottom-right',
     });
@@ -174,11 +179,19 @@ export class AuthService implements OnInit {
             refreshToken
           );
 
-          localStorage.setItem('accessToken', accessToken);
-          localStorage.setItem('refreshToken', refreshToken);
-          this.user.next(user);
+          this.authorizeUser(user, accessToken, refreshToken);
         })
       );
+  }
+
+  authorizeUser(user: IUser, accessToken: string, refreshToken: string): void {
+    localStorage.setItem('accessToken', accessToken);
+    localStorage.setItem('refreshToken', refreshToken);
+    this.user.next(user);
+
+    this.roleService.setRoles([user.role]);
+    console.log('decoded', user.role);
+    console.log('role', this.roleService.isAuthorized(['ROLE_ADMIN']));
   }
 
   ngOnInit(): void {}

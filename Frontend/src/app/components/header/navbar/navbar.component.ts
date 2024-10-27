@@ -12,6 +12,7 @@ import { IProductResponseData } from 'src/app/pages/admin/admin-products/product
 import { IProduct } from 'src/app/shared/models/product.model';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { ProductsService } from 'src/app/shared/services/products.service';
+import { RoleService } from 'src/app/shared/services/role.service';
 
 @Component({
   selector: 'app-navbar',
@@ -27,8 +28,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   constructor(
     private authService: AuthService,
+    protected roleService: RoleService,
     private productsService: ProductsService,
-    private router: Router
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
