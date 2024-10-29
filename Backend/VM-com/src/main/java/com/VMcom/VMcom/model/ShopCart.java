@@ -2,6 +2,8 @@ package com.VMcom.VMcom.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,15 +19,18 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ShopCard {
+public class ShopCart {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToMany(mappedBy = "shopCard")
-    private List<ShopCardLine> shopCardLines;
+    private List<ShopCartLine> shopCardLines;
     private double totalPrice;
+    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "appUser_id")
     private AppUser appUser;
+
+    
 }

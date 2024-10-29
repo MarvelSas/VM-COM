@@ -31,8 +31,8 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "product_category_id")
     private ProductCategory productCategory;
-    @ManyToMany(mappedBy = "products")
-    private List<ShopCardLine> shopCardLines;
+    @OneToMany(mappedBy = "product")
+    private List<ShopCartLine> shopCardLines;
 
     public Product(String name, String description, Double price, List<String> photos, int mainPhotoId, Long amount, ProductCategory productCategory) {
         this.name = name;

@@ -4,15 +4,21 @@ import com.VMcom.VMcom.enums.AppUserRole;
 import com.VMcom.VMcom.model.AppUser;
 import com.VMcom.VMcom.model.Product;
 import com.VMcom.VMcom.model.ProductCategory;
+import com.VMcom.VMcom.model.ShopCart;
+import com.VMcom.VMcom.model.ShopCartLine;
 import com.VMcom.VMcom.repository.AppUserRepository;
 import com.VMcom.VMcom.repository.ProductCategoryRepository;
 import com.VMcom.VMcom.repository.ProductRepository;
+import com.VMcom.VMcom.repository.ShopCartRepository;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 
 
@@ -24,12 +30,18 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
     private final PasswordEncoder passwordEncoder;
     private final ProductCategoryRepository productCategoryRepository;
     private final ProductRepository productRepository;
+    private final ShopCartRepository shopCartRepository;
 
     @Override
     public void run(String... args) throws Exception {
 
 
         //Add admin user
+        List<ShopCartLine> shopCartLinesForAdmin = new ArrayList<>();
+        ShopCart shopCartForAdmin = new ShopCart();
+        shopCartForAdmin.setShopCardLines(shopCartLinesForAdmin);
+        shopCartForAdmin = shopCartRepository.save(shopCartForAdmin);
+
         AppUser admin = new AppUser(
                 "Admin",
                 "",
@@ -38,8 +50,18 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
                 AppUserRole.ROLE_ADMIN,
                 false,
                 true);
+        
+        admin = appUserRepository.save(admin);
+        
+        shopCartForAdmin.setAppUser(admin);
+        shopCartRepository.save(shopCartForAdmin);
 
-        appUserRepository.save(admin);
+        
+
+        //Add user
+        List<ShopCartLine> shopCartLinesForUser = new ArrayList<>();
+        ShopCart shopCartForUser = new ShopCart();
+        shopCartForUser.setShopCardLines(shopCartLinesForUser);
 
 
         AppUser user = new AppUser(
@@ -50,8 +72,11 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
                 AppUserRole.ROLE_USER,
                 false,
                 true);
+       
+        user = appUserRepository.save(user);
+        shopCartForUser.setAppUser(user);
+        shopCartRepository.save(shopCartForUser);
 
-        appUserRepository.save(user);
 
 
 //Add test product category

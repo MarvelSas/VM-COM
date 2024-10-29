@@ -10,16 +10,17 @@ import lombok.AllArgsConstructor;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class ShopCardLine {
+public class ShopCartLine {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToMany
-    private List<Product> products;
-    private Long amount;
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
+    private int quantity;
     @ManyToOne
     @JoinColumn(name = "shop_card_id")
-    private ShopCard shopCard;
+    private ShopCart shopCard;
 
 }
