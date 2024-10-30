@@ -1,7 +1,9 @@
 package com.VMcom.VMcom.services;
 
+import java.lang.foreign.Linker.Option;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -45,11 +47,47 @@ public class ShopCartService {
         return appUser.getShopCart();
     }
 
-    public Object addShopCartLine(ShopCartLineDAO shopCartLineDAO) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'addShopCartLine'");
+    public ShopCartLineDAO addShopCartLine(ShopCartLineDAO shopCartLineDAO) {
+
+        var shopCartLine = findShopCartLineForUserAndProduct(shopCartLineDAO.getProduct().getId()).orElse(null);
+
+        if(shopCartLine == null){
+            ShopCartLine shopCartLineToAdd = new ShopCartLine();
+            shopCartLineToAdd.setProduct(shopCartLineDAO.getProduct());
+            shopCartLineToAdd.setShopCard(getShopCart());
+            shopCartLineToAdd.setQuantity(shopCartLineDAO.getQuantity());
+            shopCartLineToAdd = shopCartLineRepository.save(shopCartLineToAdd);
+
+            updateShopCartTotalPrice(getShopCart().getTotalPrice() + shopCartLineDAO.getProduct().getPrice() * shopCartLineDAO.getQuantity());
+
+            return ShopCartLineDAO.builder()
+            .product(shopCartLineToAdd.getProduct())
+            .quantity(shopCartLineToAdd.getQuantity())
+            .build();
+
+        }else{
+
+            shopCartLine.setQuantity(shopCartLine.getQuantity() + shopCartLineDAO.getQuantity());
+            shopCartLine = shopCartLineRepository.save(shopCartLine);
+            
+            updateShopCartTotalPrice(getShopCart().getTotalPrice() + shopCartLineDAO.getProduct().getPrice() * shopCartLineDAO.getQuantity());
+
+            return ShopCartLineDAO.builder()
+            .product(shopCartLineDAO.getProduct())
+            .quantity(shopCartLine.getQuantity())
+            .build();
+        }
+        
+        
     }
 
+    private Optional<ShopCartLine> findShopCartLineForUserAndProduct(Long productId){
+        return shopCartLineRepository.findByAppUserAndProduct(getAppUserFromContextHolder().getShopCart().getId(), productId);
+    }
 
+    private void updateShopCartTotalPrice(Double totalPrice){
+        getShopCart().setTotalPrice(totalPrice);
+        shopCartRepository.save(getShopCart());
+    }
 
 }

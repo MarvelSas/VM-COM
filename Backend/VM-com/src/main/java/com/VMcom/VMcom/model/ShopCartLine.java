@@ -1,7 +1,9 @@
 package com.VMcom.VMcom.model;
-import java.util.List;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -19,6 +21,7 @@ public class ShopCartLine {
     @JoinColumn(name = "product_id")
     private Product product;
     private int quantity;
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "shop_card_id")
     private ShopCart shopCard;

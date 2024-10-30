@@ -25,7 +25,7 @@ public class ShopCartController {
     private final ShopCartService shopCartService;
 
 
-    @GetMapping("/shop-cart")
+    @GetMapping("/shopCart")
     public ResponseEntity<Response> getShopCard(){
 
         try {
@@ -66,7 +66,7 @@ public class ShopCartController {
                     Response.builder()
                             .timeStamp(LocalDateTime.now())
                             .data(Map.of("data", shopCartService.addShopCartLine(shopCartLineDAO)))
-                            .message("Shop card returned successfully")
+                            .message("Shop card added or updated successfully")
                             .status(HttpStatus.OK)
                             .statusCode(HttpStatus.OK.value())
                             .build()
@@ -77,7 +77,7 @@ public class ShopCartController {
                     Response.builder()
                             .timeStamp(LocalDateTime.now())
                             .data(Map.of("Message", e.getMessage()))
-                            .message("Shop card were not returned successfully")
+                            .message("Shop card was not added or updated successfully")
                             .status(HttpStatus.BAD_REQUEST)
                             .statusCode(HttpStatus.BAD_REQUEST.value())
                             .build()

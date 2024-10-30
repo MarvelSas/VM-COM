@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ShopCartLineDAO {
     
-    private Long id;
     private Product product;
     private int quantity;
 }

@@ -69,7 +69,8 @@ public class SecurityConfig {
                             .requestMatchers("/api/v1/address/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
                             .requestMatchers("/api/v1/addresses").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
                             .requestMatchers("/api/v1/appUser").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
-                            .requestMatchers("/api/v1/shop-cart").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
+                            .requestMatchers("/api/v1/shopCart").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
+                            .requestMatchers("/api/v1/shopCartLine").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
                             .anyRequest()
                             .authenticated();
                 })
