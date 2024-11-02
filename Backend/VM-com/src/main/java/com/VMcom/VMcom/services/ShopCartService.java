@@ -73,7 +73,7 @@ public class ShopCartService {
             updateShopCartTotalPrice(getShopCart().getTotalPrice() + shopCartLineDAO.getProduct().getPrice() * shopCartLineDAO.getQuantity());
 
             return ShopCartLineDAO.builder()
-            .product(shopCartLineDAO.getProduct())
+            .product(shopCartLine.getProduct())
             .quantity(shopCartLine.getQuantity())
             .build();
         }
