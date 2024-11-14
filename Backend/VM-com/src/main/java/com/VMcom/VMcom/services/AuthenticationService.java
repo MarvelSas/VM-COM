@@ -4,6 +4,7 @@ import com.VMcom.VMcom.enums.AppUserRole;
 import com.VMcom.VMcom.enums.TokenType;
 import com.VMcom.VMcom.model.*;
 import com.VMcom.VMcom.repository.AppUserRepository;
+import com.VMcom.VMcom.repository.ShopCartRepository;
 import com.VMcom.VMcom.repository.TokenRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.security.InvalidParameterException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ArrayList;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +28,7 @@ public class AuthenticationService {
     private final JWTService jwtService;
     private final AuthenticationManager authenticationManager;
     private final TokenRepository tokenRepository;
+    private final ShopCartRepository shopCartRepository;
 
     public AuthenciationResponse register(RegisterRequest request) {
         if(appUserRepository.findByUsername(request.getEmail()).isPresent()){
@@ -41,6 +44,7 @@ public class AuthenticationService {
                 false,
                 true);
         AppUser appUser = appUserRepository.save(user);
+        createShopCart(appUser);
         HashMap<String,Object> claims = new HashMap<>();
         claims.put("roles",user.getAppUserRole());
         revokeAllAccessAndRefreshAppUserTokens(appUser);
@@ -53,6 +57,14 @@ public class AuthenticationService {
                 .refreshToken(jwtRefreshToken)
                 .build();
 
+    }
+
+    public void createShopCart(AppUser appUser){
+        ShopCart shopCart = new ShopCart();
+        List<ShopCartLine> shopCartLines = new ArrayList<>();
+        shopCart.setShopCardLines(shopCartLines);
+        shopCart.setAppUser(appUser);
+        shopCartRepository.save(shopCart);
     }
 
     public void revokeAllAccessAndRefreshAppUserTokens(AppUser appUser){

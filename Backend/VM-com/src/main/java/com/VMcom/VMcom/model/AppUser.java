@@ -16,7 +16,6 @@ import java.util.List;
 
 @Getter
 @Setter
-@EqualsAndHashCode
 @NoArgsConstructor
 @Entity
 public class AppUser implements UserDetails {
@@ -46,6 +45,9 @@ public class AppUser implements UserDetails {
 
     @OneToMany(mappedBy = "appUser")
     private List<Address> addresses;
+
+    @OneToOne(mappedBy = "appUser")
+    private ShopCart shopCart;
 
 
 
@@ -94,6 +96,7 @@ public class AppUser implements UserDetails {
     public boolean isEnabled() {
         return enabled;
     }
+
 
 
 }

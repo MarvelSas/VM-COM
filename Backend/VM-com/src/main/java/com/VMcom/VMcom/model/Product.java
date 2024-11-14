@@ -9,6 +9,8 @@ import lombok.Setter;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Getter
 @Setter
 @EqualsAndHashCode
@@ -31,6 +33,9 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "product_category_id")
     private ProductCategory productCategory;
+    @JsonIgnore
+    @OneToMany(mappedBy = "product")
+    private List<ShopCartLine> shopCardLines;
 
     public Product(String name, String description, Double price, List<String> photos, int mainPhotoId, Long amount, ProductCategory productCategory) {
         this.name = name;
