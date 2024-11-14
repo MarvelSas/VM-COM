@@ -13,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.security.InvalidParameterException;
 import java.util.Optional;
 
 @Service
@@ -37,7 +38,6 @@ public class ShopCartService {
     
     
     public ShopCart getShopCart() {
-
         AppUser appUser = getAppUserFromContextHolder();
         return appUser.getShopCart();
     }
@@ -48,16 +48,13 @@ public class ShopCartService {
 
         if(shopCartLine == null){
             ShopCartLine shopCartLineToAdd = generateNewShopCartLine(shopCartLineDAO);
-            updateShopCartTotalPrice(getShopCart().getTotalPrice() + shopCartLineDAO.getProduct().getPrice() * shopCartLineDAO.getQuantity());
+            calculateCurrentTotalShopCardPrice();
             return buildShopCareLineDAO(shopCartLineToAdd);
-
         }else{
             shopCartLine.setQuantity(shopCartLine.getQuantity() + shopCartLineDAO.getQuantity());
             shopCartLine = shopCartLineRepository.save(shopCartLine);
-            updateShopCartTotalPrice(getShopCart().getTotalPrice() + shopCartLineDAO.getProduct().getPrice() * shopCartLineDAO.getQuantity());
+            calculateCurrentTotalShopCardPrice();
             return  buildShopCareLineDAO(shopCartLine);
-
-
         }
         
         
@@ -67,13 +64,8 @@ public class ShopCartService {
         return shopCartLineRepository.findByAppUserAndProduct(getAppUserFromContextHolder().getShopCart().getId(), productId);
     }
 
-    private void updateShopCartTotalPrice(Double totalPrice){
-        getShopCart().setTotalPrice(totalPrice);
-        shopCartRepository.save(getShopCart());
-    }
 
     private ShopCartLineDAO buildShopCareLineDAO(ShopCartLine shopCartLine){
-
         return ShopCartLineDAO.builder()
                 .product(shopCartLine.getProduct())
                 .quantity(shopCartLine.getQuantity())
@@ -87,6 +79,53 @@ public class ShopCartService {
         shopCartLine.setShopCard(getShopCart());
         shopCartLine.setQuantity(shopCartLineDAO.getQuantity());
         return shopCartLineRepository.save(shopCartLine);
+
+    }
+
+    public Boolean deleteShopCartLine(Long shopCartLineId) {
+        ShopCartLine shopCartLine = findShopCartLineById(shopCartLineId);
+        verifyIfShopCartLineBelongToLogOnUser(shopCartLine);
+        shopCartLineRepository.deleteById(shopCartLineId);
+        calculateCurrentTotalShopCardPrice();
+        return true;
+
+    }
+
+    private ShopCartLine findShopCartLineById(Long shopCartLineId){
+       return shopCartLineRepository.findById(shopCartLineId).orElseThrow(()->
+                new RuntimeException("Shop cart line with id: "+shopCartLineId +" doesn't exist in database"));
+    }
+
+    private void verifyIfShopCartLineBelongToLogOnUser(ShopCartLine shopCartLine){
+        if(!shopCartLine.getShopCard().getId().equals(getShopCart().getId())){
+            throw new RuntimeException("This shop cart line doesn't belong to log on user");
+        }
+
+    }
+
+
+    public ShopCartLine updateShopCartLineQuantity(Long shopCartLineId, int shopCartLineQuantity) {
+        ShopCartLine shopCartLine = findShopCartLineById(shopCartLineId);
+        if(shopCartLineQuantity<1)
+            throw new InvalidParameterException("Shop card line quantity can't be lower than 1");
+        shopCartLine.setQuantity(shopCartLineQuantity);
+        shopCartLine = shopCartLineRepository.save(shopCartLine);
+        calculateCurrentTotalShopCardPrice();
+        return shopCartLine;
+
+    }
+
+
+
+
+    private void calculateCurrentTotalShopCardPrice(){
+        double total = getShopCart().getShopCardLines()
+                .stream()
+                .mapToDouble(shopCartLine -> shopCartLine.getProduct().getPrice()*shopCartLine.getQuantity())
+                .sum();
+        ShopCart shopCart = getShopCart();
+        shopCart.setTotalPrice(total);
+        shopCartRepository.save(shopCart);
 
     }
 
