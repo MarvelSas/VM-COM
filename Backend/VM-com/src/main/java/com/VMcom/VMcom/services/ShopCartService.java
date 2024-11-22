@@ -14,6 +14,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.security.InvalidParameterException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -127,6 +129,24 @@ public class ShopCartService {
         shopCart.setTotalPrice(total);
         shopCartRepository.save(shopCart);
 
+    }
+
+    public boolean clearShopCart(){
+
+        ShopCart shopCart = getAppUserFromContextHolder().getShopCart();
+        shopCart.getShopCardLines().forEach(shopCartLineRepository::delete);
+        shopCartRepository.delete(shopCart);
+        createShopCart();
+        return true;
+
+    }
+
+    public void createShopCart(){
+        ShopCart shopCart = new ShopCart();
+        List<ShopCartLine> shopCartLines = new ArrayList<>();
+        shopCart.setShopCardLines(shopCartLines);
+        shopCart.setAppUser(getAppUserFromContextHolder());
+        shopCartRepository.save(shopCart);
     }
 
 }

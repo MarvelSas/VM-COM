@@ -71,6 +71,9 @@ public class SecurityConfig {
                             .requestMatchers("/api/v1/appUser").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
                             .requestMatchers("/api/v1/shopCart").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
                             .requestMatchers("/api/v1/shopCartLine").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
+                            .requestMatchers("/api/v1/appUserOrder").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
+                            .requestMatchers("/api/v1/appUserOrder/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
+                            .requestMatchers("/api/v1/appUserOrders").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
                             .anyRequest()
                             .authenticated();
                 })

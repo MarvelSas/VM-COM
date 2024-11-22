@@ -1,6 +1,7 @@
 package com.VMcom.VMcom.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -8,8 +9,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Getter
 @Setter
@@ -36,6 +35,9 @@ public class Product {
     @JsonIgnore
     @OneToMany(mappedBy = "product")
     private List<ShopCartLine> shopCardLines;
+    @JsonIgnore
+    @OneToMany(mappedBy = "product")
+    private List<AppUserOrderLine> appUserOrderLines;
 
     public Product(String name, String description, Double price, List<String> photos, int mainPhotoId, Long amount, ProductCategory productCategory) {
         this.name = name;

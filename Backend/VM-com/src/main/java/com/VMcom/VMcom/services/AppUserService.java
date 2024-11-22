@@ -1,7 +1,7 @@
 package com.VMcom.VMcom.services;
 
 import com.VMcom.VMcom.model.AppUser;
-import com.VMcom.VMcom.model.AppUserDAO;
+import com.VMcom.VMcom.model.AppUserDetails;
 import com.VMcom.VMcom.repository.AppUserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -26,7 +26,7 @@ public class AppUserService implements UserDetailsService {
     }
 
 
-    public AppUserDAO updateAppUserDetails(AppUserDAO appUserDAO) {
+    public AppUserDetails updateAppUserDetails(AppUserDetails appUserDetails) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -35,13 +35,13 @@ public class AppUserService implements UserDetailsService {
 
         AppUser appUser = appUserRepository.findByUsername(authentication.getName()).orElseThrow(()-> new UsernameNotFoundException("User with username "+authentication.getName()+" not found"));
 
-        if (appUserDAO != null)
-            appUser.setFirstName(appUserDAO.getFirstName());
-        if (appUserDAO != null)
-            appUser.setLastName(appUserDAO.getLastName());
+        if (appUserDetails != null)
+            appUser.setFirstName(appUserDetails.getFirstName());
+        if (appUserDetails != null)
+            appUser.setLastName(appUserDetails.getLastName());
 
         appUserRepository.save(appUser);
 
-        return appUserDAO;
+        return appUserDetails;
     }
 }

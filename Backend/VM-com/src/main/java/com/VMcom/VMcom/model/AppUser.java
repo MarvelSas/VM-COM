@@ -2,7 +2,6 @@ package com.VMcom.VMcom.model;
 
 import com.VMcom.VMcom.enums.AppUserRole;
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -48,6 +47,9 @@ public class AppUser implements UserDetails {
 
     @OneToOne(mappedBy = "appUser")
     private ShopCart shopCart;
+
+    @OneToMany(mappedBy = "appUser")
+    private List<AppUserOrder> appUserOrders;
 
 
 

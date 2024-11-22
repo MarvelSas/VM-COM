@@ -1,6 +1,6 @@
 package com.VMcom.VMcom.controller;
 
-import com.VMcom.VMcom.model.AppUserDAO;
+import com.VMcom.VMcom.model.AppUserDetails;
 import com.VMcom.VMcom.model.Response;
 import com.VMcom.VMcom.services.AppUserService;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ public class AppUserController {
     private final AppUserService appUserService;
 
     @PatchMapping("")
-    public ResponseEntity<Response> putAppUser(@RequestBody AppUserDAO appUserDAO){
+    public ResponseEntity<Response> putAppUser(@RequestBody AppUserDetails appUserDetails){
 
 
         try {
@@ -28,7 +28,7 @@ public class AppUserController {
             return ResponseEntity.ok(
                     Response.builder()
                             .timeStamp(LocalDateTime.now())
-                            .data(Map.of("data", appUserService.updateAppUserDetails(appUserDAO)))
+                            .data(Map.of("data", appUserService.updateAppUserDetails(appUserDetails)))
                             .message("User details updated successfully")
                             .status(HttpStatus.OK)
                             .statusCode(HttpStatus.OK.value())

@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class AppUserDAO {
+public class AppUserDetails {
 
     private String firstName;
     private String lastName;

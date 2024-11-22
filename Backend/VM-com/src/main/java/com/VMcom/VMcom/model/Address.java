@@ -1,16 +1,15 @@
 package com.VMcom.VMcom.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.validation.constraints.NotBlank;
+
+import java.util.List;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -32,4 +31,7 @@ public class Address {
     @ManyToOne      
     @JoinColumn(name = "appUser_id")
     private AppUser appUser;
+    @JsonIgnore
+    @OneToMany(mappedBy = "address")
+    private List<AppUserOrder> appUserOrders;
 }
