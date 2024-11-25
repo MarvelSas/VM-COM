@@ -30,6 +30,7 @@ public class AppUserOrder {
     @ManyToOne
     @JoinColumn(name = "appUser_id")
     private AppUser appUser;
+    private double totalPrice;
     private LocalDate createDate;
     private OrderStatus orderStatus;
     private PaymentMethod paymentMethod;

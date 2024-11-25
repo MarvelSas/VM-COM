@@ -1,10 +1,8 @@
 package com.VMcom.VMcom.services;
 
-import com.VMcom.VMcom.model.AppUser;
-import com.VMcom.VMcom.model.ShopCart;
-import com.VMcom.VMcom.model.ShopCartLine;
-import com.VMcom.VMcom.model.ShopCartLineDAO;
+import com.VMcom.VMcom.model.*;
 import com.VMcom.VMcom.repository.AppUserRepository;
+import com.VMcom.VMcom.repository.ProductRepository;
 import com.VMcom.VMcom.repository.ShopCartLineRepository;
 import com.VMcom.VMcom.repository.ShopCartRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +23,7 @@ public class ShopCartService {
     private final ShopCartRepository shopCartRepository;
     private final ShopCartLineRepository shopCartLineRepository;
     private final AppUserRepository appUserRepository;
+    private final ProductRepository productRepository;
     
     public AppUser getAppUserFromContextHolder(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -76,8 +75,10 @@ public class ShopCartService {
 
     private ShopCartLine generateNewShopCartLine(ShopCartLineDAO shopCartLineDAO){
 
+        Product product = productRepository.findById(shopCartLineDAO.getProduct().getId()).orElseThrow(()-> new RuntimeException("Product with id :"+ shopCartLineDAO.getProduct().getId()+" doesn't exist in database"));
+
         ShopCartLine shopCartLine = new ShopCartLine();
-        shopCartLine.setProduct(shopCartLineDAO.getProduct());
+        shopCartLine.setProduct(product);
         shopCartLine.setShopCard(getShopCart());
         shopCartLine.setQuantity(shopCartLineDAO.getQuantity());
         return shopCartLineRepository.save(shopCartLine);

@@ -2,6 +2,7 @@ package com.VMcom.VMcom.services;
 
 import com.VMcom.VMcom.enums.OrderStatus;
 import com.VMcom.VMcom.model.*;
+import com.VMcom.VMcom.repository.AddressRepository;
 import com.VMcom.VMcom.repository.AppUserOrderLineRepository;
 import com.VMcom.VMcom.repository.AppUserOrderRepository;
 import com.VMcom.VMcom.repository.AppUserRepository;
@@ -23,6 +24,7 @@ public class AppUserOrderService {
     private final AppUserOrderLineRepository appUserOrderLineRepository;
     private final AppUserRepository appUserRepository;
     private final ShopCartService shopCartService;
+    private final AddressRepository addressRepository;
 
 
     public AppUser getAppUserFromContextHolder(){
@@ -57,10 +59,14 @@ public class AppUserOrderService {
 
     private AppUserOrder buildAppUserOrderWithoutLines(AppUserOrderDetails appUserOrderDetails){
 
+        AppUser appUser = getAppUserFromContextHolder();
+        Address address = addressRepository.findById(appUserOrderDetails.getAddress().getId()).orElseThrow(() -> new RuntimeException("Address with id :" +appUserOrderDetails.getAddress().getId() + " doesn't exist in database" ));
+
         return appUserOrderRepository.save(AppUserOrder.builder()
                 .paymentMethod(appUserOrderDetails.getPaymentMethod())
-                .address(appUserOrderDetails.getAddress())
-                .appUser(getAppUserFromContextHolder())
+                .address(address)
+                .appUser(appUser)
+                .totalPrice(appUser.getShopCart().getTotalPrice())
                 .orderStatus(OrderStatus.NEW)
                 .createDate(LocalDate.now())
                 .build());

@@ -21,6 +21,13 @@ public class Address {
     @GeneratedValue()
     private Long id;
 
+
+    @NotBlank(message = "Street is required")
+    private String firstName;
+    @NotBlank(message = "Zip code is required")
+    private String lastName;
+    @NotBlank(message = "City is required")
+    private String phoneNumber;
     @NotBlank(message = "Street is required")
     private String street;
     @NotBlank(message = "Zip code is required")
