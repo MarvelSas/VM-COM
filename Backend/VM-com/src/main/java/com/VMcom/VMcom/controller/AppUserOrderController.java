@@ -1,5 +1,6 @@
 package com.VMcom.VMcom.controller;
 
+import com.VMcom.VMcom.enums.OrderStatus;
 import com.VMcom.VMcom.model.AppUserOrderDetails;
 import com.VMcom.VMcom.model.Response;
 import com.VMcom.VMcom.services.AppUserOrderService;
@@ -120,14 +121,14 @@ public class AppUserOrderController {
 
 
     @PatchMapping("/appUserOrder/{appUserOrderId}")
-    public ResponseEntity<Response> cancelAppUserOrder(@PathVariable("appUserOrderId")Long appUserOrderId){
+    public ResponseEntity<Response> updateAppUserOrderStatus(@PathVariable("appUserOrderId")Long appUserOrderId, @RequestBody OrderStatus orderStatus){
 
         try {
 
             return ResponseEntity.ok(
                     Response.builder()
                             .timeStamp(LocalDateTime.now())
-                            .data(Map.of("data", appUserOrderService.cancelAppUserOrder(appUserOrderId)))
+                            .data(Map.of("data", appUserOrderService.updateAppUserOrderStatus(appUserOrderId,orderStatus)))
                             .message("Order canceled successfully")
                             .status(HttpStatus.OK)
                             .statusCode(HttpStatus.OK.value())

@@ -113,9 +113,9 @@ public class AppUserOrderService {
         }
     }
 
-    public AppUserOrder cancelAppUserOrder(Long appUserOrderId) {
+    public AppUserOrder updateAppUserOrderStatus(Long appUserOrderId, OrderStatus orderStatus) {
         AppUserOrder appUserOrder = getAppUserOrder(appUserOrderId);
-        appUserOrder.setOrderStatus(OrderStatus.CANCELED);
+        appUserOrder.setOrderStatus(orderStatus);
         appUserOrderRepository.save(appUserOrder);
         return appUserOrder;
     }
