@@ -107,6 +107,8 @@ public class AppUserOrderService {
         return appUserOrder;
     }
 
+
+
     private void verifyAppUserOrderOwnership(AppUserOrder appUserOrder) {
         if (!appUserOrder.getAppUser().equals(getAppUserFromContextHolder())) {
             throw new RuntimeException("This Order doesn't belong to the logged-on user");
@@ -114,7 +116,9 @@ public class AppUserOrderService {
     }
 
     public AppUserOrder updateAppUserOrderStatus(Long appUserOrderId, OrderStatus orderStatus) {
-        AppUserOrder appUserOrder = getAppUserOrder(appUserOrderId);
+
+        AppUserOrder appUserOrder = appUserOrderRepository.findById(appUserOrderId).orElseThrow(
+                () -> new RuntimeException("Order with id: "+ appUserOrderId + " doesn't exist"));
         appUserOrder.setOrderStatus(orderStatus);
         appUserOrderRepository.save(appUserOrder);
         return appUserOrder;
