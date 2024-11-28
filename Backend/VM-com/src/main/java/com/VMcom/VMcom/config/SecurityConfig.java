@@ -59,12 +59,20 @@ public class SecurityConfig {
                 .authorizeHttpRequests((requests) -> {
                     requests
                             .requestMatchers(WHITE_LIST_URL).permitAll()
+
+                            //Admin
                             .requestMatchers("/api/v1/product/add").hasAuthority("ROLE_ADMIN")
                             .requestMatchers("/api/v1/product/update/**").hasAuthority("ROLE_ADMIN")
                             .requestMatchers("/api/v1/product/delete/**").hasAuthority("ROLE_ADMIN")
                             .requestMatchers("/api/v1/product/productCategory/add").hasAuthority("ROLE_ADMIN")
                             .requestMatchers("/api/v1/product/productCategory/delete/**").hasAuthority("ROLE_ADMIN")
                             .requestMatchers("/api/v1/product/add/productPhoto").hasAuthority("ROLE_ADMIN")
+                            .requestMatchers("/api/v1/admin/appUserOrder/**").hasAuthority("ROLE_ADMIN")
+                            .requestMatchers("/api/v1/admin/appUserOrders").hasAuthority("ROLE_ADMIN")
+
+                            //User
+
+                            //Admin and User
                             .requestMatchers("/api/v1/address").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
                             .requestMatchers("/api/v1/address/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
                             .requestMatchers("/api/v1/addresses").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")

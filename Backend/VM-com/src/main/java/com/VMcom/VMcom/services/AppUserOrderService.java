@@ -94,17 +94,26 @@ public class AppUserOrderService {
 
     }
 
-    public List<AppUserOrder> getAllUserOrders() {
+
+    public List<AppUserOrder> getAllUserOrdersForUser() {
         return appUserOrderRepository.findByAppUser(getAppUserFromContextHolder());
+    }
+
+    public List<AppUserOrder> getAllUserOrdersForAdmin() {
+        return appUserOrderRepository.findAll();
     }
 
 
     public AppUserOrder getAppUserOrder(Long appUserOrderId) {
-
         AppUserOrder appUserOrder = appUserOrderRepository.findById(appUserOrderId).orElseThrow(
                 () -> new RuntimeException("Order with id: "+ appUserOrderId + " doesn't exist"));
         verifyAppUserOrderOwnership(appUserOrder);
         return appUserOrder;
+    }
+
+    public AppUserOrder getAppUserOrderForAdmin(Long appUserOrderId) {
+        return appUserOrderRepository.findById(appUserOrderId).orElseThrow(
+                () -> new RuntimeException("Order with id: "+ appUserOrderId + " doesn't exist"));
     }
 
 

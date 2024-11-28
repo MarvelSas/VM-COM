@@ -63,7 +63,7 @@ public class AppUserOrderController {
             return ResponseEntity.ok(
                     Response.builder()
                             .timeStamp(LocalDateTime.now())
-                            .data(Map.of("data", appUserOrderService.getAllUserOrders()))
+                            .data(Map.of("data", appUserOrderService.getAllUserOrdersForUser()))
                             .message("Orders returned successfully")
                             .status(HttpStatus.OK)
                             .statusCode(HttpStatus.OK.value())
@@ -83,6 +83,8 @@ public class AppUserOrderController {
 
 
         }
+
+
 
 
     }
@@ -151,5 +153,74 @@ public class AppUserOrderController {
 
 
     }
+
+
+    @GetMapping("/admin/appUserOrders")
+    public ResponseEntity<Response> getAppUserOrdersForAdmin(){
+
+        try {
+
+            return ResponseEntity.ok(
+                    Response.builder()
+                            .timeStamp(LocalDateTime.now())
+                            .data(Map.of("data", appUserOrderService.getAllUserOrdersForAdmin()))
+                            .message("Orders returned successfully")
+                            .status(HttpStatus.OK)
+                            .statusCode(HttpStatus.OK.value())
+                            .build()
+            );
+        }catch (Exception e){
+
+            return ResponseEntity.badRequest().body(
+                    Response.builder()
+                            .timeStamp(LocalDateTime.now())
+                            .data(Map.of("Message", e.getMessage()))
+                            .message("Orders were not returned successfully")
+                            .status(HttpStatus.BAD_REQUEST)
+                            .statusCode(HttpStatus.BAD_REQUEST.value())
+                            .build()
+            );
+
+
+        }
+
+
+
+
+    }
+
+
+    @GetMapping("/admin/appUserOrder/{appUserOrderId}")
+    public ResponseEntity<Response> getAppUserOrderForAdmin(@PathVariable("appUserOrderId")Long appUserOrderId){
+
+        try {
+
+            return ResponseEntity.ok(
+                    Response.builder()
+                            .timeStamp(LocalDateTime.now())
+                            .data(Map.of("data", appUserOrderService.getAppUserOrderForAdmin(appUserOrderId)))
+                            .message("Order returned successfully")
+                            .status(HttpStatus.OK)
+                            .statusCode(HttpStatus.OK.value())
+                            .build()
+            );
+        }catch (Exception e){
+
+            return ResponseEntity.badRequest().body(
+                    Response.builder()
+                            .timeStamp(LocalDateTime.now())
+                            .data(Map.of("Message", e.getMessage()))
+                            .message("Order were not returned successfully")
+                            .status(HttpStatus.BAD_REQUEST)
+                            .statusCode(HttpStatus.BAD_REQUEST.value())
+                            .build()
+            );
+
+
+        }
+
+
+    }
+
 
 }
