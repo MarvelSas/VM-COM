@@ -31,6 +31,7 @@ import { ProductListItemComponent } from './shared/components/product-list-item/
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
+import { HasRoleDirective } from './shared/directives/has-role.directive';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { UserProfileComponent } from './pages/user-profile/user-profile.componen
     LoadingSpinnerComponent,
     ProductListItemComponent,
     UserProfileComponent,
+    HasRoleDirective,
   ],
   imports: [
     BrowserModule,

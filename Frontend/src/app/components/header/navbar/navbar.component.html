@@ -36,9 +36,14 @@
     </div>
   </div>
   <div>
-    <button class="btn btn-primary m-1" routerLink="admin" *ngIf="user">
+    <button
+      class="btn btn-primary m-1"
+      routerLink="admin"
+      *hasRole="['ROLE_ADMIN']"
+    >
       Administracja
     </button>
+
     <!-- TODO: IF USER ROLE === ADMIN -->
     <button class="btn btn-primary m-1" routerLink="profile" *ngIf="user">
       Profil

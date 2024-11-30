@@ -13,4 +13,7 @@ export enum endpoints {
   deleteCategory = 'product/productCategory/delete',
   updateCategory = 'product/productCategory/update',
   uploadImage = 'product/add/productPhoto',
+  cardGet = '',
+  cardAdd = '',
+  cardRemove = '',
 }

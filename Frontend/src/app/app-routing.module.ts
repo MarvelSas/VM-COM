@@ -13,6 +13,7 @@ import { AdminProductsComponent } from './pages/admin/admin-products/admin-produ
 import { AdminCategoriesComponent } from './pages/admin/admin-categories/admin-categories.component';
 import { AuthGuard } from './shared/guards/auth.guard';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
+import { RoleGuard } from './shared/guards/role.guard';
 
 const routes: Routes = [
   { path: '', component: LandingPageComponent },
@@ -29,7 +30,8 @@ const routes: Routes = [
   {
     path: 'admin',
     component: AdminComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RoleGuard],
+    data: { roles: ['ROLE_ADMIN'] },
     children: [
       { path: 'products', component: AdminProductsComponent },
       { path: 'categories', component: AdminCategoriesComponent },
