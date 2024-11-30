@@ -14,13 +14,15 @@
               >
                 <div class="col-md-2 col-lg-2 col-xl-2">
                   <img
-                    [src]="product.photos[0]"
+                    [src]="
+                      getPhotoUrl(product.product.photos, product.product.id)
+                    "
                     class="img-fluid rounded-3"
                     alt="Cotton T-shirt"
                   />
                 </div>
                 <div class="col-md-3 col-lg-3 col-xl-3">
-                  <p class="lead fw-normal mb-2">{{ product.name }}</p>
+                  <p class="lead fw-normal mb-2">{{ product.product.name }}</p>
                   <p>
                     <span class="text-muted">Wersja: </span>Standardowa
                     <span class="text-muted">Kolor: </span>Czarny
@@ -55,7 +57,7 @@
                   </button>
                 </div>
                 <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                  <h5 class="mb-0">{{ product.price }}zł</h5>
+                  <h5 class="mb-0">{{ product.product.price }}zł</h5>
                 </div>
                 <div class="col-md-1 col-lg-1 col-xl-1 text-end">
                   <a href="#!" class="text-danger"
