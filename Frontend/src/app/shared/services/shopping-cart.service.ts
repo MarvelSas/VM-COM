@@ -4,17 +4,17 @@ import { endpoints } from 'src/enums/endpoints.enum';
 import { environment } from 'src/environments/environment';
 import { IShopCardResponse } from '../models/shop-cart.model';
 import { IProduct } from '../models/product.model';
-
-export interface IProductReq {
-  product: IProduct;
-  quantity: number;
-}
+import { ToastrService } from 'ngx-toastr';
 
 export interface IProductCategory {
   id: number;
   name: string;
 }
 
+interface IAddProductReq {
+  product: IProduct;
+  quantity: number;
+}
 @Injectable({
   providedIn: 'root',
 })
@@ -24,8 +24,10 @@ export class ShoppingCartService {
 
   constructor(private http: HttpClient) {}
 
-  addItem(product: IProductReq) {
-    this.items.push(product);
+  addItem(product: IAddProductReq) {
+    // this.items.push(product);
+    console.log(product);
+
     return this.http.post(`${this.API_URL + endpoints.cardAddItem}`, product);
   }
 
