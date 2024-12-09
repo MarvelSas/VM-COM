@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fas } from '@fortawesome/free-solid-svg-icons';
 import { ICartProducts } from 'src/app/shared/models/shop-cart.model';
 import { ShoppingCartService } from 'src/app/shared/services/shopping-cart.service';
 import { environment } from 'src/environments/environment';
@@ -12,10 +15,18 @@ export class ShopingCartComponent implements OnInit {
   productsInCart: ICartProducts[] = [];
   API_IMG = environment.API_IMG;
 
-  constructor(private shoppingCartService: ShoppingCartService) {}
+  constructor(
+    private shoppingCartService: ShoppingCartService,
+    private libary: FaIconLibrary
+  ) {
+    this.libary.addIconPacks(fas);
+  }
 
   getPhotoUrl(photo, index) {
-    return this.API_IMG + photo[index - 1];
+    console.log(photo);
+    console.log(index);
+    console.log(photo[index]);
+    return this.API_IMG + photo[index];
   }
 
   ngOnInit(): void {

@@ -15,7 +15,10 @@
                 <div class="col-md-2 col-lg-2 col-xl-2">
                   <img
                     [src]="
-                      getPhotoUrl(product.product.photos, product.product.id)
+                      getPhotoUrl(
+                        product.product.photos,
+                        product.product.mainPhotoId
+                      )
                     "
                     class="img-fluid rounded-3"
                     alt="Cotton T-shirt"
@@ -23,10 +26,7 @@
                 </div>
                 <div class="col-md-3 col-lg-3 col-xl-3">
                   <p class="lead fw-normal mb-2">{{ product.product.name }}</p>
-                  <p>
-                    <span class="text-muted">Wersja: </span>Standardowa
-                    <span class="text-muted">Kolor: </span>Czarny
-                  </p>
+                  <p><span class="text-muted">Wersja: </span>Standardowa</p>
                 </div>
                 <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
                   <button
@@ -35,7 +35,7 @@
                     class="btn btn-link px-2"
                     onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
                   >
-                    <i class="fas fa-minus"></i>
+                    <fa-icon [icon]="['fas', 'minus']"></fa-icon>
                   </button>
 
                   <input
@@ -53,7 +53,7 @@
                     class="btn btn-link px-2"
                     onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
                   >
-                    <i class="fas fa-plus"></i>
+                    <fa-icon [icon]="['fas', 'plus']"></fa-icon>
                   </button>
                 </div>
                 <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
@@ -61,8 +61,8 @@
                 </div>
                 <div class="col-md-1 col-lg-1 col-xl-1 text-end">
                   <a href="#!" class="text-danger"
-                    ><i class="fas fa-trash fa-lg"></i
-                  ></a>
+                    ><fa-icon [icon]="['fas', 'trash']" size="lg"></fa-icon>
+                  </a>
                 </div>
               </div>
             </div>
