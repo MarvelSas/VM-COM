@@ -1,8 +1,6 @@
-<!-- user-profile.component.html -->
-
 <div class="card w-100">
-  <div class="card-header bg-primary text-white">
-    <h4 class="mb-0">User Profile</h4>
+  <div class="card-header">
+    <h4 class="card-title mb-0">User Profile</h4>
   </div>
   <div class="card-body">
     <form [formGroup]="userForm" (ngSubmit)="saveChanges()">
@@ -70,13 +68,11 @@
       </div>
 
       <ng-template #displayMode>
-        <p>
-          <strong>First Name:</strong> {{ userForm.get("firstName")?.value }}
-        </p>
-        <p><strong>Last Name:</strong> {{ userForm.get("lastName")?.value }}</p>
-        <p><strong>Email:</strong> {{ userForm.get("email")?.value }}</p>
-        <p><strong>Phone:</strong> {{ userForm.get("phone")?.value }}</p>
-        <p><strong>Address:</strong> {{ userForm.get("address")?.value }}</p>
+        <p><strong>Imię:</strong> {{ userForm.get("firstName")?.value }}</p>
+        <p><strong>Nazwisko:</strong> {{ userForm.get("lastName")?.value }}</p>
+        <p><strong>Adres e-mail:</strong> {{ userForm.get("email")?.value }}</p>
+        <p><strong>Telefon:</strong> {{ userForm.get("phone")?.value }}</p>
+        <p><strong>Adres:</strong> {{ userForm.get("address")?.value }}</p>
 
         <button type="button" class="btn btn-primary" (click)="toggleEdit()">
           Edit
