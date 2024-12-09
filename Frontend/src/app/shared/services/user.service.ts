@@ -1,10 +1,15 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { environment } from 'src/environments/environment';
+import { IAddressResponse } from '../models/address.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
+  API_URL = environment.API_URL;
+
   dummyUserData = {
     name: 'John',
     surname: 'Doe',
@@ -18,7 +23,7 @@ export class UserService {
     zip: '00-000',
   };
 
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
   getUserData(): Observable<any> {
     return of(this.dummyUserData);
@@ -27,6 +32,6 @@ export class UserService {
   updateUserData() {}
 
   getUserAddress(): Observable<any> {
-    return of(this.dummyAddressData);
+    return this.http.get<IAddressResponse>(`${this.API_URL}address/1`);
   }
 }
