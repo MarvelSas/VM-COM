@@ -33,7 +33,7 @@
                     data-mdb-button-init
                     data-mdb-ripple-init
                     class="btn btn-link px-2"
-                    onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
+                    (click)="changeQuantity(product.id, product.quantity - 1)"
                   >
                     <fa-icon [icon]="['fas', 'minus']"></fa-icon>
                   </button>
@@ -51,7 +51,7 @@
                     data-mdb-button-init
                     data-mdb-ripple-init
                     class="btn btn-link px-2"
-                    onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
+                    (click)="changeQuantity(product.id, product.quantity + 1)"
                   >
                     <fa-icon [icon]="['fas', 'plus']"></fa-icon>
                   </button>

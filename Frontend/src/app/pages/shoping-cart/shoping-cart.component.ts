@@ -23,9 +23,6 @@ export class ShopingCartComponent implements OnInit {
   }
 
   getPhotoUrl(photo, index) {
-    console.log(photo);
-    console.log(index);
-    console.log(photo[index]);
     return this.API_IMG + photo[index];
   }
 
@@ -36,6 +33,17 @@ export class ShopingCartComponent implements OnInit {
       },
       error: (error) => {
         console.error(error);
+      },
+    });
+  }
+
+  changeQuantity(productId: number, quantity: number): void {
+    this.shoppingCartService.changeQuantity(productId, quantity).subscribe({
+      next: (response) => {
+        console.log('Quantity updated successfully', response);
+      },
+      error: (error) => {
+        console.error('Error updating quantity', error);
       },
     });
   }

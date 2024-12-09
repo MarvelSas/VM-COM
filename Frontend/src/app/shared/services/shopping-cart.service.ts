@@ -38,6 +38,7 @@ export class ShoppingCartService {
   }
 
   changeQuantity(productId: number, quantity: number) {
+    console.log(productId, quantity);
     return this.http.patch(
       `${this.API_URL + endpoints.cardChangeQuantity + '/' + productId}`,
       quantity
