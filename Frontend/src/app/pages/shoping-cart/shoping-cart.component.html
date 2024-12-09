@@ -60,9 +60,14 @@
                   <h5 class="mb-0">{{ product.product.price }}zł</h5>
                 </div>
                 <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                  <a href="#!" class="text-danger"
-                    ><fa-icon [icon]="['fas', 'trash']" size="lg"></fa-icon>
-                  </a>
+                  <button
+                    data-mdb-button-init
+                    data-mdb-ripple-init
+                    class="btn btn-link px-2 text-danger"
+                    (click)="removeFromCart(product.id)"
+                  >
+                    <fa-icon [icon]="['fas', 'trash']" size="lg"></fa-icon>
+                  </button>
                 </div>
               </div>
             </div>

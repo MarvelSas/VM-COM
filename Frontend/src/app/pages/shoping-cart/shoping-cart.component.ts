@@ -27,6 +27,10 @@ export class ShopingCartComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getShoppingCart();
+  }
+
+  getShoppingCart(): void {
     this.shoppingCartService.getItems().subscribe({
       next: (data) => {
         this.productsInCart = data.data['data'].shopCardLines;
@@ -44,6 +48,23 @@ export class ShopingCartComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error updating quantity', error);
+      },
+      complete: () => {
+        this.getShoppingCart();
+      },
+    });
+  }
+
+  removeFromCart(productId: number): void {
+    this.shoppingCartService.removeItem(productId).subscribe({
+      next: (response) => {
+        console.log('Item removed successfully', response);
+      },
+      error: (error) => {
+        console.error('Error removing item', error);
+      },
+      complete: () => {
+        this.getShoppingCart();
       },
     });
   }
