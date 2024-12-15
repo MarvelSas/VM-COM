@@ -1,20 +1,37 @@
 <h3 class="subtitle">Zarządzanie produktami</h3>
-<div class="form-item">
-  <h4>Lista produktów:</h4>
-  <ul class="productList">
-    <li class="productItem" *ngFor="let product of products">
-      <span class="productName">{{ product.name }} [{{ product.id }}]</span>
-      <span class="productActions">
-        <button class="button btn-edit" (click)="onEditProduct(product.id)">
-          Edytuj
-        </button>
-        <button class="button btn-delete" (click)="onDeleteProduct(product.id)">
-          Usuń
-        </button>
-      </span>
-    </li>
-  </ul>
+
+<div
+  *ngIf="isLoading"
+  class="d-flex justify-content-center align-items-center my-5"
+>
+  <loading-spinner></loading-spinner>
 </div>
+
+<ng-container *ngIf="!isLoading">
+  <div class="form-item" *ngIf="products.length; else noProducts">
+    <h4>Lista produktów:</h4>
+    <ul class="productList">
+      <li class="productItem" *ngFor="let product of products">
+        <span class="productName">{{ product.name }} [{{ product.id }}]</span>
+        <span class="productActions">
+          <button class="button btn-edit" (click)="onEditProduct(product.id)">
+            Edytuj
+          </button>
+          <button
+            class="button btn-delete"
+            (click)="onDeleteProduct(product.id)"
+          >
+            Usuń
+          </button>
+        </span>
+      </li>
+    </ul>
+  </div>
+</ng-container>
+
+<ng-template #noProducts>
+  <h5>Brak produktów</h5>
+</ng-template>
 
 <h3 class="subtitle">
   {{ isEditing ? "Edytuj produkt" : "Dodaj nowy produkt" }}
