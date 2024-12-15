@@ -5,6 +5,7 @@
   </div>
   <div class="searchContainer d-flex align-items-center">
     <input
+      #searchInput
       name="search"
       type="text"
       placeholder="Czego szukasz?"
@@ -25,7 +26,7 @@
       </div>
     </div>
     <button class="btn btn-primary">Szukaj</button>
-    <div class="searchResults" *ngIf="searchResults.length">
+    <div #searchResultsContainer class="searchResults" *ngIf="searchResults.length">
       <ul>
         <li
           *ngFor="let product of searchResults"

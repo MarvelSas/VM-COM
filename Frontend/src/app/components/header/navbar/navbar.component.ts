@@ -1,5 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+import { Router } from '@angular/router';
 import {
   catchError,
   debounceTime,
@@ -8,7 +14,6 @@ import {
   Subscription,
   switchMap,
 } from 'rxjs';
-import { IProductResponseData } from 'src/app/pages/admin/admin-products/product.model';
 import { IProduct } from 'src/app/shared/models/product.model';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { ProductsService } from 'src/app/shared/services/products.service';
@@ -20,6 +25,8 @@ import { RoleService } from 'src/app/shared/services/role.service';
   styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent implements OnInit, OnDestroy {
+  @ViewChild('searchInput') searchInput: ElementRef;
+  @ViewChild('searchResultsContainer') searchResultsContainer: ElementRef;
   searchCategory: string = 'Wszystkie';
   userSub: Subscription;
   searchSub: Subscription;
@@ -34,6 +41,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    document.addEventListener('click', this.onDocumentClick.bind(this));
+
     this.userSub = this.authService.user.subscribe((res) => {
       this.user = res;
     });
@@ -72,10 +81,15 @@ export class NavbarComponent implements OnInit, OnDestroy {
     console.log(`Selected product: ${product.name}`);
     this.router.navigate(['product', product.id]);
     this.closeSearchResults();
+    this.clearSearchInput();
   }
 
   closeSearchResults() {
     this.searchResults = [];
+  }
+
+  clearSearchInput() {
+    this.searchInput.nativeElement.value = '';
   }
 
   logout() {
@@ -83,8 +97,17 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   onChangeCategory(e: any) {
-    // console.log(e.target.textContent);
     this.searchCategory = e.target.textContent;
+  }
+
+  onDocumentClick(event: MouseEvent) {
+    if (
+      this.searchResultsContainer &&
+      !this.searchResultsContainer.nativeElement.contains(event.target) &&
+      !this.searchInput.nativeElement.contains(event.target)
+    ) {
+      this.closeSearchResults();
+    }
   }
 
   ngOnDestroy(): void {
@@ -94,5 +117,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     if (this.searchSub) {
       this.searchSub.unsubscribe();
     }
+
+    document.removeEventListener('click', this.onDocumentClick.bind(this));
   }
 }
