@@ -1,162 +1,177 @@
-<div class="card w-100">
-  <div class="card-header">
-    <h4 class="card-title mb-0">User Profile</h4>
-  </div>
-  <div class="card-body">
-    <form [formGroup]="userForm" (ngSubmit)="saveChanges()">
-      <div *ngIf="editMode; else displayMode">
-        <h5>Dane osobowe</h5>
-        <div class="mb-3">
-          <label for="firstName" class="form-label">Imię</label>
-          <input
-            id="firstName"
-            formControlName="firstName"
-            type="text"
-            class="form-control"
-          />
+<div class="container">
+  <div class="card w-100">
+    <div class="card-header">
+      <h4 class="card-title mb-0">Profil użytkownika</h4>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="userForm" (ngSubmit)="saveChanges()">
+        <div *ngIf="editMode; else displayMode">
+          <h5>Dane osobowe</h5>
+          <div class="mb-3">
+            <label for="firstName" class="form-label">Imię</label>
+            <input
+              id="firstName"
+              formControlName="firstName"
+              type="text"
+              class="form-control"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label for="lastName" class="form-label">Nazwisko</label>
+            <input
+              id="lastName"
+              formControlName="lastName"
+              type="text"
+              class="form-control"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label for="email" class="form-label">Adres e-mail</label>
+            <input
+              id="email"
+              formControlName="email"
+              type="email"
+              class="form-control"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label for="phone" class="form-label">Telefon</label>
+            <input
+              id="phone"
+              formControlName="phone"
+              type="text"
+              class="form-control"
+            />
+          </div>
+
+          <hr />
+
+          <h5>Adres do wysyłki</h5>
+          <div class="mb-3">
+            <label for="shipFirstName" class="form-label">Imię</label>
+            <input
+              id="shipFirstName"
+              formControlName="shipFirstName"
+              type="text"
+              class="form-control"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label for="shipLastName" class="form-label">Nazwisko</label>
+            <input
+              id="shipLastName"
+              formControlName="shipLastName"
+              type="text"
+              class="form-control"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label for="shipStreet" class="form-label">Ulica</label>
+            <input
+              id="shipStreet"
+              formControlName="shipStreet"
+              type="text"
+              class="form-control"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label for="shipCity" class="form-label">Miasto</label>
+            <input
+              id="shipCity"
+              formControlName="shipCity"
+              type="text"
+              class="form-control"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label for="shipZipCode" class="form-label">Kod pocztowy</label>
+            <input
+              id="shipZipCode"
+              formControlName="shipZipCode"
+              type="text"
+              class="form-control"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label for="shipPhoneNumber" class="form-label">Telefon</label>
+            <input
+              id="shipPhoneNumber"
+              formControlName="shipPhoneNumber"
+              type="text"
+              class="form-control"
+            />
+          </div>
+
+          <button
+            type="submit"
+            class="btn btn-success me-2"
+            [disabled]="userForm.invalid"
+          >
+            Zapisz
+          </button>
+          <button
+            type="button"
+            class="btn btn-secondary"
+            (click)="toggleEdit()"
+          >
+            Anuluj
+          </button>
         </div>
 
-        <div class="mb-3">
-          <label for="lastName" class="form-label">Nazwisko</label>
-          <input
-            id="lastName"
-            formControlName="lastName"
-            type="text"
-            class="form-control"
-          />
-        </div>
-
-        <div class="mb-3">
-          <label for="email" class="form-label">Adres e-mail</label>
-          <input
-            id="email"
-            formControlName="email"
-            type="email"
-            class="form-control"
-          />
-        </div>
-
-        <div class="mb-3">
-          <label for="phone" class="form-label">Telefon</label>
-          <input
-            id="phone"
-            formControlName="phone"
-            type="text"
-            class="form-control"
-          />
-        </div>
-
-        <hr />
-
-        <h5>Adres do wysyłki</h5>
-        <div class="mb-3">
-          <label for="shipFirstName" class="form-label">Imię</label>
-          <input
-            id="shipFirstName"
-            formControlName="shipFirstName"
-            type="text"
-            class="form-control"
-          />
-        </div>
-
-        <div class="mb-3">
-          <label for="shipLastName" class="form-label">Nazwisko</label>
-          <input
-            id="shipLastName"
-            formControlName="shipLastName"
-            type="text"
-            class="form-control"
-          />
-        </div>
-
-        <div class="mb-3">
-          <label for="shipStreet" class="form-label">Ulica</label>
-          <input
-            id="shipStreet"
-            formControlName="shipStreet"
-            type="text"
-            class="form-control"
-          />
-        </div>
-
-        <div class="mb-3">
-          <label for="shipCity" class="form-label">Miasto</label>
-          <input
-            id="shipCity"
-            formControlName="shipCity"
-            type="text"
-            class="form-control"
-          />
-        </div>
-
-        <div class="mb-3">
-          <label for="shipZipCode" class="form-label">Kod pocztowy</label>
-          <input
-            id="shipZipCode"
-            formControlName="shipZipCode"
-            type="text"
-            class="form-control"
-          />
-        </div>
-
-        <div class="mb-3">
-          <label for="shipPhoneNumber" class="form-label">Telefon</label>
-          <input
-            id="shipPhoneNumber"
-            formControlName="shipPhoneNumber"
-            type="text"
-            class="form-control"
-          />
-        </div>
-
-        <button
-          type="submit"
-          class="btn btn-success me-2"
-          [disabled]="userForm.invalid"
-        >
-          Zapisz
-        </button>
-        <button type="button" class="btn btn-secondary" (click)="toggleEdit()">
-          Anuluj
-        </button>
-      </div>
-
-      <ng-template #displayMode>
-        <h5>Dane osobowe</h5>
-        <p><strong>Imię:</strong> {{ userForm.get("firstName")?.value }}</p>
-        <p><strong>Nazwisko:</strong> {{ userForm.get("lastName")?.value }}</p>
-        <p><strong>Adres e-mail:</strong> {{ userForm.get("email")?.value }}</p>
-        <p><strong>Telefon:</strong> {{ userForm.get("phone")?.value }}</p>
-
-        <hr />
-
-        <h5>Adres do wysyłki</h5>
-        <p *ngIf="addressNotFound" class="text-danger">
-          <strong>Brak adresu do wysyłki!</strong>
-        </p>
-        <div *ngIf="!addressNotFound">
+        <ng-template #displayMode>
+          <h5>Dane osobowe</h5>
+          <p><strong>Imię:</strong> {{ userForm.get("firstName")?.value }}</p>
           <p>
-            <strong>Imię:</strong> {{ userForm.get("shipFirstName")?.value }}
+            <strong>Nazwisko:</strong> {{ userForm.get("lastName")?.value }}
           </p>
           <p>
-            <strong>Nazwisko:</strong> {{ userForm.get("shipLastName")?.value }}
+            <strong>Adres e-mail:</strong> {{ userForm.get("email")?.value }}
           </p>
-          <p><strong>Ulica:</strong> {{ userForm.get("shipStreet")?.value }}</p>
-          <p><strong>Miasto:</strong> {{ userForm.get("shipCity")?.value }}</p>
-          <p>
-            <strong>Kod pocztowy:</strong>
-            {{ userForm.get("shipZipCode")?.value }}
-          </p>
-          <p>
-            <strong>Telefon:</strong>
-            {{ userForm.get("shipPhoneNumber")?.value }}
-          </p>
-        </div>
+          <p><strong>Telefon:</strong> {{ userForm.get("phone")?.value }}</p>
 
-        <button type="button" class="btn btn-primary" (click)="toggleEdit()">
-          Edytuj
-        </button>
-      </ng-template>
-    </form>
+          <hr />
+
+          <h5>Adres do wysyłki</h5>
+          <p *ngIf="addressNotFound" class="text-danger">
+            <strong>Brak adresu do wysyłki!</strong>
+          </p>
+          <div *ngIf="!addressNotFound">
+            <p>
+              <strong>Imię:</strong> {{ userForm.get("shipFirstName")?.value }}
+            </p>
+            <p>
+              <strong>Nazwisko:</strong>
+              {{ userForm.get("shipLastName")?.value }}
+            </p>
+            <p>
+              <strong>Ulica:</strong> {{ userForm.get("shipStreet")?.value }}
+            </p>
+            <p>
+              <strong>Miasto:</strong> {{ userForm.get("shipCity")?.value }}
+            </p>
+            <p>
+              <strong>Kod pocztowy:</strong>
+              {{ userForm.get("shipZipCode")?.value }}
+            </p>
+            <p>
+              <strong>Telefon:</strong>
+              {{ userForm.get("shipPhoneNumber")?.value }}
+            </p>
+          </div>
+
+          <button type="button" class="btn btn-primary" (click)="toggleEdit()">
+            Edytuj
+          </button>
+        </ng-template>
+      </form>
+    </div>
   </div>
 </div>
