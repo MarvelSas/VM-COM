@@ -11,7 +11,11 @@
           <h4>Cena: {{ product.price }} zł</h4>
         </div>
         <div class="btnContainer">
-          <button class="btn btn-primary" (click)="onBuyProduct()">
+          <button
+            class="btn btn-primary"
+            (click)="onBuyProduct()"
+            [disabled]="isAddingToCart"
+          >
             Dodaj do koszyka!
           </button>
         </div>
