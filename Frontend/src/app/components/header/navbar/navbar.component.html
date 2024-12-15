@@ -16,11 +16,12 @@
         {{ searchCategory }}
       </button>
       <div class="dropdownContent">
-        <a routerLink="#" (click)="onChangeCategory($event)">Laptopy</a>
-        <a routerLink="#" (click)="onChangeCategory($event)">Smartfony</a>
-        <a routerLink="#" (click)="onChangeCategory($event)">Gaming</a>
-        <a routerLink="#" (click)="onChangeCategory($event)">TV</a>
-        <a routerLink="#" (click)="onChangeCategory($event)">Akcesoria</a>
+        <a (click)="onChangeCategory($event)">Wszystkie</a>
+        <a (click)="onChangeCategory($event)">Laptopy</a>
+        <a (click)="onChangeCategory($event)">Smartfony</a>
+        <a (click)="onChangeCategory($event)">Gaming</a>
+        <a (click)="onChangeCategory($event)">TV</a>
+        <a (click)="onChangeCategory($event)">Akcesoria</a>
       </div>
     </div>
     <button class="btn btn-primary">Szukaj</button>

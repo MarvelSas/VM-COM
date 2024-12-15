@@ -20,7 +20,7 @@ import { RoleService } from 'src/app/shared/services/role.service';
   styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent implements OnInit, OnDestroy {
-  searchCategory: string = 'Kategoria';
+  searchCategory: string = 'Wszystkie';
   userSub: Subscription;
   searchSub: Subscription;
   user = null;
@@ -30,7 +30,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     protected roleService: RoleService,
     private productsService: ProductsService,
-    private router: Router,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -52,14 +52,19 @@ export class NavbarComponent implements OnInit, OnDestroy {
         distinctUntilChanged(),
         switchMap((term) =>
           this.productsService
-            .getProductsByName(term)
+            .getProductsByName(term, this.searchCategory)
             .pipe(catchError(() => of({ data: { products: [] } })))
         )
       )
-      .subscribe((response) => {
-        const products = response.data?.products || [];
-        this.searchResults = products;
-        console.log(this.searchResults);
+      .subscribe({
+        next: (res) => {
+          const products = res.data?.products || [];
+          this.searchResults = products;
+          console.log(this.searchResults);
+        },
+        error: (error) => {
+          console.error(error);
+        },
       });
   }
 
