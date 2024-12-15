@@ -13,6 +13,7 @@ export class AdminCategoriesComponent implements OnInit {
   addCategoryForm: FormGroup;
   categories: ICategory[] = [];
   isEditing = false;
+  isLoading = false;
   editingCategory: { id: number; name: string } = null;
 
   constructor(
@@ -22,12 +23,26 @@ export class AdminCategoriesComponent implements OnInit {
 
   // INITIALIZATION
   ngOnInit(): void {
-    this.adminCategoriesService.getCategories().subscribe((res) => {
-      this.categories = res.data.productCategories;
-      // console.log(res);
-    });
+    this.getCategories();
+
     this.addCategoryForm = new FormGroup({
       categoryName: new FormControl(null, Validators.required),
+    });
+  }
+
+  // GET CATEGORIES
+  getCategories() {
+    this.isLoading = true;
+    this.adminCategoriesService.getCategories().subscribe({
+      next: (res) => {
+        this.categories = res.data.productCategories;
+      },
+      error: (err) => {
+        console.error(err);
+      },
+      complete: () => {
+        this.isLoading = false;
+      },
     });
   }
 
