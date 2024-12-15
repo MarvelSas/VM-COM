@@ -4,6 +4,8 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { environment } from 'src/environments/environment';
 
 import { ProductsService } from 'src/app/shared/services/products.service';
+import { ShoppingCartService } from 'src/app/shared/services/shopping-cart.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-product-detail',
@@ -34,11 +36,29 @@ export class ProductDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private productsService: ProductsService
+    private productsService: ProductsService,
+    private shoppingCartService: ShoppingCartService,
+    private toastr: ToastrService
   ) {}
 
   onBuyProduct() {
     console.log('Buy product ID: ', this.id);
+    this.shoppingCartService
+      .addItem({ product: this.product, quantity: 1 })
+      .subscribe({
+        next: (data) => {
+          console.log(data);
+          this.toastr.success('Dodano do koszyka!', null, {
+            positionClass: 'toast-bottom-right',
+          });
+        },
+        error: (error) => {
+          console.error(error);
+          this.toastr.error('Błąd przy dodawaniu!', null, {
+            positionClass: 'toast-bottom-right',
+          });
+        },
+      });
   }
 
   onImageClick(url) {

@@ -83,11 +83,19 @@ export class ProductsService {
     );
   }
 
-  getProductsByName(name: string): Observable<IProductsResponseData> {
-    const params = new HttpParams()
+  getProductsByName(
+    name: string,
+    searchCategory: string
+  ): Observable<IProductsResponseData> {
+    let params = new HttpParams()
       .set('name', name)
       .set('page', '0')
       .set('pageSize', '5');
+
+    if (searchCategory !== 'Wszystkie') {
+      params = params.set('category', searchCategory);
+    }
+
     return this.http.get<IProductsResponseData>(
       `${this.API_URL + endpoints.getPageableProducts}`,
       { params, headers: { skipInterceptor: 'true' } }

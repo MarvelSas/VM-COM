@@ -1,17 +1,34 @@
 <h4 class="categoryTitle">Lista kategorii</h4>
-<ul class="categoryList">
-  <li class="categoryItem" *ngFor="let category of categories">
-    <span class="categoryName">{{ category.name }}</span>
-    <span class="categoryActions">
-      <button class="button btn-edit" (click)="onEditCategory(category.id)">
-        Edytuj
-      </button>
-      <button class="button btn-delete" (click)="onDeleteCategory(category.id)">
-        Usuń
-      </button>
-    </span>
-  </li>
-</ul>
+
+<div
+  *ngIf="isLoading"
+  class="d-flex justify-content-center align-items-center my-5"
+>
+  <loading-spinner></loading-spinner>
+</div>
+
+<ng-container *ngIf="!isLoading">
+  <ul class="categoryList" *ngIf="categories.length; else noCategories">
+    <li class="categoryItem" *ngFor="let category of categories">
+      <span class="categoryName">{{ category.name }}</span>
+      <span class="categoryActions">
+        <button class="button btn-edit" (click)="onEditCategory(category.id)">
+          Edytuj
+        </button>
+        <button
+          class="button btn-delete"
+          (click)="onDeleteCategory(category.id)"
+        >
+          Usuń
+        </button>
+      </span>
+    </li>
+  </ul>
+
+  <ng-template #noCategories>
+    <p class="text-center">Brak kategorii</p>
+  </ng-template>
+</ng-container>
 
 <h4 class="newCategoryTitle">
   {{ isEditing ? "Edytuj kategorię" : "Dodaj nową kategorię" }}

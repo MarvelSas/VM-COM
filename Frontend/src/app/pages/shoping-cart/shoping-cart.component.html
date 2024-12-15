@@ -1,84 +1,116 @@
 <section class="h-100">
   <div class="container h-100 py-5">
-    <div class="row d-flex justify-content-center align-items-center h-100">
+    <div class="row d-flex justify-content-center align-items-start h-100">
       <div class="col-10">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-          <h3 class="fw-normal mb-0">Koszyk</h3>
+        <div
+          class="d-flex flex-column justify-content-center align-items-center mt-5"
+          *ngIf="isLoading"
+        >
+          <loading-spinner></loading-spinner>
         </div>
+        <ng-container *ngIf="!isLoading">
+          <ng-container *ngIf="productsInCart.length; else emptyCart">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <h3 class="fw-normal mb-0">Koszyk</h3>
+            </div>
 
-        <ng-container *ngFor="let product of productsInCart">
-          <div class="card rounded-3 mb-4">
-            <div class="card-body p-4">
-              <div
-                class="row d-flex justify-content-between align-items-center"
-              >
-                <div class="col-md-2 col-lg-2 col-xl-2">
-                  <img
-                    [src]="product.photos[0]"
-                    class="img-fluid rounded-3"
-                    alt="Cotton T-shirt"
-                  />
-                </div>
-                <div class="col-md-3 col-lg-3 col-xl-3">
-                  <p class="lead fw-normal mb-2">{{ product.name }}</p>
-                  <p>
-                    <span class="text-muted">Wersja: </span>Standardowa
-                    <span class="text-muted">Kolor: </span>Czarny
-                  </p>
-                </div>
-                <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
-                  <button
-                    data-mdb-button-init
-                    data-mdb-ripple-init
-                    class="btn btn-link px-2"
-                    onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
+            <ng-container *ngFor="let product of productsInCart">
+              <div class="card rounded-3 mb-4">
+                <div class="card-body p-4">
+                  <div
+                    class="row d-flex justify-content-between align-items-center"
                   >
-                    <i class="fas fa-minus"></i>
-                  </button>
+                    <div class="col-md-2 col-lg-2 col-xl-2">
+                      <img
+                        [src]="
+                          getPhotoUrl(
+                            product.product.photos,
+                            product.product.mainPhotoId
+                          )
+                        "
+                        class="img-fluid rounded-3"
+                        alt="Cotton T-shirt"
+                      />
+                    </div>
+                    <div class="col-md-3 col-lg-3 col-xl-3">
+                      <p class="lead fw-normal mb-2">
+                        {{ product.product.name }}
+                      </p>
+                      <p><span class="text-muted">Wersja: </span>Standardowa</p>
+                    </div>
+                    <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+                      <button
+                        data-mdb-button-init
+                        data-mdb-ripple-init
+                        class="btn btn-link px-2"
+                        (click)="
+                          changeQuantity(product.id, product.quantity - 1)
+                        "
+                      >
+                        <fa-icon [icon]="['fas', 'minus']"></fa-icon>
+                      </button>
 
-                  <input
-                    id="form1"
-                    min="0"
-                    name="quantity"
-                    value="2"
-                    type="number"
-                    class="form-control form-control-sm"
-                  />
+                      <input
+                        id="form1"
+                        min="0"
+                        name="quantity"
+                        [value]="product.quantity"
+                        type="number"
+                        class="form-control form-control-sm"
+                      />
 
-                  <button
-                    data-mdb-button-init
-                    data-mdb-ripple-init
-                    class="btn btn-link px-2"
-                    onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
-                  >
-                    <i class="fas fa-plus"></i>
-                  </button>
-                </div>
-                <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                  <h5 class="mb-0">{{ product.price }}zł</h5>
-                </div>
-                <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                  <a href="#!" class="text-danger"
-                    ><i class="fas fa-trash fa-lg"></i
-                  ></a>
+                      <button
+                        data-mdb-button-init
+                        data-mdb-ripple-init
+                        class="btn btn-link px-2"
+                        (click)="
+                          changeQuantity(product.id, product.quantity + 1)
+                        "
+                      >
+                        <fa-icon [icon]="['fas', 'plus']"></fa-icon>
+                      </button>
+                    </div>
+                    <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                      <h5 class="mb-0">{{ product.product.price }}zł</h5>
+                    </div>
+                    <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+                      <button
+                        data-mdb-button-init
+                        data-mdb-ripple-init
+                        class="btn btn-link px-2 text-danger"
+                        (click)="removeFromCart(product.id)"
+                      >
+                        <fa-icon [icon]="['fas', 'trash']" size="lg"></fa-icon>
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </ng-container>
+            </ng-container>
 
-        <div class="card">
-          <div class="card-body text-end">
-            <button
-              type="button"
-              data-mdb-button-init
-              data-mdb-ripple-init
-              class="btn btn-primary btn-lg"
+            <div class="card">
+              <div class="card-body text-end">
+                <button
+                  type="button"
+                  data-mdb-button-init
+                  data-mdb-ripple-init
+                  class="btn btn-primary btn-lg"
+                >
+                  Finalizuj zakup
+                </button>
+              </div>
+            </div>
+          </ng-container>
+
+          <ng-template #emptyCart>
+            <div
+              class="d-flex flex-column justify-content-center align-items-center mt-5"
             >
-              Finalizuj zakup
-            </button>
-          </div>
-        </div>
+              <h4>Twój koszyk jest pusty!</h4>
+              <p>Chcesz zrobić zakupy? Dodaj produkty do koszyka.</p>
+            </div>
+          </ng-template>
+        </ng-container>
       </div>
     </div>
   </div>

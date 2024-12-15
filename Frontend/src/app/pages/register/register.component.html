@@ -1,29 +1,53 @@
-<div class="card">
+<div class="custom-container">
+  <div class="card">
     <h4>Rejestracja</h4>
     <form [formGroup]="signUpForm">
-        <div>
-            <!-- <label class="test" for="name">Imię:</label> -->
-            <input id="firstname" type="text" placeholder="Imię" formControlName="firstname" />
-        </div>
-        <div>
-            <!-- <label for="surname">Nazwisko:</label> -->
-            <input id="lastname" type="text" placeholder="Nazwisko" formControlName="lastname" />
-        </div>
+      <div>
+        <!-- <label class="test" for="name">Imię:</label> -->
+        <input
+          id="firstname"
+          type="text"
+          placeholder="Imię"
+          formControlName="firstname"
+        />
+      </div>
+      <div>
+        <!-- <label for="surname">Nazwisko:</label> -->
+        <input
+          id="lastname"
+          type="text"
+          placeholder="Nazwisko"
+          formControlName="lastname"
+        />
+      </div>
 
-        <div>
-            <!-- <label for="email">Adres email:</label> -->
-            <input id="email" type="text" placeholder="Adres e-mail" formControlName="email" />
-        </div>
+      <div>
+        <!-- <label for="email">Adres email:</label> -->
+        <input
+          id="email"
+          type="text"
+          placeholder="Adres e-mail"
+          formControlName="email"
+        />
+      </div>
 
-        <div>
-            <!-- <label for="password">Hasło:</label> -->
-            <input id="password" type="password" placeholder="Hasło" formControlName="password" />
+      <div>
+        <!-- <label for="password">Hasło:</label> -->
+        <input
+          id="password"
+          type="password"
+          placeholder="Hasło"
+          formControlName="password"
+        />
+      </div>
+      <div class="controls">
+        <button class="button" (click)="onRegisterHandler()">
+          Zarejestruj
+        </button>
+        <div class="links">
+          <p><a routerLink="../login">Chcesz się zalogować?</a></p>
         </div>
-        <div class="controls">
-            <button class="button" (click)="onRegisterHandler()">Zarejestruj</button>
-            <div class="links">
-                <p><a routerLink="../login">Chcesz się zalogować?</a></p>
-            </div>
-        </div>
+      </div>
     </form>
+  </div>
 </div>

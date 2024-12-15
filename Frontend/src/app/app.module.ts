@@ -32,6 +32,7 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 import { HasRoleDirective } from './shared/directives/has-role.directive';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { HasRoleDirective } from './shared/directives/has-role.directive';
     HasRoleDirective,
   ],
   imports: [
+    FontAwesomeModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,

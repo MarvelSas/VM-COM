@@ -22,19 +22,67 @@ export class AdminProductsComponent implements OnInit {
   isEditing: boolean = false;
   editProductId: number = null;
   addProductForm: FormGroup;
-  products: IProduct[];
+  products: IProduct[] = [];
   categories: ICategory[];
   formData: FormData = new FormData();
   characterCount: number = 0;
   images: IImage[] = [];
   imagesName: string[] = [];
   selectedMainPhoto: number = 0;
+  isLoading = false;
 
   constructor(
     private adminProductsService: adminProductsService,
     private adminCategoriesService: adminCategoriesService,
     private toastr: ToastrService
   ) {}
+
+  // INICJALIZACJA
+  ngOnInit(): void {
+    this.formInit();
+    this.getProducts();
+  }
+
+  formInit() {
+    this.addProductForm = new FormGroup({
+      productName: new FormControl(null, Validators.required),
+      productDescription: new FormControl(null, [
+        Validators.required,
+        Validators.maxLength(8000),
+      ]),
+      productPrice: new FormControl(null, [
+        Validators.required,
+        Validators.pattern(/^[\d,\.]+$/),
+      ]),
+      productAmount: new FormControl(null, [
+        Validators.required,
+        Validators.pattern(/^\d+$/),
+      ]),
+      productImage: new FormControl(null),
+      productCategory: new FormControl(null, Validators.required),
+    });
+
+    this.addProductForm
+      .get('productDescription')!
+      .valueChanges.subscribe((value) => {
+        this.characterCount = value ? value.length : 0;
+      });
+  }
+
+  getProducts() {
+    this.isLoading = true;
+    this.adminProductsService.getProducts().subscribe({
+      next: (res) => {
+        this.products = res.data.products;
+      },
+      error: (err) => {
+        console.error(err);
+      },
+      complete: () => {
+        this.isLoading = false;
+      },
+    });
+  }
 
   selectMainPhoto(index) {
     console.log('Selected main photo: ' + index);
@@ -217,40 +265,5 @@ export class AdminProductsComponent implements OnInit {
     this.addProductForm.reset();
     this.images = [];
     this.imagesName = [];
-  }
-
-  // INICJALIZACJA
-  ngOnInit(): void {
-    this.adminProductsService.getProducts().subscribe((res) => {
-      this.products = res.data.products;
-      // console.log(res);
-    });
-    this.adminCategoriesService.getCategories().subscribe((res) => {
-      this.categories = res.data.productCategories;
-      // console.log(res.data.productCategories);
-    });
-    this.addProductForm = new FormGroup({
-      productName: new FormControl(null, Validators.required),
-      productDescription: new FormControl(null, [
-        Validators.required,
-        Validators.maxLength(8000),
-      ]),
-      productPrice: new FormControl(null, [
-        Validators.required,
-        Validators.pattern(/^[\d,\.]+$/),
-      ]),
-      productAmount: new FormControl(null, [
-        Validators.required,
-        Validators.pattern(/^\d+$/),
-      ]),
-      productImage: new FormControl(null),
-      productCategory: new FormControl(null, Validators.required),
-    });
-
-    this.addProductForm
-      .get('productDescription')!
-      .valueChanges.subscribe((value) => {
-        this.characterCount = value ? value.length : 0;
-      });
   }
 }

@@ -31,6 +31,7 @@
   border-radius: 4px;
   cursor: pointer;
   transition: opacity 0.3s, transform 0.3s;
+  height: 200px;
 }
 
 .button:hover {
@@ -43,6 +44,10 @@
 .dropdown {
   position: relative;
   display: inline-block;
+
+  button {
+    width: 125px;
+  }
 }
 
 // .btnDropdown {
@@ -64,6 +69,7 @@
   padding: 0.5rem 1rem;
   text-decoration: none;
   display: block;
+  cursor: pointer;
 }
 
 .dropdownContent a:hover {

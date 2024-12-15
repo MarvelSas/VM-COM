@@ -146,7 +146,7 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
                 Arrays.asList("sony1.jpg", "sony2.jpg", "sony3.jpg", "sony4.jpg"),
                 0,
                 8L,
-                productCategory2
+                productCategory9
         ));
 
         productRepository.save(new Product(
@@ -226,7 +226,7 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
                 Arrays.asList("acer1.jpg", "acer2.jpg", "acer3.jpg"),
                 0,
                 16L,
-                productCategory1
+                productCategory7
         ));
 
         productRepository.save(new Product(
@@ -267,6 +267,15 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
                 0,
                 20L,
                 productCategory1
+        ));
+        productRepository.save(new Product(
+                "Telewizor Samsung",
+                "Lenovo IdeaPad 5 to wszechstronny laptop zaprojektowany dla osób szukających dobrego stosunku jakości do ceny. Wyposażony w procesor AMD Ryzen 7, 16 GB pamięci RAM i 512 GB SSD, oferuje doskonałą wydajność w codziennym użytkowaniu. 15.6-calowy ekran Full HD zapewnia wyraźny obraz, a długi czas pracy na baterii i ergonomiczna klawiatura sprawiają, że laptop jest wygodny zarówno do pracy, jak i rozrywki. Smukła obudowa i nowoczesny design sprawiają, że IdeaPad 5 jest idealnym wyborem dla studentów i profesjonalistów.",
+                3599.00,
+                Arrays.asList("lenovo1.jpg", "lenovo2.jpg", "lenovo3.jpg"),
+                0,
+                20L,
+                productCategory8
         ));
     }
 }
