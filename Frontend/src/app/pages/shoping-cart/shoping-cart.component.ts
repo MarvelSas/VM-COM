@@ -14,6 +14,7 @@ import { environment } from 'src/environments/environment';
 export class ShopingCartComponent implements OnInit {
   productsInCart: ICartProducts[] = [];
   API_IMG = environment.API_IMG;
+  isLoading = false;
 
   constructor(
     private shoppingCartService: ShoppingCartService,
@@ -28,15 +29,20 @@ export class ShopingCartComponent implements OnInit {
 
   ngOnInit(): void {
     this.getShoppingCart();
+    // console.log(this.productsInCart);
   }
 
   getShoppingCart(): void {
+    this.isLoading = true;
     this.shoppingCartService.getItems().subscribe({
       next: (data) => {
         this.productsInCart = data.data['data'].shopCardLines;
       },
       error: (error) => {
         console.error(error);
+      },
+      complete: () => {
+        this.isLoading = false;
       },
     });
   }
