@@ -66,9 +66,11 @@ public class SecurityConfig {
                             .requestMatchers("/api/v1/product/delete/**").hasAuthority("ROLE_ADMIN")
                             .requestMatchers("/api/v1/product/productCategory/add").hasAuthority("ROLE_ADMIN")
                             .requestMatchers("/api/v1/product/productCategory/delete/**").hasAuthority("ROLE_ADMIN")
+                            .requestMatchers("/api/v1/product/productSpecificationLine/**").hasAuthority("ROLE_ADMIN")
                             .requestMatchers("/api/v1/product/add/productPhoto").hasAuthority("ROLE_ADMIN")
                             .requestMatchers("/api/v1/admin/appUserOrder/**").hasAuthority("ROLE_ADMIN")
                             .requestMatchers("/api/v1/admin/appUserOrders").hasAuthority("ROLE_ADMIN")
+
 
                             //User
 
@@ -127,7 +129,7 @@ public class SecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.applyPermitDefaultValues();
         configuration.setAllowedOrigins(List.of("http://localhost:4200"));
-        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD"));
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD","PATCH"));
         configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);

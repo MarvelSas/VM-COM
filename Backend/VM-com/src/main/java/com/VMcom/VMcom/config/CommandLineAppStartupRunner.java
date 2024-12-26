@@ -1,25 +1,19 @@
 package com.VMcom.VMcom.config;
 
 import com.VMcom.VMcom.enums.AppUserRole;
-import com.VMcom.VMcom.model.AppUser;
-import com.VMcom.VMcom.model.Product;
-import com.VMcom.VMcom.model.ProductCategory;
-import com.VMcom.VMcom.model.ShopCart;
-import com.VMcom.VMcom.model.ShopCartLine;
+import com.VMcom.VMcom.model.*;
 import com.VMcom.VMcom.repository.AppUserRepository;
 import com.VMcom.VMcom.repository.ProductCategoryRepository;
 import com.VMcom.VMcom.repository.ProductRepository;
 import com.VMcom.VMcom.repository.ShopCartRepository;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-
 
 
 @Component
@@ -107,7 +101,8 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
                 Arrays.asList("nothing1.jpg", "nothing2.jpg", "nothing3.jpg", "nothing4.jpg", "nothing5.jpg", "nothing6.jpg", "nothing7.jpg"),
                 0,
                 2L,
-                productCategory6));
+                productCategory6
+        ));
 
         productRepository.save(new Product(
                 "Apple MacBook Pro 14 M2",
