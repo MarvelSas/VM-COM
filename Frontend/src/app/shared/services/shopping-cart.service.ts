@@ -3,18 +3,9 @@ import { Injectable } from '@angular/core';
 import { endpoints } from 'src/enums/endpoints.enum';
 import { environment } from 'src/environments/environment';
 import { IShopCardResponse } from '../models/shop-cart.model';
-import { IProduct } from '../models/product.model';
+import { IAddProductReq, IProduct } from '../models/product.model';
 import { ToastrService } from 'ngx-toastr';
 
-export interface IProductCategory {
-  id: number;
-  name: string;
-}
-
-interface IAddProductReq {
-  product: IProduct;
-  quantity: number;
-}
 @Injectable({
   providedIn: 'root',
 })

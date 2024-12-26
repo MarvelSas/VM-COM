@@ -1,4 +1,14 @@
-interface IProductCategory {
+export interface IProductsResponse {
+  products: IProduct[];
+  totalAmountOfItems: number;
+  totalAmountOfPages: number;
+}
+
+export interface IOneProductResponse {
+  product: IProduct;
+}
+
+export interface IProductCategory {
   id: number;
   name: string;
 }
@@ -14,7 +24,6 @@ export interface IProduct {
 }
 
 export interface IPageableParams {
-  // currentPage?: number;
   page?: number;
   totalPages?: number;
   pageSize?: number;
@@ -27,16 +36,7 @@ export interface IPageableParams {
   name?: string;
 }
 
-export interface IProductsResponseData {
-  data: {
-    products: IProduct[];
-    totalAmountOfItems: number;
-    totalAmountOfPages: number;
-  };
-}
-
-export interface OneProductResponseData {
-  data: {
-    product: IProduct;
-  };
+export interface IAddProductReq {
+  product: IProduct;
+  quantity: number;
 }
