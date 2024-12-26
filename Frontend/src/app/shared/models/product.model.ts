@@ -21,6 +21,11 @@ export interface IProduct {
   mainPhotoId: number;
   productCategory: IProductCategory;
   description: string;
+  productSpecificationLines: {
+    id: number;
+    title: string;
+    value: string;
+  }[];
 }
 
 export interface IPageableParams {
