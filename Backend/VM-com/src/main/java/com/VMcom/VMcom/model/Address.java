@@ -22,11 +22,11 @@ public class Address {
     private Long id;
 
 
-    @NotBlank(message = "Street is required")
+    @NotBlank(message = "first name is required")
     private String firstName;
-    @NotBlank(message = "Zip code is required")
+    @NotBlank(message = "last name is required")
     private String lastName;
-    @NotBlank(message = "City is required")
+    @NotBlank(message = "phone number is required")
     private String phoneNumber;
     @NotBlank(message = "Street is required")
     private String street;
