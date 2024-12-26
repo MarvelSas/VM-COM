@@ -69,7 +69,8 @@ public class ProductService {
                 productWithSpecification.photos(),
                 productWithSpecification.mainPhotoId(),
                 productWithSpecification.amount(),
-                productWithSpecification.productCategory());
+                productWithSpecification.productCategory(),
+               productWithSpecification.additionalInformation());
     }
 
 
@@ -150,6 +151,9 @@ public class ProductService {
         if(product.getProductCategory() != null){
             productFromDatabase.setProductCategory(product.getProductCategory());
         }
+
+        productFromDatabase.setAdditionalInformation(product.getAdditionalInformation());
+
         productRepository.save(productFromDatabase);
         return  productFromDatabase;
     }

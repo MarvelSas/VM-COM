@@ -26,6 +26,8 @@ public class Product {
     private List<String> photos;
     private int mainPhotoId;
     private Long amount;
+    @Column(name = "additionalInformation", length = 8192)
+    private String additionalInformation;
     @ManyToOne
     @JoinColumn(name = "product_category_id")
     private ProductCategory productCategory;
@@ -39,7 +41,7 @@ public class Product {
     private List<ProductSpecificationLine> productSpecificationLines;
 
 
-    public Product(String name, String description, Double price, List<String> photos, int mainPhotoId, Long amount, ProductCategory productCategory) {
+    public Product(String name, String description, Double price, List<String> photos, int mainPhotoId, Long amount, ProductCategory productCategory,String additionalInformation) {
         this.name = name;
         this.description = description;
         this.price = price;
@@ -47,6 +49,7 @@ public class Product {
         this.mainPhotoId = mainPhotoId;
         this.amount = amount;
         this.productCategory = productCategory;
+        this.additionalInformation = additionalInformation;
     }
 
 

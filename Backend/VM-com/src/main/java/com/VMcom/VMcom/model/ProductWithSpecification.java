@@ -11,6 +11,7 @@ public record ProductWithSpecification(
         int mainPhotoId,
         Long amount,
         ProductCategory productCategory,
-        Map<String,String> specificationLines
+        Map<String,String> specificationLines,
+        String additionalInformation
 ) {
 }

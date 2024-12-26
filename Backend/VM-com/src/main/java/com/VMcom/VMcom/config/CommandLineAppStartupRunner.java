@@ -92,7 +92,8 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
                 Arrays.asList("lg1.jpg", "lg2.jpg", "lg3.jpg", "lg4.jpg", "lg5.jpg", "lg6.jpg", "lg7.jpg"),
                 0,
                 2L,
-                productCategory5
+                productCategory5,
+                ""
         ));
 
         productRepository.save(new Product(
@@ -102,6 +103,8 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
                 0,
                 2L,
                 productCategory6
+                ,
+                ""
         ));
 
         productRepository.save(new Product(
@@ -111,7 +114,8 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
                 Arrays.asList("apple1.jpg", "apple2.jpg", "apple3.jpg"),
                 0,
                 5L,
-                productCategory1
+                productCategory1,
+                ""
         ));
 
         productRepository.save(new Product(
@@ -121,7 +125,8 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
                 Arrays.asList("dell1.jpg", "dell2.jpg", "dell3.jpg"),
                 0,
                 6L,
-                productCategory1
+                productCategory1,
+                ""
         ));
 
         productRepository.save(new Product(
@@ -131,7 +136,8 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
                 Arrays.asList("hp1.jpg", "hp2.jpg"),
                 0,
                 7L,
-                productCategory1
+                productCategory1,
+                ""
         ));
 
         productRepository.save(new Product(
@@ -141,7 +147,8 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
                 Arrays.asList("sony1.jpg", "sony2.jpg", "sony3.jpg", "sony4.jpg"),
                 0,
                 8L,
-                productCategory9
+                productCategory9,
+                ""
         ));
 
         productRepository.save(new Product(
@@ -151,7 +158,8 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
                 Arrays.asList("bose1.jpg", "bose2.jpg", "bose3.jpg"),
                 0,
                 9L,
-                productCategory2
+                productCategory2,
+                ""
         ));
 
         productRepository.save(new Product(
@@ -161,7 +169,8 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
                 Arrays.asList("jbl1.jpg", "jbl2.jpg", "jbl3.jpg"),
                 0,
                 10L,
-                productCategory2
+                productCategory2,
+                ""
         ));
 
         productRepository.save(new Product(
@@ -171,7 +180,8 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
                 Arrays.asList("galaxy1.jpg", "galaxy2.jpg", "galaxy3.jpg"),
                 0,
                 11L,
-                productCategory3
+                productCategory3,
+                ""
         ));
 
         productRepository.save(new Product(
@@ -181,7 +191,8 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
                 Arrays.asList("ipad1.jpg", "ipad2.jpg", "ipad3.jpg"),
                 0,
                 12L,
-                productCategory3
+                productCategory3,
+                ""
         ));
 
         productRepository.save(new Product(
@@ -191,7 +202,8 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
                 Arrays.asList("huawei1.jpg", "huawei2.jpg", "huawei3.jpg"),
                 0,
                 13L,
-                productCategory3
+                productCategory3,
+                ""
         ));
 
         productRepository.save(new Product(
@@ -201,7 +213,8 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
                 Arrays.asList("samsung1.jpg", "samsung2.jpg", "samsung3.jpg", "samsung4.jpg"),
                 0,
                 14L,
-                productCategory6
+                productCategory6,
+                ""
         ));
 
         productRepository.save(new Product(
@@ -211,7 +224,8 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
                 Arrays.asList("pixel1.jpg", "pixel2.jpg", "pixel3.jpg"),
                 0,
                 15L,
-                productCategory6
+                productCategory6,
+                ""
         ));
 
         productRepository.save(new Product(
@@ -221,7 +235,8 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
                 Arrays.asList("acer1.jpg", "acer2.jpg", "acer3.jpg"),
                 0,
                 16L,
-                productCategory7
+                productCategory7,
+                ""
         ));
 
         productRepository.save(new Product(
@@ -231,7 +246,8 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
                 Arrays.asList("asus1.jpg", "asus2.jpg", "asus3.jpg"),
                 0,
                 17L,
-                productCategory1
+                productCategory1,
+                ""
         ));
 
         productRepository.save(new Product(
@@ -241,7 +257,8 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
                 Arrays.asList("razer1.jpg", "razer2.jpg", "razer3.jpg"),
                 0,
                 18L,
-                productCategory2
+                productCategory2,
+                ""
         ));
 
         productRepository.save(new Product(
@@ -251,7 +268,8 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
                 Arrays.asList("hyperx1.jpg", "hyperx2.jpg", "hyperx3.jpg"),
                 0,
                 19L,
-                productCategory2
+                productCategory2,
+                ""
         ));
 
         productRepository.save(new Product(
@@ -261,7 +279,8 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
                 Arrays.asList("lenovo1.jpg", "lenovo2.jpg", "lenovo3.jpg"),
                 0,
                 20L,
-                productCategory1
+                productCategory1,
+                ""
         ));
         productRepository.save(new Product(
                 "Telewizor Samsung",
@@ -270,7 +289,8 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
                 Arrays.asList("lenovo1.jpg", "lenovo2.jpg", "lenovo3.jpg"),
                 0,
                 20L,
-                productCategory8
+                productCategory8,
+                ""
         ));
     }
 }
