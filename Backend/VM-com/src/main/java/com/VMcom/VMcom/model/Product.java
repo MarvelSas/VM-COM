@@ -3,19 +3,16 @@ package com.VMcom.VMcom.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
+
 
 @Getter
 @Setter
 @EqualsAndHashCode
 @Entity
 @NoArgsConstructor
-
 public class Product {
 
 
@@ -38,6 +35,9 @@ public class Product {
     @JsonIgnore
     @OneToMany(mappedBy = "product")
     private List<AppUserOrderLine> appUserOrderLines;
+    @OneToMany(mappedBy = "product")
+    private List<ProductSpecificationLine> productSpecificationLines;
+
 
     public Product(String name, String description, Double price, List<String> photos, int mainPhotoId, Long amount, ProductCategory productCategory) {
         this.name = name;
