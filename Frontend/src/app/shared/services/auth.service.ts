@@ -9,7 +9,7 @@ import { endpoints } from 'src/enums/endpoints.enum';
 import { IUser, User } from '../models/user.model';
 import { ToastrService } from 'ngx-toastr';
 import { RoleService } from './role.service';
-import { IApiResponse, IAuthResponseData } from '../models/api-response.model';
+import { IApiResponse, IAuthResponse } from '../models/api-response.model';
 import { IJwtPayload } from '../models/jwt.model';
 
 @Injectable({
@@ -34,7 +34,7 @@ export class AuthService implements OnInit {
     };
 
     return this.http
-      .post<IApiResponse<IAuthResponseData>>(
+      .post<IApiResponse<IAuthResponse>>(
         `${this.API_URL + endpoints.authenticate}`,
         body
       )
@@ -67,7 +67,7 @@ export class AuthService implements OnInit {
     };
 
     return this.http
-      .post<IApiResponse<IAuthResponseData>>(
+      .post<IApiResponse<IAuthResponse>>(
         `${this.API_URL + endpoints.register}`,
         body
       )
@@ -164,7 +164,7 @@ export class AuthService implements OnInit {
 
   refreshToken() {
     return this.http
-      .post<IApiResponse<IAuthResponseData>>(
+      .post<IApiResponse<IAuthResponse>>(
         `${this.API_URL + endpoints.tokenRefresh}`,
         {},
         {

@@ -6,7 +6,7 @@ export interface IApiResponse<T> {
   data: T;
 }
 
-export interface IAuthResponseData {
+export interface IAuthResponse {
   token: {
     accessToken: string;
     refreshToken: string;
