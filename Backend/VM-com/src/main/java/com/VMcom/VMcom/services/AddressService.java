@@ -1,6 +1,5 @@
 package com.VMcom.VMcom.services;
 
-import java.util.List;
 import com.VMcom.VMcom.model.Address;
 import com.VMcom.VMcom.model.AppUser;
 import com.VMcom.VMcom.repository.AddressRepository;
@@ -10,6 +9,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -53,6 +54,9 @@ public class AddressService {
         target.setStreet(source.getStreet());
         target.setZipCode(source.getZipCode());
         target.setCity(source.getCity());
+        target.setFirstName(source.getFirstName());
+        target.setLastName(source.getLastName());
+        target.setPhoneNumber(source.getPhoneNumber());
     }
 
     private Address findAddressById(Long addressId) {
