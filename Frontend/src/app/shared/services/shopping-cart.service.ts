@@ -2,9 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { endpoints } from 'src/enums/endpoints.enum';
 import { environment } from 'src/environments/environment';
-import { IShopCardResponse } from '../models/shop-cart.model';
 import { IAddProductReq, IProduct } from '../models/product.model';
-import { ToastrService } from 'ngx-toastr';
+import { IApiResponse } from '../models/api-response.model';
+import { IShopCard } from '../models/shop-cart.model';
 
 @Injectable({
   providedIn: 'root',
@@ -23,7 +23,7 @@ export class ShoppingCartService {
   }
 
   getItems() {
-    return this.http.get<IShopCardResponse>(
+    return this.http.get<IApiResponse<IShopCard>>(
       `${this.API_URL + endpoints.cardGetItems}`
     );
   }
