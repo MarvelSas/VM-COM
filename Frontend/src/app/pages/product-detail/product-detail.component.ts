@@ -17,6 +17,7 @@ export class ProductDetailComponent implements OnInit {
   product: any = {};
   selectedImage: number = 0;
   isLoading = false;
+  isAddingToCart = false;
   API_IMG = environment.API_IMG;
   productSpecs = [
     { name: 'Producent', value: 'Acer' },
@@ -42,12 +43,13 @@ export class ProductDetailComponent implements OnInit {
   ) {}
 
   onBuyProduct() {
-    console.log('Buy product ID: ', this.id);
+    // console.log('Buy product ID: ', this.id);
+    this.isAddingToCart = true;
     this.shoppingCartService
       .addItem({ product: this.product, quantity: 1 })
       .subscribe({
         next: (data) => {
-          console.log(data);
+          // console.log(data);
           this.toastr.success('Dodano do koszyka!', null, {
             positionClass: 'toast-bottom-right',
           });
@@ -58,11 +60,14 @@ export class ProductDetailComponent implements OnInit {
             positionClass: 'toast-bottom-right',
           });
         },
+        complete: () => {
+          this.isAddingToCart = false;
+        },
       });
   }
 
   onImageClick(url) {
-    console.log('Image opened in new tab!');
+    // console.log('Image opened in new tab!');
     window.open(url, '_blank');
   }
 
@@ -95,7 +100,7 @@ export class ProductDetailComponent implements OnInit {
       this.product = product.data.product;
       this.selectedImage = this.product.mainPhotoId;
       this.isLoading = false;
-      console.log(this.product.photos[0]);
+      // console.log(this.product.photos[0]);
     });
   }
 }
