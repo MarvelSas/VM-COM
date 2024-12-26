@@ -6,10 +6,11 @@ import { jwtDecode } from 'jwt-decode';
 import { environment } from 'src/environments/environment';
 import { endpoints } from 'src/enums/endpoints.enum';
 
-import { AuthResponseData, JwtPayload } from '../models/auth.model';
 import { IUser, User } from '../models/user.model';
 import { ToastrService } from 'ngx-toastr';
 import { RoleService } from './role.service';
+import { IApiResponse, IAuthResponseData } from '../models/api-response.model';
+import { IJwtPayload } from '../models/jwt.model';
 
 @Injectable({
   providedIn: 'root',
@@ -33,14 +34,17 @@ export class AuthService implements OnInit {
     };
 
     return this.http
-      .post<AuthResponseData>(`${this.API_URL + endpoints.authenticate}`, body)
+      .post<IApiResponse<IAuthResponseData>>(
+        `${this.API_URL + endpoints.authenticate}`,
+        body
+      )
       .pipe(
         tap((resData) => {
           // console.log(resData);
           if (resData.statusCode === 200) {
             const accessToken = resData.data.token.accessToken;
             const refreshToken = resData.data.token.refreshToken;
-            const decodedToken: JwtPayload = jwtDecode(accessToken);
+            const decodedToken: IJwtPayload = jwtDecode(accessToken);
             const user = new User(
               decodedToken.sub,
               decodedToken.roles,
@@ -63,14 +67,17 @@ export class AuthService implements OnInit {
     };
 
     return this.http
-      .post<AuthResponseData>(`${this.API_URL + endpoints.register}`, body)
+      .post<IApiResponse<IAuthResponseData>>(
+        `${this.API_URL + endpoints.register}`,
+        body
+      )
       .pipe(
         tap((resData) => {
           if (resData.statusCode === 200) {
             const accessToken = resData.data.token.accessToken;
             const refreshToken = resData.data.token.refreshToken;
 
-            const decodedToken: JwtPayload = jwtDecode(accessToken);
+            const decodedToken: IJwtPayload = jwtDecode(accessToken);
 
             const user = new User(
               decodedToken.sub,
@@ -98,7 +105,7 @@ export class AuthService implements OnInit {
       return;
     }
 
-    const decodedToken: JwtPayload = jwtDecode(accessToken);
+    const decodedToken: IJwtPayload = jwtDecode(accessToken);
 
     // TOKEN DEBUG
     // console.log('Saved token: ', saveToken);
@@ -139,7 +146,7 @@ export class AuthService implements OnInit {
   }
 
   tokenIsValid(token: string) {
-    const decodedToken: JwtPayload = jwtDecode(token);
+    const decodedToken: IJwtPayload = jwtDecode(token);
     const validationResult = decodedToken.exp * 1000 > new Date().getTime();
     return validationResult;
   }
@@ -157,7 +164,7 @@ export class AuthService implements OnInit {
 
   refreshToken() {
     return this.http
-      .post<AuthResponseData>(
+      .post<IApiResponse<IAuthResponseData>>(
         `${this.API_URL + endpoints.tokenRefresh}`,
         {},
         {
@@ -171,7 +178,7 @@ export class AuthService implements OnInit {
         tap((res) => {
           const accessToken = res.data.token.accessToken;
           const refreshToken = res.data.token.refreshToken;
-          const decodedToken: JwtPayload = jwtDecode(accessToken);
+          const decodedToken: IJwtPayload = jwtDecode(accessToken);
           const user = new User(
             decodedToken.sub,
             decodedToken.roles,
