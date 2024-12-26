@@ -24,7 +24,11 @@ const routes: Routes = [
   },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'profile', component: UserProfileComponent },
+  {
+    path: 'profile',
+    component: UserProfileComponent,
+    canActivate: [AuthGuard],
+  },
   { path: 'cart', component: ShopingCartComponent, canActivate: [AuthGuard] },
   { path: 'verify-email', component: VerifyEmailComponent },
   {
