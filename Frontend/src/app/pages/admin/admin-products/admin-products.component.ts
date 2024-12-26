@@ -7,11 +7,7 @@ import { adminCategoriesService } from '../admin-categories/admin-categories.ser
 import { ToastrService } from 'ngx-toastr';
 import { environment } from 'src/environments/environment';
 import { IProductNew } from './product.model';
-
-interface IImage {
-  imageUrl: string;
-  isSelected: boolean;
-}
+import { IImage } from 'src/app/shared/models/image.model';
 
 @Component({
   selector: 'app-admin-products',

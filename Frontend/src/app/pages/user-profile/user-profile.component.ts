@@ -82,8 +82,17 @@ export class UserProfileComponent implements OnInit {
 
   saveChanges() {
     if (this.userForm.valid) {
-      console.log('User data saved:', this.userForm.value);
       this.editMode = false;
+      console.log('User data saved:', this.userForm.value);
+      this.userService.saveUserAddress(this.userForm.value).subscribe({
+        next: (data) => {
+          console.log('User address saved:', data);
+        },
+        error: (error) => {
+          console.error('Error saving user data:', error);
+        },
+        complete: () => {},
+      });
     } else {
       console.error('Invalid form data');
     }

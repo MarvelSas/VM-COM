@@ -34,4 +34,18 @@ export class UserService {
   getUserAddress(): Observable<any> {
     return this.http.get<IAddressResponse>(`${this.API_URL}address/1`);
   }
+
+  saveUserAddress(userAddress: any) {
+    const newAddress = {
+      street: userAddress.shipStreet,
+      zipCode: userAddress.shipZipCode,
+      city: userAddress.shipCity,
+    };
+
+    console.log(userAddress);
+    console.log(newAddress);
+
+    console.log(newAddress);
+    return this.http.put(`${this.API_URL}address/1`, newAddress);
+  }
 }
