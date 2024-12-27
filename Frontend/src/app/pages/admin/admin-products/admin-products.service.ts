@@ -11,7 +11,10 @@ import {
   IProductResponseData,
   IResPhotoUpload,
 } from './product.model';
-import { IProduct } from 'src/app/shared/models/product.model';
+import {
+  IProduct,
+  IProductSpecificationLines,
+} from 'src/app/shared/models/product.model';
 
 @Injectable({
   providedIn: 'root',
@@ -29,6 +32,7 @@ export class adminProductsService {
 
   addProductNew(body: any) {
     console.log(body);
+
     return this.http.post<IProductResponseData>(
       this.API_URL + endpoints.addProduct,
       body

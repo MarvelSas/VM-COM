@@ -123,11 +123,49 @@
     </select>
   </div>
 
+  <div class="form-item">
+    <label>Specyfikacja:</label>
+    <div formArrayName="specifications">
+      <div
+        *ngFor="let spec of specifications.controls; let i = index"
+        [formGroupName]="i"
+        class="d-flex align-items-center mb-2"
+      >
+        <input
+          type="text"
+          formControlName="title"
+          placeholder="Tytuł"
+          class="form-control me-2"
+        />
+        <input
+          type="text"
+          formControlName="value"
+          placeholder="Wartość"
+          class="form-control me-2"
+        />
+        <button
+          type="button"
+          class="btn btn-danger"
+          (click)="removeSpecification(i)"
+        >
+          -
+        </button>
+      </div>
+    </div>
+    <button type="button" class="btn btn-primary" (click)="addSpecification()">
+      +
+    </button>
+  </div>
+
   <div class="buttonsSection">
-    <button class="button btn-submit" type="submit">
+    <button class="button btn-submit" type="submit" [disabled]="isSubmitting">
       {{ isEditing ? "Zapisz zmiany" : "Dodaj produkt" }}
     </button>
-    <button class="button btn-clear" (click)="onClear()">
+    <button
+      class="button btn-clear"
+      (click)="onClear()"
+      [disabled]="isSubmitting"
+    >
       {{ isEditing ? "Anuluj" : "Wyczyść" }}
     </button>
   </div>

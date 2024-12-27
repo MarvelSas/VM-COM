@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { adminProductsService } from './admin-products.service';
 import { IProduct } from 'src/app/shared/models/product.model';
 import { ICategory } from '../admin-categories/category.model';
@@ -26,11 +32,13 @@ export class AdminProductsComponent implements OnInit {
   imagesName: string[] = [];
   selectedMainPhoto: number = 0;
   isLoading = false;
+  isSubmitting = false;
 
   constructor(
     private adminProductsService: adminProductsService,
     private adminCategoriesService: adminCategoriesService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private fb: FormBuilder
   ) {}
 
   // INICJALIZACJA
@@ -40,6 +48,7 @@ export class AdminProductsComponent implements OnInit {
   }
 
   formInit() {
+    this.getCategories();
     this.addProductForm = new FormGroup({
       productName: new FormControl(null, Validators.required),
       productDescription: new FormControl(null, [
@@ -56,6 +65,7 @@ export class AdminProductsComponent implements OnInit {
       ]),
       productImage: new FormControl(null),
       productCategory: new FormControl(null, Validators.required),
+      specifications: this.fb.array([]),
     });
 
     this.addProductForm
@@ -63,6 +73,23 @@ export class AdminProductsComponent implements OnInit {
       .valueChanges.subscribe((value) => {
         this.characterCount = value ? value.length : 0;
       });
+  }
+
+  get specifications(): FormArray {
+    return this.addProductForm.get('specifications') as FormArray;
+  }
+
+  addSpecification(): void {
+    this.specifications.push(
+      this.fb.group({
+        title: ['', Validators.required],
+        value: ['', Validators.required],
+      })
+    );
+  }
+
+  removeSpecification(index: number): void {
+    this.specifications.removeAt(index);
   }
 
   getProducts() {
@@ -80,8 +107,20 @@ export class AdminProductsComponent implements OnInit {
     });
   }
 
+  getCategories() {
+    this.adminCategoriesService.getCategories().subscribe({
+      next: (res) => {
+        this.categories = res.data.productCategories;
+      },
+      error: (err) => {
+        console.error(err);
+      },
+      complete: () => {},
+    });
+  }
+
   selectMainPhoto(index) {
-    console.log('Selected main photo: ' + index);
+    // console.log('Selected main photo: ' + index);
     // console.log(index);
     this.selectedMainPhoto = index;
     // console.log(this.selectedMainPhoto);
@@ -114,6 +153,7 @@ export class AdminProductsComponent implements OnInit {
   }
 
   onEditProduct(id: number) {
+    this.isSubmitting = false;
     this.isEditing = true;
     this.editProductId = id;
     const editedProduct: IProduct = this.products[id - 1];
@@ -140,7 +180,6 @@ export class AdminProductsComponent implements OnInit {
   onDeleteProduct(id: number) {
     this.adminProductsService.deleteProduct(id).subscribe({
       next: (res) => {
-        console.log(res);
         this.products = this.products.filter((product) => product.id !== id);
         if (res.statusCode === 200) {
           this.toastr.success('Pomyślnie dodano produkt!', null, {
@@ -156,6 +195,7 @@ export class AdminProductsComponent implements OnInit {
 
   // PRZESŁANIE FORMULARZA Z PRODUKTEM NA SERWER
   onSubmitNew() {
+    this.isSubmitting = true;
     if (!this.addProductForm.valid) {
       return;
     }
@@ -166,6 +206,14 @@ export class AdminProductsComponent implements OnInit {
     const productAmount = this.addProductForm.value.productAmount;
     const productCategory =
       this.categories[this.addProductForm.value.productCategory - 1];
+
+    const specifications = this.addProductForm.value.specifications.reduce(
+      (acc, spec) => {
+        acc[spec.title] = spec.value;
+        return acc;
+      },
+      {}
+    );
 
     // WYODRĘBNIA Z TABLICY TYLKO URL ZDJĘĆ
     // const imagesUrls = this.images.map((image) => {
@@ -181,14 +229,13 @@ export class AdminProductsComponent implements OnInit {
       description: productDescription,
       photos: this.imagesName,
       mainPhotoId: this.selectedMainPhoto,
+      specificationLines: specifications,
     };
 
     // this.formData.append(
     //   'product',
     //   new Blob([JSON.stringify(product)], { type: 'application/json' })
     // );
-
-    console.log(product);
 
     // DODANIE DO FORMULARZA URL ZDJĘĆ
     // this.formData.append('images', JSON.stringify(this.images));
@@ -208,24 +255,30 @@ export class AdminProductsComponent implements OnInit {
             positionClass: 'toast-bottom-right',
           });
         },
+        complete: () => {
+          this.onClear();
+          this.isSubmitting = false;
+        },
       });
     } else {
       this.adminProductsService
         .editProduct(this.editProductId, product)
         .subscribe({
           next: (res) => {
-            console.log(res);
             this.isEditing = false;
           },
           error: (err) => {
             console.error(err.message);
           },
+          complete: () => {
+            this.getProducts();
+            this.onClear();
+            this.isSubmitting = false;
+          },
         });
     }
 
     // this.adminProductsService.addProductNew(this.formData).subscribe();
-
-    this.onClear();
   }
 
   //
