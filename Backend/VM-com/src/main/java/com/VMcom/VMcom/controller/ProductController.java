@@ -137,14 +137,14 @@ public class ProductController {
     }
 
     @PutMapping("/update/{productId}")
-    public ResponseEntity<Response> putProduct(@RequestBody Product product){
+    public ResponseEntity<Response> putProduct(@RequestBody ProductWithSpecification productWithSpecification, @PathVariable("productId") Long productId){
 
         try {
 
            return ResponseEntity.ok(
                     Response.builder()
                             .timeStamp(LocalDateTime.now())
-                            .data(Map.of("product",productService.updateProduct(product)))
+                            .data(Map.of("product",productService.updateProduct(productWithSpecification,productId)))
                             .message("Product returned")
                             .status(HttpStatus.OK)
                             .statusCode(HttpStatus.OK.value())
