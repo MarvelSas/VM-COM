@@ -33,6 +33,7 @@ export class AdminProductsComponent implements OnInit {
   selectedMainPhoto: number = 0;
   isLoading = false;
   isSubmitting = false;
+  searchProduct: string = '';
 
   constructor(
     private adminProductsService: adminProductsService,
@@ -94,8 +95,9 @@ export class AdminProductsComponent implements OnInit {
 
   getProducts() {
     this.isLoading = true;
-    this.adminProductsService.getProducts().subscribe({
+    this.adminProductsService.getProducts(this.searchProduct).subscribe({
       next: (res) => {
+        console.log(res.data.products);
         this.products = res.data.products;
       },
       error: (err) => {
@@ -156,8 +158,11 @@ export class AdminProductsComponent implements OnInit {
     this.isSubmitting = false;
     this.isEditing = true;
     this.editProductId = id;
-    const editedProduct: IProduct = this.products[id - 1];
+    const editedProduct: IProduct = this.products.find(
+      (product) => product.id === id
+    );
     this.images = editedProduct.photos.map((photo) => {
+      console.log(editedProduct);
       return { imageUrl: environment.API_IMG + photo, isSelected: false };
     });
     this.imagesName = editedProduct.photos;

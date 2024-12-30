@@ -26,8 +26,12 @@ export class adminProductsService {
     private productsService: ProductsService
   ) {}
 
-  getProducts() {
-    return this.productsService.getProducts();
+  getProducts(productName: string) {
+    return this.productsService.getPageableProducts({
+      page: 1,
+      pageSize: 1000,
+      name: productName ? productName : '',
+    });
   }
 
   addProductNew(body: any) {
