@@ -119,9 +119,11 @@ public class ProductService {
 
 
 
-    public Object updateProduct(Product product) {
+    public Product updateProduct(ProductWithSpecification productWithSpecification, Long productId) {
 
-        Product productFromDatabase = productRepository.findById(product.getId()).orElseThrow( () -> new IllegalStateException("Product with id:"+ product.getId()+" does not exist in database"));
+        Product product = generateProduct(productWithSpecification);
+
+        Product productFromDatabase = getProductById(productId);
 
         //Update variables
         if(!product.getName().isBlank()){
@@ -152,11 +154,28 @@ public class ProductService {
             productFromDatabase.setProductCategory(product.getProductCategory());
         }
 
+        //Update specification lines
+        updateSpecificationLines(productFromDatabase,productWithSpecification.productSpecificationLines());
+
+
         productFromDatabase.setAdditionalInformation(product.getAdditionalInformation());
 
-        productRepository.save(productFromDatabase);
-        return  productFromDatabase;
+
+        return  productRepository.save(productFromDatabase);
     }
+
+    private void updateSpecificationLines(Product product,Map<String,String> productSpecificationLines){
+
+        productSpecificationLineRepository.deleteAll(product.getProductSpecificationLines());
+        product.getProductSpecificationLines().clear();
+
+        productSpecificationLines.forEach((title,value) -> {
+            ProductSpecificationLine productSpecificationLine = new ProductSpecificationLine(title,value,product);
+            productSpecificationLineRepository.save(productSpecificationLine);
+            product.getProductSpecificationLines().add(productSpecificationLine);
+        });
+    }
+
 
     public boolean deleteProduct(long productId) {
 
