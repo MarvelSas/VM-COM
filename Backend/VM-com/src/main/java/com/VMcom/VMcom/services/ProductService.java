@@ -57,7 +57,7 @@ public class ProductService {
 
         Product product= generateProduct(productWithSpecification);
         product = productRepository.save(product);
-        addSpecificationLinesToProduct(productWithSpecification.specificationLines(),product);
+        addSpecificationLinesToProduct(productWithSpecification.productSpecificationLines(),product);
         return true;
     }
 

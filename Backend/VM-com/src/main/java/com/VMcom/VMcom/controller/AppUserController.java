@@ -20,7 +20,7 @@ public class AppUserController {
     private final AppUserService appUserService;
 
     @PatchMapping("")
-    public ResponseEntity<Response> putAppUser(@RequestBody AppUserDetails appUserDetails){
+    public ResponseEntity<Response> putAppUserDetails(@RequestBody AppUserDetails appUserDetails){
 
 
         try {
@@ -41,6 +41,40 @@ public class AppUserController {
                             .timeStamp(LocalDateTime.now())
                             .data(Map.of("Message", e.getMessage()))
                             .message("User details were not updated successfully")
+                            .status(HttpStatus.BAD_REQUEST)
+                            .statusCode(HttpStatus.BAD_REQUEST.value())
+                            .build()
+            );
+
+
+        }
+
+
+    }
+
+
+    @GetMapping("")
+    public ResponseEntity<Response> getAppUserDetails(){
+
+
+        try {
+
+            return ResponseEntity.ok(
+                    Response.builder()
+                            .timeStamp(LocalDateTime.now())
+                            .data(Map.of("data", appUserService.getAppUserDetails()))
+                            .message("User details returned successfully")
+                            .status(HttpStatus.OK)
+                            .statusCode(HttpStatus.OK.value())
+                            .build()
+            );
+        }catch (Exception e){
+
+            return ResponseEntity.badRequest().body(
+                    Response.builder()
+                            .timeStamp(LocalDateTime.now())
+                            .data(Map.of("Message", e.getMessage()))
+                            .message("User details were not returned successfully")
                             .status(HttpStatus.BAD_REQUEST)
                             .statusCode(HttpStatus.BAD_REQUEST.value())
                             .build()

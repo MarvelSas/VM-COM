@@ -43,7 +43,8 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
                 passwordEncoder.encode("password"),
                 AppUserRole.ROLE_ADMIN,
                 false,
-                true);
+                true,
+                "+48 223-254-525");
         
         admin = appUserRepository.save(admin);
         
@@ -65,7 +66,8 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
                 passwordEncoder.encode("password"),
                 AppUserRole.ROLE_USER,
                 false,
-                true);
+                true,
+                "+48 223-254-525");
        
         user = appUserRepository.save(user);
         shopCartForUser.setAppUser(user);
