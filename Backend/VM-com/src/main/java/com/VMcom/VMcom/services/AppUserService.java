@@ -25,23 +25,40 @@ public class AppUserService implements UserDetailsService {
                 orElseThrow(()-> new UsernameNotFoundException("User with username "+username+" not found"));
     }
 
+    private AppUser getLoggedInUser(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null)
+            throw new IllegalStateException("No authentication object found in security context");
+        return appUserRepository.findByUsername(authentication.getName()).orElseThrow(()-> new UsernameNotFoundException("User with username "+authentication.getName()+" not found"));
+    }
+
 
     public AppUserDetails updateAppUserDetails(AppUserDetails appUserDetails) {
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        AppUser appUser = getLoggedInUser();
 
-        if (authentication == null)
-            throw new IllegalStateException("No authentication object found in security context");
-
-        AppUser appUser = appUserRepository.findByUsername(authentication.getName()).orElseThrow(()-> new UsernameNotFoundException("User with username "+authentication.getName()+" not found"));
-
-        if (appUserDetails != null)
+        if (appUserDetails != null){
             appUser.setFirstName(appUserDetails.getFirstName());
-        if (appUserDetails != null)
             appUser.setLastName(appUserDetails.getLastName());
-
+            appUser.setPhoneNumber(appUserDetails.getPhoneNumber());
+        }
+        
         appUserRepository.save(appUser);
+        return AppUserDetails.builder().lastName(
+                appUser.getLastName()).
+                firstName(appUser.getFirstName()).
+                phoneNumber(appUser.getPhoneNumber())
+                .build();
+    }
 
-        return appUserDetails;
+    public AppUserDetails getAppUserDetails() {
+
+        AppUser appUser = getLoggedInUser();
+        return AppUserDetails.builder().lastName(
+                appUser.getLastName()).
+                firstName(appUser.getFirstName()).
+                phoneNumber(appUser.getPhoneNumber())
+                .build();
+
     }
 }

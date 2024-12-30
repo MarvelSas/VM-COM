@@ -42,7 +42,8 @@ public class AuthenticationService {
                 passwordEncoder.encode(request.getPassword()),
                 AppUserRole.ROLE_USER,
                 false,
-                true);
+                true,
+                request.getPhoneNumber());
         AppUser appUser = appUserRepository.save(user);
         createShopCart(appUser);
         HashMap<String,Object> claims = new HashMap<>();
