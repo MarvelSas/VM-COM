@@ -33,6 +33,7 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 import { HasRoleDirective } from './shared/directives/has-role.directive';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 @NgModule({
   declarations: [
@@ -67,6 +68,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     HttpClientModule,
     ReactiveFormsModule,
     ToastrModule.forRoot(),
+    TooltipModule.forRoot(),
     TabsModule,
     FormsModule,
     PaginationModule,
