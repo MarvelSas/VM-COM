@@ -126,6 +126,11 @@
   color: white;
 }
 
+.button:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
 /* CHARACTER COUNT */
 .characterCount {
   font-size: 0.9em;

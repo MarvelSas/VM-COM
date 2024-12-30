@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment';
 import { ProductsService } from 'src/app/shared/services/products.service';
 import { ShoppingCartService } from 'src/app/shared/services/shopping-cart.service';
 import { ToastrService } from 'ngx-toastr';
+import { IProduct } from 'src/app/shared/models/product.model';
 
 @Component({
   selector: 'app-product-detail',
@@ -14,26 +15,26 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class ProductDetailComponent implements OnInit {
   id: number = 0;
-  product: any = {};
+  product: IProduct;
   selectedImage: number = 0;
   isLoading = false;
   isAddingToCart = false;
   API_IMG = environment.API_IMG;
-  productSpecs = [
-    { name: 'Producent', value: 'Acer' },
-    { name: 'Model', value: 'Nitro 5' },
-    { name: 'Procesor', value: 'Intel Core i5-10300H' },
-    { name: 'Pamięć RAM', value: '8GB DDR4' },
-    { name: 'Dysk', value: '512GB SSD' },
-    { name: 'Karta graficzna', value: 'NVIDIA GeForce GTX 1650' },
-    { name: 'System operacyjny', value: 'Windows 10 Home' },
-    { name: 'Kolor', value: 'Czarny' },
-    { name: 'Waga', value: '2.3 kg' },
-    { name: 'Wysokość', value: '23.9 mm' },
-    { name: 'Szerokość', value: '363.4 mm' },
-    { name: 'Głębokość', value: '255 mm' },
-    { name: 'Gwarancja', value: '24 miesiące' },
-  ];
+  // productSpecs = [
+  //   { name: 'Producent', value: 'Acer' },
+  //   { name: 'Model', value: 'Nitro 5' },
+  //   { name: 'Procesor', value: 'Intel Core i5-10300H' },
+  //   { name: 'Pamięć RAM', value: '8GB DDR4' },
+  //   { name: 'Dysk', value: '512GB SSD' },
+  //   { name: 'Karta graficzna', value: 'NVIDIA GeForce GTX 1650' },
+  //   { name: 'System operacyjny', value: 'Windows 10 Home' },
+  //   { name: 'Kolor', value: 'Czarny' },
+  //   { name: 'Waga', value: '2.3 kg' },
+  //   { name: 'Wysokość', value: '23.9 mm' },
+  //   { name: 'Szerokość', value: '363.4 mm' },
+  //   { name: 'Głębokość', value: '255 mm' },
+  //   { name: 'Gwarancja', value: '24 miesiące' },
+  // ];
 
   constructor(
     private route: ActivatedRoute,

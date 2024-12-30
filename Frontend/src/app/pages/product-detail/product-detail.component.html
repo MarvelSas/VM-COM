@@ -45,8 +45,8 @@
       <tab heading="Specyfikacja produktu">
         <div class="specsContainer">
           <pre
-            *ngFor="let spec of productSpecs"
-          ><strong>{{spec.name}}:</strong> {{spec.value}}</pre>
+            *ngFor="let spec of product.productSpecificationLines"
+          ><strong>{{spec.title}}:</strong> {{spec.value}}</pre>
         </div>
       </tab>
       <tab heading="Dodatkowe informacje">

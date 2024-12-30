@@ -11,7 +11,10 @@ import {
   IProductResponseData,
   IResPhotoUpload,
 } from './product.model';
-import { IProduct } from 'src/app/shared/models/product.model';
+import {
+  IProduct,
+  IProductSpecificationLines,
+} from 'src/app/shared/models/product.model';
 
 @Injectable({
   providedIn: 'root',
@@ -23,12 +26,17 @@ export class adminProductsService {
     private productsService: ProductsService
   ) {}
 
-  getProducts() {
-    return this.productsService.getProducts();
+  getProducts(productName: string) {
+    return this.productsService.getPageableProducts({
+      page: 1,
+      pageSize: 1000,
+      name: productName ? productName : '',
+    });
   }
 
   addProductNew(body: any) {
     console.log(body);
+
     return this.http.post<IProductResponseData>(
       this.API_URL + endpoints.addProduct,
       body
