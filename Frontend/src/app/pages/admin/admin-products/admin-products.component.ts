@@ -162,6 +162,19 @@ export class AdminProductsComponent implements OnInit {
     });
     this.imagesName = editedProduct.photos;
     this.selectMainPhoto(editedProduct.mainPhotoId);
+
+    this.specifications.clear();
+    Object.entries(editedProduct.productSpecificationLines).forEach(
+      ([key, value]) => {
+        this.specifications.push(
+          this.fb.group({
+            title: [value.title, Validators.required],
+            value: [value.value, Validators.required],
+          })
+        );
+      }
+    );
+
     this.addProductForm.setValue({
       productName: editedProduct.name,
       productDescription: editedProduct.description,
@@ -169,11 +182,7 @@ export class AdminProductsComponent implements OnInit {
       productAmount: 5,
       productImage: null,
       productCategory: editedProduct.productCategory.id,
-    });
-
-    this.imagesName = this.products[id].photos;
-    this.images = this.products[id].photos.map((photo) => {
-      return { imageUrl: environment.API_IMG + photo, isSelected: false };
+      specifications: this.specifications.value,
     });
   }
 
