@@ -79,8 +79,32 @@ public class AuthencicationController {
     }
 
 
+    @PostMapping("/change-password")
+    public ResponseEntity<Response> changePassword(@RequestBody Map<String,String> request){
 
+        try {
+            return ResponseEntity.ok(
+                    Response.builder()
+                            .timeStamp(LocalDateTime.now())
+                            .data(Map.of("passwordChange", authenticationService.changePassword(request)))
+                            .message("password changed successfully")
+                            .status(HttpStatus.OK)
+                            .statusCode(HttpStatus.OK.value())
+                            .build()
+            );
 
+        }catch (Exception e){
+            return ResponseEntity.badRequest().body(
+                    Response.builder()
+                            .timeStamp(LocalDateTime.now())
+                            .data(Map.of("Message", e.getMessage()))
+                            .message("password was not changed successfully")
+                            .status(HttpStatus.BAD_REQUEST)
+                            .statusCode(HttpStatus.BAD_REQUEST.value())
+                            .build()
+            );
+        }
+    }
 
 
 

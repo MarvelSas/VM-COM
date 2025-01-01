@@ -48,7 +48,8 @@ public class SecurityConfig {
             "/api/v1/product/productCategory/update/**",
             "/api/v1/product/images/**",
             //Security
-            "/api/v1/auth/**",
+            "/api/v1/auth/authenticate",
+            "/api/v1/auth/register",
     };
 
     @Bean
@@ -84,6 +85,8 @@ public class SecurityConfig {
                             .requestMatchers("/api/v1/appUserOrder").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
                             .requestMatchers("/api/v1/appUserOrder/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
                             .requestMatchers("/api/v1/appUserOrders").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
+                            .requestMatchers("/api/v1/auth/change-password").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
+                            .requestMatchers("/api/v1/auth/refresh-token").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
                             .anyRequest()
                             .authenticated();
                 })

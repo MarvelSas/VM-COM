@@ -11,6 +11,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +21,7 @@ import java.security.InvalidParameterException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +33,18 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final TokenRepository tokenRepository;
     private final ShopCartRepository shopCartRepository;
+
+    public AppUser getAppUserFromContextHolder(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null)
+            throw new IllegalStateException("No authentication object found in security context");
+        return findUserByUsername(authentication.getName());
+    }
+
+    private AppUser findUserByUsername(String username) {
+        return appUserRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User with username " + username + " not found"));
+    }
 
     public AuthenciationResponse register(RegisterRequest request) {
         if(appUserRepository.findByUsername(request.getEmail()).isPresent()){
@@ -163,4 +179,37 @@ public class AuthenticationService {
 
         return authenciationResponse;
     }
+
+    public Boolean changePassword(Map<String, String> request) {
+
+        AppUser appUser = getAppUserFromContextHolder();
+
+        if(passwordEncoder.matches(request.get("oldPassword"),appUser.getPassword()) && validateOldAndNewPassword(request)){
+            appUser.setPassword(passwordEncoder.encode(request.get("newPassword")));
+            appUserRepository.save(appUser);
+            return true;
+        }else {
+            throw new InvalidParameterException("Old password is incorrect");
+        }
+
+
+    }
+
+    private boolean validateOldAndNewPassword(Map<String, String> request){
+
+        if(request.get("newPassword").isEmpty()){
+            throw new InvalidParameterException("New password can't be empty");
+        }
+
+        if(request.get("oldPassword").isEmpty()){
+            throw new InvalidParameterException("Old password can't be empty");
+        }
+
+        if(request.get("newPassword").equals(request.get("oldPassword"))){
+            throw new InvalidParameterException("New password can't be the same as old password");
+        }
+
+        return true;
+    }
+
 }
