@@ -15,6 +15,7 @@ import { AuthGuard } from './shared/guards/auth.guard';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 import { RoleGuard } from './shared/guards/role.guard';
 import { HelpUserComponent } from './pages/help-user/help-user.component';
+import { FavoritesProductsComponent } from './pages/favorites-products/favorites-products.component';
 
 const routes: Routes = [
   { path: '', component: LandingPageComponent },
@@ -33,6 +34,7 @@ const routes: Routes = [
   { path: 'cart', component: ShopingCartComponent, canActivate: [AuthGuard] },
   { path: 'verify-email', component: VerifyEmailComponent },
   { path: 'help', component: HelpUserComponent },
+  { path: 'favorites', component: FavoritesProductsComponent },
   {
     path: 'admin',
     component: AdminComponent,

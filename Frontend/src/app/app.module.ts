@@ -35,6 +35,7 @@ import { HasRoleDirective } from './shared/directives/has-role.directive';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { HelpUserComponent } from './pages/help-user/help-user.component';
+import { FavoritesProductsComponent } from './pages/favorites-products/favorites-products.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { HelpUserComponent } from './pages/help-user/help-user.component';
     UserProfileComponent,
     HasRoleDirective,
     HelpUserComponent,
+    FavoritesProductsComponent,
   ],
   imports: [
     FontAwesomeModule,
