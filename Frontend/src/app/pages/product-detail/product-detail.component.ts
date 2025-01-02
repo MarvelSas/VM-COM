@@ -17,24 +17,12 @@ export class ProductDetailComponent implements OnInit {
   id: number = 0;
   product: IProduct;
   selectedImage: number = 0;
+  selectedNumberModalImage: number = 0;
   isLoading = false;
   isAddingToCart = false;
   API_IMG = environment.API_IMG;
-  // productSpecs = [
-  //   { name: 'Producent', value: 'Acer' },
-  //   { name: 'Model', value: 'Nitro 5' },
-  //   { name: 'Procesor', value: 'Intel Core i5-10300H' },
-  //   { name: 'Pamięć RAM', value: '8GB DDR4' },
-  //   { name: 'Dysk', value: '512GB SSD' },
-  //   { name: 'Karta graficzna', value: 'NVIDIA GeForce GTX 1650' },
-  //   { name: 'System operacyjny', value: 'Windows 10 Home' },
-  //   { name: 'Kolor', value: 'Czarny' },
-  //   { name: 'Waga', value: '2.3 kg' },
-  //   { name: 'Wysokość', value: '23.9 mm' },
-  //   { name: 'Szerokość', value: '363.4 mm' },
-  //   { name: 'Głębokość', value: '255 mm' },
-  //   { name: 'Gwarancja', value: '24 miesiące' },
-  // ];
+  selectedModalImage: string | null = null;
+  isModalOpen = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -44,13 +32,11 @@ export class ProductDetailComponent implements OnInit {
   ) {}
 
   onBuyProduct() {
-    // console.log('Buy product ID: ', this.id);
     this.isAddingToCart = true;
     this.shoppingCartService
       .addItem({ product: this.product, quantity: 1 })
       .subscribe({
         next: (data) => {
-          // console.log(data);
           this.toastr.success('Dodano do koszyka!', null, {
             positionClass: 'toast-bottom-right',
           });
@@ -68,7 +54,6 @@ export class ProductDetailComponent implements OnInit {
   }
 
   onImageClick(url) {
-    // console.log('Image opened in new tab!');
     window.open(url, '_blank');
   }
 
@@ -84,8 +69,26 @@ export class ProductDetailComponent implements OnInit {
     }
   }
 
+  onPreviousImageInModal() {
+    if (this.selectedNumberModalImage > 0) {
+      this.selectedNumberModalImage--;
+      this.selectedModalImage = this.modalImageUrl;
+    }
+  }
+
+  onNextImageInModal() {
+    if (this.selectedNumberModalImage < this.product.photos.length - 1) {
+      this.selectedNumberModalImage++;
+      this.selectedModalImage = this.modalImageUrl;
+    }
+  }
+
   get imageUrl() {
     return this.API_IMG + this.product.photos[this.selectedImage];
+  }
+
+  get modalImageUrl() {
+    return this.API_IMG + this.product.photos[this.selectedNumberModalImage];
   }
 
   ngOnInit(): void {
@@ -94,6 +97,25 @@ export class ProductDetailComponent implements OnInit {
       this.id = params['id'];
       this.loadProduct();
     });
+
+    addEventListener('keydown', (event) => {
+      if (this.isModalOpen) {
+        if (event.key === 'ArrowLeft') {
+          this.onPreviousImageInModal();
+        } else if (event.key === 'ArrowRight') {
+          this.onNextImageInModal();
+        }
+      }
+    });
+  }
+
+  openImage(image: string) {
+    this.selectedModalImage = image;
+    this.isModalOpen = true;
+  }
+
+  closeModal() {
+    this.isModalOpen = false;
   }
 
   loadProduct() {
@@ -101,7 +123,6 @@ export class ProductDetailComponent implements OnInit {
       this.product = product.data.product;
       this.selectedImage = this.product.mainPhotoId;
       this.isLoading = false;
-      // console.log(this.product.photos[0]);
     });
   }
 }
