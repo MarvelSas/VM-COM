@@ -16,6 +16,7 @@ import { UserProfileComponent } from './pages/user-profile/user-profile.componen
 import { RoleGuard } from './shared/guards/role.guard';
 import { HelpUserComponent } from './pages/help-user/help-user.component';
 import { FavoritesProductsComponent } from './pages/favorites-products/favorites-products.component';
+import { ErrorComponent } from './pages/error/error.component';
 
 const routes: Routes = [
   { path: '', component: LandingPageComponent },
@@ -45,8 +46,9 @@ const routes: Routes = [
       { path: 'categories', component: AdminCategoriesComponent },
     ],
   },
-
-  { path: '**', component: PageNotFoundComponent },
+  { path: 'error/:code', component: ErrorComponent },
+  { path: '**', redirectTo: '/error/404' },
+  // { path: '**', component: PageNotFoundComponent },
 ];
 
 @NgModule({
