@@ -1,0 +1,7 @@
+<div class="favorites-container">
+  <h2>Twoje ulubione produkty</h2>
+  <div *ngIf="products.length === 0">
+    <p>Nie masz żadnych ulubionych produktów.</p>
+  </div>
+  <div *ngIf="products.length > 0" class="products-list"></div>
+</div>

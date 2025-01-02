@@ -20,6 +20,7 @@
   height: 2.25rem;
   border: none;
   border-radius: 6px;
+  background-color: #f2f2f2;
 }
 
 .button {
@@ -32,6 +33,51 @@
   cursor: pointer;
   transition: opacity 0.3s, transform 0.3s;
   height: 200px;
+}
+
+.buttonsContainer {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+.buttonLogin {
+  padding: 0.5rem 0.8rem;
+  width: 125px;
+  height: 50px;
+  border-radius: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+
+  span {
+    display: block;
+    &:first-child {
+      font-size: 0.9rem;
+      color: #898989;
+    }
+    &:last-child {
+      font-size: 0.8rem;
+      color: #444444;
+    }
+  }
+}
+
+.buttonIcon {
+  margin: 0 1rem;
+  padding: 0.8rem;
+  height: 50px;
+  background-color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.buttonIcon:hover,
+.buttonLogin:hover {
+  background-color: darken(white, 10%);
+  transition: background-color 0.5s;
 }
 
 .button:hover {
@@ -57,7 +103,7 @@
 .dropdownContent {
   display: none;
   position: absolute;
-  background-color: $dropdown-background-color;
+  background-color: #ffffff;
   border-radius: 6px;
   min-width: 8rem;
   box-shadow: 0px 8px 8px 0px rgba(0, 0, 0, 0.2);
@@ -70,10 +116,11 @@
   text-decoration: none;
   display: block;
   cursor: pointer;
+  transition: background-color 0.5s;
 }
 
 .dropdownContent a:hover {
-  background-color: dropdown-hover-background-color;
+  background-color: #f2f2f2;
 }
 
 .dropdown:hover .dropdownContent {
@@ -82,6 +129,48 @@
 
 .searchContainer {
   position: relative;
+  padding: 5px;
+  border-radius: 6px;
+  background-color: #f2f2f2;
+
+  .dropdownSearchButton {
+    background-color: #f2f2f2;
+    // background-color: white;
+    color: #444444;
+    border: none;
+    cursor: pointer;
+    border-radius: 3px;
+    height: 35px;
+    transition: background-color 0.5s;
+  }
+
+  .dropdownSearchButton:hover {
+    background-color: #ffffff;
+  }
+
+  .spacer {
+    height: 40px;
+    margin: 0 5px;
+    border: 1px solid #dddddd;
+    border-radius: 3px;
+  }
+
+  .btnSearch {
+    background-color: #222222;
+    height: 35px;
+    width: 60px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.5s;
+  }
+
+  .btnSearch:hover {
+    background-color: #444444;
+  }
 
   .searchResults {
     position: absolute;

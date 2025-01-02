@@ -33,6 +33,9 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 import { HasRoleDirective } from './shared/directives/has-role.directive';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { HelpUserComponent } from './pages/help-user/help-user.component';
+import { FavoritesProductsComponent } from './pages/favorites-products/favorites-products.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +61,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     ProductListItemComponent,
     UserProfileComponent,
     HasRoleDirective,
+    HelpUserComponent,
+    FavoritesProductsComponent,
   ],
   imports: [
     FontAwesomeModule,
@@ -67,6 +72,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     HttpClientModule,
     ReactiveFormsModule,
     ToastrModule.forRoot(),
+    TooltipModule.forRoot(),
     TabsModule,
     FormsModule,
     PaginationModule,

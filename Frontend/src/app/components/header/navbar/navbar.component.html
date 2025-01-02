@@ -9,11 +9,12 @@
       name="search"
       type="text"
       placeholder="Czego szukasz?"
-      class="form-control me-1"
+      class="form-control me-1 searchInput"
       (input)="onSearch($event)"
     />
+    <div class="spacer"></div>
     <div class="dropdown me-1">
-      <button class="btn btn-primary">
+      <button class="dropdownSearchButton">
         {{ searchCategory }}
       </button>
       <div class="dropdownContent">
@@ -25,8 +26,14 @@
         <a (click)="onChangeCategory($event)">Akcesoria</a>
       </div>
     </div>
-    <button class="btn btn-primary">Szukaj</button>
-    <div #searchResultsContainer class="searchResults" *ngIf="searchResults.length">
+    <div class="btnSearch">
+      <i class="fa-solid fa-magnifying-glass"></i>
+    </div>
+    <div
+      #searchResultsContainer
+      class="searchResults"
+      *ngIf="searchResults.length"
+    >
       <ul>
         <li
           *ngFor="let product of searchResults"
@@ -37,28 +44,70 @@
       </ul>
     </div>
   </div>
-  <div>
-    <button
-      class="btn btn-primary m-1"
+  <div class="buttonsContainer">
+    <div
+      class="buttonIcon"
       routerLink="admin"
       *hasRole="['ROLE_ADMIN']"
+      tooltip="Panel administracyjny"
+      placement="bottom"
     >
-      Administracja
-    </button>
+      <i class="fa-solid fa-user-tie fa-lg" style="color: #853030"></i>
+    </div>
 
     <!-- TODO: IF USER ROLE === ADMIN -->
-    <button class="btn btn-primary m-1" routerLink="profile" *ngIf="user">
-      Profil
-    </button>
-    <button class="btn btn-primary m-1" routerLink="login" *ngIf="!user">
-      Zaloguj
-    </button>
-    <button class="btn btn-primary m-1" routerLink="register" *ngIf="!user">
+    <div
+      class="buttonIcon"
+      routerLink="profile"
+      *ngIf="user"
+      tooltip="Profil użytkownika"
+      placement="bottom"
+    >
+      <div><i class="fa-solid fa-user fa-lg"></i></div>
+    </div>
+    <div class="buttonLogin" routerLink="login" *ngIf="!user">
+      <div>
+        <span>Cześć,</span>
+        <span>zaloguj się</span>
+      </div>
+      <div><i class="fa-solid fa-user fa-lg"></i></div>
+    </div>
+    <!-- <div class="btn btn-primary m-1" routerLink="register" *ngIf="!user">
       Register
-    </button>
-    <button class="btn btn-primary m-1" (click)="logout()" *ngIf="user">
-      Wyloguj
-    </button>
-    <button class="btn btn-primary m-1" routerLink="cart">Koszyk</button>
+    </div> -->
+
+    <div
+      class="buttonIcon"
+      routerLink="help"
+      tooltip="Potrzebujesz pomocy?"
+      placement="bottom"
+    >
+      <i class="fa-solid fa-headphones fa-lg"></i>
+    </div>
+    <div
+      class="buttonIcon"
+      routerLink="favorites"
+      tooltip="Ulubione produkty"
+      placement="bottom"
+    >
+      <i class="fa-solid fa-heart fa-lg"></i>
+    </div>
+    <div
+      class="buttonIcon"
+      routerLink="cart"
+      tooltip="Koszyk"
+      placement="bottom"
+    >
+      <i class="fa-solid fa-cart-shopping fa-lg"></i>
+    </div>
+    <div
+      class="buttonIcon"
+      (click)="logout()"
+      *ngIf="user"
+      tooltip="Wyloguj!"
+      placement="bottom"
+    >
+      <i class="fa-solid fa-right-from-bracket fa-lg"></i>
+    </div>
   </div>
 </div>
