@@ -1,4 +1,9 @@
-<div class="productItem" (click)="onSelectItem()">
+<div
+  class="productItem"
+  (click)="onSelectItem()"
+  [tooltip]="shortDescription"
+  placement="bottom"
+>
   <span class="addCart" (click)="addToCart($event)"
     ><i class="fa-solid fa-cart-shopping fa-xl"></i
   ></span>
