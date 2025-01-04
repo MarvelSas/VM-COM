@@ -32,8 +32,6 @@ export class ProductsService {
   }
 
   getPageableProducts(params: IPageableParams) {
-    console.log(params);
-
     let pageableParams: HttpParams = new HttpParams()
       .set('page', (params.page - 1).toString())
       .set('pageSize', params.pageSize.toString());
