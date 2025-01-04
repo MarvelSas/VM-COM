@@ -3,11 +3,50 @@
 
 <div class="page">
   <div class="sidebar">
-    <h3 class="sidebar-title">Kategorie</h3>
+    <h3 class="sidebar-title">Promocje</h3>
     <ul class="sidebar-list">
-      <li><a href="#">Promocje</a></li>
-      <li><a href="#">Promocje</a></li>
-      <li><a href="#">Promocje</a></li>
+      <li>
+        <a>Produkt 1</a>
+      </li>
+      <li>
+        <a>Produkt 2</a>
+      </li>
+      <li>
+        <a>Produkt 3</a>
+      </li>
+    </ul>
+
+    <h3 class="sidebar-title">Produkty</h3>
+    <ul class="sidebar-list">
+      <li>
+        <a [routerLink]="['/products']" [queryParams]="{ category: 'Laptopy' }"
+          >Laptopy</a
+        >
+      </li>
+      <li>
+        <a
+          [routerLink]="['/products']"
+          [queryParams]="{ category: 'Smartfony' }"
+          >Smartfony</a
+        >
+      </li>
+      <li>
+        <a [routerLink]="['/products']" [queryParams]="{ category: 'Gaming' }"
+          >Gaming</a
+        >
+      </li>
+      <li>
+        <a [routerLink]="['/products']" [queryParams]="{ category: 'TV' }"
+          >Telewizory</a
+        >
+      </li>
+      <li>
+        <a
+          [routerLink]="['/products']"
+          [queryParams]="{ category: 'Akcesoria' }"
+          >Akcesoria</a
+        >
+      </li>
     </ul>
   </div>
 
