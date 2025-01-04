@@ -13,7 +13,7 @@
   margin-top: 2rem;
   padding: 2rem;
   border: 1px solid #e0e0e0;
-  background-color: #f9f9f9;
+  background-color: #ffffff;
   border-radius: 8px;
   width: 100%;
   box-sizing: border-box;
@@ -32,15 +32,19 @@
   margin-bottom: 1.5rem;
   font-size: 26px;
   font-weight: bold;
-  color: #007bff;
+  // color: #007bff;
+  color: #000000;
+  letter-spacing: 1px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #e0e0e0;
 }
 
 .introduction {
   text-align: left;
   background-color: #ffffff;
   padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  // border-radius: 8px;
+  // box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   line-height: 1.6;
 
   h4 {

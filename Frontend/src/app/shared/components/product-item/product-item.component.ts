@@ -27,4 +27,9 @@ export class ProductItemComponent {
     this.router.navigate(['product', this.id]);
     // console.log(this.id);
   }
+
+  addToCart(event: Event) {
+    event.stopPropagation();
+    console.log('add to cart');
+  }
 }
