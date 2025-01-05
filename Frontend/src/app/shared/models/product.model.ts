@@ -22,6 +22,7 @@ export interface IProduct {
   productCategory: IProductCategory;
   description: string;
   productSpecificationLines: IProductSpecificationLines[];
+  additionalInformation: string;
 }
 
 export interface IProductSpecificationLines {

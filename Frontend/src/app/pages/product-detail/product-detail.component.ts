@@ -119,8 +119,9 @@ export class ProductDetailComponent implements OnInit {
   }
 
   loadProduct() {
-    this.productsService.getProduct(this.id).subscribe((product) => {
-      this.product = product.data.product;
+    this.productsService.getProduct(this.id).subscribe((res) => {
+      this.product = res.data.product;
+      console.log(res.data.product.additionalInformation);
       this.selectedImage = this.product.mainPhotoId;
       this.isLoading = false;
     });

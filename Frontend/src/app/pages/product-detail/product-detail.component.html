@@ -48,14 +48,26 @@
       </tab>
       <tab heading="Specyfikacja produktu">
         <div class="specsContainer">
-          <pre
-            *ngFor="let spec of product.productSpecificationLines"
-          ><strong>{{spec.title}}:</strong> {{spec.value}}</pre>
+          <ng-container
+            *ngIf="product.productSpecificationLines.length > 0; else noSpecs"
+          >
+            <pre
+              *ngFor="let spec of product.productSpecificationLines"
+            ><strong>{{spec.title}}:</strong> {{spec.value}}</pre>
+          </ng-container>
+          <ng-template #noSpecs>
+            <h4>Brak specyfikacji</h4>
+          </ng-template>
         </div>
       </tab>
       <tab heading="Dodatkowe informacje">
         <div class="descriptionContainer">
-          <pre>Tu będą kiedyś dodatkowe informacje o produkcie</pre>
+          <pre *ngIf="product.additionalInformation; else noAdditionalInfo">{{
+            product.additionalInformation
+          }}</pre>
+          <ng-template #noAdditionalInfo>
+            <h4>Brak dodatkowych informacji</h4>
+          </ng-template>
         </div>
       </tab>
     </tabset>
