@@ -23,6 +23,7 @@ export interface IProduct {
   description: string;
   productSpecificationLines: IProductSpecificationLines[];
   additionalInformation: string;
+  amount: number;
 }
 
 export interface IProductSpecificationLines {

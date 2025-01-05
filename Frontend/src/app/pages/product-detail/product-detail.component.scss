@@ -23,15 +23,13 @@
   flex-direction: column;
   justify-content: center;
   margin: 3rem;
-  //   border: 1px solid #ccc;
   padding: 1rem;
   border-radius: 4px;
-  width: 15rem;
+  // width: 15rem;
 }
 
 .titleContainer .infoSection h2,
 h5 {
-  //   border: 1px solid #ccc;
   margin: 1rem 0;
 }
 
@@ -39,10 +37,54 @@ h5 {
   text-align: right;
 }
 
+.mainTitle {
+  // border: 1px solid red;
+}
+
+.iconCart {
+  margin: 0 10px;
+  width: 100px;
+  color: #434343;
+  border: 1px solid #434343;
+  border-radius: 6px;
+  padding: 10px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.iconCart:hover {
+  background-color: green;
+  border: 1px solid green;
+  color: white;
+}
+
+.iconFavorites {
+  // margin-left: auto;
+  margin: 0 10px;
+  color: red;
+  border: 1px solid #434343;
+  border-radius: 6px;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.iconFavorites:hover {
+  background-color: red;
+  border: 1px solid red;
+  color: white;
+}
+
 .btnContainer {
   display: flex;
   width: 100%;
   justify-content: flex-end;
+}
+
+.lowerPrice {
+  color: rgba(153, 153, 153, 0.8);
+  span {
+    text-decoration: line-through;
+  }
 }
 
 .descriptionContainer {
@@ -129,6 +171,35 @@ h5 {
   margin-top: 10px;
   font-size: 1rem;
   color: #666;
+}
+
+.rating {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  span {
+    margin-right: 0.5rem;
+    color: rgba(0, 0, 0, 0.6);
+  }
+}
+
+.productAmount {
+  .available {
+    color: green;
+  }
+  .lastPieces {
+    color: orange;
+  }
+  .inavailable {
+    color: red;
+  }
+}
+
+.rating .fa {
+  font-size: 1rem;
+  color: #ffd700; /* Gold color for stars */
+  margin-right: 0.25rem;
 }
 
 tabset {

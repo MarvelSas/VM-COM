@@ -5,19 +5,64 @@
     <div class="titleContainer">
       <div class="infoSection">
         <div>
-          <h2>{{ product.name }}</h2>
+          <h2 class="mainTitle">{{ product.name }}</h2>
+        </div>
+        <div class="rating">
+          <span>Ocena produktu:</span>
+          <div>
+            <ng-container *ngFor="let star of stars; let i = index">
+              <i
+                class="fa"
+                [ngClass]="{
+                  'fa-star': i < 4,
+                  'fa-star-o': i >= 4
+                }"
+              ></i>
+            </ng-container>
+          </div>
         </div>
         <div>
           <h4>Cena: {{ product.price }} zł</h4>
+          <h6 class="lowerPrice">
+            Najniższa cena z 30 dni przed obniżką:
+            <span>{{ product.price }} zł</span>
+          </h6>
+          <div class="productAmount">
+            <span class="available" *ngIf="product.amount > 5">Dostępny</span>
+            <span class="lastPieces" *ngIf="product.amount <= 5"
+              >Ostatnie sztuki</span
+            >
+            <span class="inavailable" *ngIf="product.amount == 0"
+              >Chwilowo niedostępny</span
+            >
+          </div>
         </div>
+
         <div class="btnContainer">
-          <button
+          <!-- <button
             class="btn btn-primary"
             (click)="onBuyProduct()"
             [disabled]="isAddingToCart"
           >
             Dodaj do koszyka!
-          </button>
+          </button> -->
+          <div
+            class="iconCart"
+            (click)="onBuyProduct()"
+            tooltip="Dodaj do koszyka!"
+            placement="bottom"
+          >
+            <i class="fa-solid fa-cart-shopping fa-lg"></i>
+          </div>
+
+          <div
+            class="iconFavorites"
+            (click)="onBuyProduct()"
+            tooltip="Dodaj do ulubionych"
+            placement="bottom"
+          >
+            <i class="fa-solid fa-heart fa-lg"></i>
+          </div>
         </div>
       </div>
       <div class="imageSection">
