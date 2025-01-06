@@ -91,28 +91,22 @@
           <pre>{{ product.description }}</pre>
         </div>
       </tab>
-      <tab heading="Specyfikacja produktu">
+      <tab
+        heading="Specyfikacja produktu"
+        *ngIf="product.productSpecificationLines.length > 0"
+      >
         <div class="specsContainer">
-          <ng-container
-            *ngIf="product.productSpecificationLines.length > 0; else noSpecs"
-          >
-            <pre
-              *ngFor="let spec of product.productSpecificationLines"
-            ><strong>{{spec.title}}:</strong> {{spec.value}}</pre>
-          </ng-container>
-          <ng-template #noSpecs>
-            <h4>Brak specyfikacji</h4>
-          </ng-template>
+          <pre
+            *ngFor="let spec of product.productSpecificationLines"
+          ><strong>{{spec.title}}:</strong> {{spec.value}}</pre>
         </div>
       </tab>
-      <tab heading="Dodatkowe informacje">
+      <tab
+        heading="Dodatkowe informacje"
+        *ngIf="product.additionalInformation.length > 0"
+      >
         <div class="descriptionContainer">
-          <pre *ngIf="product.additionalInformation; else noAdditionalInfo">{{
-            product.additionalInformation
-          }}</pre>
-          <ng-template #noAdditionalInfo>
-            <h4>Brak dodatkowych informacji</h4>
-          </ng-template>
+          <pre>{{ product.additionalInformation }}</pre>
         </div>
       </tab>
     </tabset>
