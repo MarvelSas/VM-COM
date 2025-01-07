@@ -3,13 +3,12 @@
 ## Create image
 
 ```
-docker build -t angular-docker .
+docker build -t vm-com-image .
 ```
 
 ## Run container
 
 ```
-docker run -p 4200:4200 angular-docker
-docker run -p 4200:80 --name vm-com-app angular-docker
+docker run -p 4200:80 --name vm-com-app vm-com-image
 
 ```
