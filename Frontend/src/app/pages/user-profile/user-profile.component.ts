@@ -65,32 +65,12 @@ export class UserProfileComponent implements OnInit {
       },
       complete: () => {},
     });
-
-    // this.userService.getUserAddress().subscribe({
-    //   next: (res: IAddressResponse) => {
-    //     this.addressData = res;
-    //     console.log(res.data.data.city);
-    //     this.addressForm.patchValue({
-    //       firstName: res.data.data.firstName,
-    //       lastName: res.data.data.lastName,
-    //       street: res.data.data.street,
-    //       city: res.data.data.city,
-    //       zipCode: res.data.data.zipCode,
-    //       phoneNumber: res.data.data.phoneNumber,
-    //     });
-    //   },
-    //   error: (error) => {
-    //     console.error('Error fetching user address:', error);
-    //   },
-    //   complete: () => {},
-    // });
   }
 
   getAddresses() {
     this.userService.getUserAddress().subscribe({
       next: (res: IAddressResponse) => {
         this.addressData = res;
-        console.log(res.data.data.city);
         this.addressForm.patchValue({
           firstName: res.data.data.firstName,
           lastName: res.data.data.lastName,
@@ -125,7 +105,7 @@ export class UserProfileComponent implements OnInit {
   saveUserChanges() {
     if (this.userForm.valid) {
       this.editModeUser = false;
-      console.log('User data saved:', this.userForm.value);
+      // console.log('User data saved:', this.userForm.value);
     }
   }
 
@@ -137,18 +117,20 @@ export class UserProfileComponent implements OnInit {
         console.log('Dodawanie nowego adresu');
         this.userService.addNewAddress(this.addressForm.value).subscribe({
           next: (res) => {
-            console.log('User address saved:', res);
+            // console.log('User address saved:', res);
           },
           error: (error) => {
             console.error('Error saving user data:', error);
           },
-          complete: () => {},
+          complete: () => {
+            // this.getAddresses();
+          },
         });
       } else {
         console.log('Aktualizacja adresu');
         this.userService.updateAddress(this.addressForm.value).subscribe({
           next: (res) => {
-            console.log('User address saved:', res);
+            // console.log('User address saved:', res);
           },
           error: (error) => {
             console.error('Error saving user data:', error);

@@ -85,17 +85,18 @@
             class="btn btn-primary"
             (click)="toggleEditUser()"
           >
-            Edytuj
+            Edytuj dane
           </button>
         </ng-template>
       </form>
     </div>
+    <hr />
 
     <!------------------------>
     <!-- FORM USER PASSWORD -->
     <!------------------------>
     <div class="card-body">
-      <h5>Hasło</h5>
+      <h5>Dane konta</h5>
       <div *ngIf="editModePassword; else displayModePassword">
         <form [formGroup]="passwordForm" (ngSubmit)="savePasswordChanges()">
           <div class="mb-3">
@@ -149,15 +150,26 @@
       <!-- PASSWORD CHANGE BUTTON -->
       <!---------------------------->
       <ng-template #displayModePassword>
-        <button
-          type="button"
-          class="btn btn-primary"
-          (click)="toggleEditPassword()"
-        >
-          Zmień hasło
-        </button>
+        <div class="buttonsContainer">
+          <button
+            type="button"
+            class="btn btn-primary"
+            (click)="toggleEditPassword()"
+          >
+            Zmień hasło
+          </button>
+          <button
+            type="button"
+            class="btn btn-primary"
+            (click)="toggleEditPassword()"
+            disabled
+          >
+            Zmień adres e-mail
+          </button>
+        </div>
       </ng-template>
     </div>
+    <hr />
 
     <!-- -------------------->
     <!-- FORM USER ADDRESS -->
@@ -277,7 +289,7 @@
             class="btn btn-primary"
             (click)="toggleEditAdress()"
           >
-            Edytuj
+            Edytuj dane
           </button>
         </ng-template>
       </form>
