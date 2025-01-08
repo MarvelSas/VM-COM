@@ -17,12 +17,13 @@ export class ProductDetailComponent implements OnInit {
   id: number = 0;
   product: IProduct;
   selectedImage: number = 0;
-  selectedNumberModalImage: number = 0;
   isLoading = false;
   isAddingToCart = false;
   API_IMG = environment.API_IMG;
   selectedModalImage: string | null = null;
   isModalOpen = false;
+  stars: number[] = [0, 1, 2, 3, 4];
+  rating: number = 4;
 
   constructor(
     private route: ActivatedRoute,
@@ -70,25 +71,21 @@ export class ProductDetailComponent implements OnInit {
   }
 
   onPreviousImageInModal() {
-    if (this.selectedNumberModalImage > 0) {
-      this.selectedNumberModalImage--;
-      this.selectedModalImage = this.modalImageUrl;
+    if (this.selectedImage > 0) {
+      this.selectedImage--;
+      this.selectedModalImage = this.imageUrl;
     }
   }
 
   onNextImageInModal() {
-    if (this.selectedNumberModalImage < this.product.photos.length - 1) {
-      this.selectedNumberModalImage++;
-      this.selectedModalImage = this.modalImageUrl;
+    if (this.selectedImage < this.product.photos.length - 1) {
+      this.selectedImage++;
+      this.selectedModalImage = this.imageUrl;
     }
   }
 
   get imageUrl() {
     return this.API_IMG + this.product.photos[this.selectedImage];
-  }
-
-  get modalImageUrl() {
-    return this.API_IMG + this.product.photos[this.selectedNumberModalImage];
   }
 
   ngOnInit(): void {

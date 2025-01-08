@@ -195,10 +195,8 @@ export class AuthService implements OnInit {
     localStorage.setItem('accessToken', accessToken);
     localStorage.setItem('refreshToken', refreshToken);
     this.user.next(user);
-
     this.roleService.setRoles([user.role]);
-    console.log('decoded', user.role);
-    console.log('role', this.roleService.isAuthorized(['ROLE_ADMIN']));
+    console.log('User role:', user.role);
   }
 
   ngOnInit(): void {}

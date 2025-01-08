@@ -18,6 +18,7 @@ import { IProduct } from 'src/app/shared/models/product.model';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { ProductsService } from 'src/app/shared/services/products.service';
 import { RoleService } from 'src/app/shared/services/role.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-navbar',
@@ -32,6 +33,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   searchSub: Subscription;
   user = null;
   searchResults: IProduct[] = [];
+  API_IMG = environment.API_IMG;
 
   constructor(
     private authService: AuthService,

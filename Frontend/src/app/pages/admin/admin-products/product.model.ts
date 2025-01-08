@@ -7,7 +7,8 @@ export interface IProductNew {
   description: string;
   photos?: string[];
   mainPhotoId: number;
-  specificationLines: { title: string; value: string }[];
+  productSpecificationLines: { title: string; value: string }[];
+  additionalInformation?: string;
 }
 
 export interface IProductResponseData {

@@ -36,6 +36,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { HelpUserComponent } from './pages/help-user/help-user.component';
 import { FavoritesProductsComponent } from './pages/favorites-products/favorites-products.component';
+import { ErrorComponent } from './pages/error/error.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +64,7 @@ import { FavoritesProductsComponent } from './pages/favorites-products/favorites
     HasRoleDirective,
     HelpUserComponent,
     FavoritesProductsComponent,
+    ErrorComponent,
   ],
   imports: [
     FontAwesomeModule,

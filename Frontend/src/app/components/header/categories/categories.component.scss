@@ -4,4 +4,31 @@
   align-items: center;
   background-color: whitesmoke;
   height: 2.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  a {
+    display: flex;
+    align-items: center;
+    margin: 0 5px;
+    padding: 2px 30px;
+    border-left: 2px solid #dddddd;
+    border-right: 2px solid #dddddd;
+    transition: all 0.3s ease-in-out;
+    letter-spacing: 2px;
+
+    // OLD STYLES
+    // border-radius: 6px;
+    // border: 2px solid rgba(221, 221, 221, 0.6);
+    // background-color: #ffffff;
+  }
+
+  a:hover {
+    scale: 1.1;
+    transform: translateY(2px);
+  }
+
+  i {
+    margin-right: 10px;
+    font-size: 1.2rem;
+  }
 }

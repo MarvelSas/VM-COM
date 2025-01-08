@@ -76,6 +76,33 @@
   </div>
 
   <div class="form-item">
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="toggleAdditionalInfo()"
+    >
+      {{
+        addProductForm.get("hasAdditionalInfo").value
+          ? "Usuń dodatkowe informacje"
+          : "Pokaż dodatkowe informacje"
+      }}
+    </button>
+  </div>
+
+  <div class="form-item" *ngIf="addProductForm.get('hasAdditionalInfo').value">
+    <div>
+      <textarea
+        type="text"
+        rows="10"
+        cols="50"
+        name="additionalInformation"
+        placeholder="Dodatkowe informacje"
+        formControlName="additionalInformation"
+      ></textarea>
+    </div>
+  </div>
+
+  <div class="form-item">
     <label for="productPrice">Cena produktu: </label>
     <div>
       <input
@@ -120,6 +147,7 @@
         alt="Podgląd zdjęcia"
         *ngFor="let image of images; let i = index"
         (click)="selectMainPhoto(i)"
+        [ngClass]="{ mainPhoto: i === selectedMainPhoto }"
       />
     </div>
   </div>

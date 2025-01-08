@@ -50,10 +50,9 @@ export class ProductsComponent {
     this.productsService.getCategories().subscribe({
       next: (res) => {
         this.avalibleCategories = res.data.productCategories;
-        console.log(this.avalibleCategories);
       },
       error: (err) => {
-        console.log(err);
+        console.error(err);
       },
     });
   }
@@ -67,7 +66,7 @@ export class ProductsComponent {
         this.isLoading = false;
       },
       error: (err) => {
-        console.log(err);
+        console.error(err);
       },
     });
 
@@ -95,10 +94,9 @@ export class ProductsComponent {
         this.totalPages = res.data.totalAmountOfPages;
         this.totalAmountOfItems = res.data.totalAmountOfItems;
         this.isLoading = false;
-        console.log(res);
       },
       error: (err) => {
-        console.log(err);
+        console.error(err);
       },
     });
   }

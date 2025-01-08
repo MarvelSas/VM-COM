@@ -27,17 +27,14 @@ export class HasRoleDirective implements OnDestroy {
 
   @Input()
   set hasRole(roles: string | string[]) {
-    // Zawsze zamieniamy na tablicę
     this.currentRoles = Array.isArray(roles) ? roles : [roles];
     this.updateView();
   }
 
   private updateView(): void {
     if (this.roleService.isAuthorized(this.currentRoles)) {
-      console.log('tak');
       this.viewContainer.createEmbeddedView(this.templateRef);
     } else {
-      console.log('nie');
       this.viewContainer.clear();
     }
   }

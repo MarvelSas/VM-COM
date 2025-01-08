@@ -67,6 +67,8 @@ export class AdminProductsComponent implements OnInit {
       productImage: new FormControl(null),
       productCategory: new FormControl(null, Validators.required),
       specifications: this.fb.array([]),
+      hasAdditionalInfo: new FormControl(false),
+      additionalInformation: new FormControl(''),
     });
 
     this.addProductForm
@@ -188,6 +190,8 @@ export class AdminProductsComponent implements OnInit {
       productImage: null,
       productCategory: editedProduct.productCategory.id,
       specifications: this.specifications.value,
+      hasAdditionalInfo: editedProduct.additionalInformation ? true : false,
+      additionalInformation: editedProduct.additionalInformation,
     });
   }
 
@@ -243,7 +247,10 @@ export class AdminProductsComponent implements OnInit {
       description: productDescription,
       photos: this.imagesName,
       mainPhotoId: this.selectedMainPhoto,
-      specificationLines: specifications,
+      productSpecificationLines: specifications,
+      additionalInformation: this.addProductForm.value.hasAdditionalInfo
+        ? this.addProductForm.value.additionalInformation
+        : '',
     };
 
     // this.formData.append(
@@ -328,5 +335,11 @@ export class AdminProductsComponent implements OnInit {
     this.addProductForm.reset();
     this.images = [];
     this.imagesName = [];
+  }
+
+  toggleAdditionalInfo(): void {
+    const hasAdditionalInfo =
+      this.addProductForm.get('hasAdditionalInfo').value;
+    this.addProductForm.patchValue({ hasAdditionalInfo: !hasAdditionalInfo });
   }
 }
