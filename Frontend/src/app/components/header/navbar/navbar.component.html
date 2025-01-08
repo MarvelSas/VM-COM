@@ -34,12 +34,21 @@
       class="searchResults"
       *ngIf="searchResults.length"
     >
-      <ul>
+      <ul class="product-list">
         <li
           *ngFor="let product of searchResults"
           (click)="onSelectProduct(product)"
+          class="product-item"
         >
-          {{ product.name }} - {{ product.price }} zł
+          <img
+            [src]="this.API_IMG + product.photos[0]"
+            alt="{{ product.name }}"
+            class="product-image"
+          />
+          <div class="product-info">
+            <h5 class="product-name">{{ product.name }}</h5>
+            <p class="product-price">{{ product.price }} zł</p>
+          </div>
         </li>
       </ul>
     </div>
