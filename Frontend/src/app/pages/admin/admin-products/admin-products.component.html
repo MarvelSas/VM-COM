@@ -147,6 +147,7 @@
         alt="Podgląd zdjęcia"
         *ngFor="let image of images; let i = index"
         (click)="selectMainPhoto(i)"
+        [ngClass]="{ mainPhoto: i === selectedMainPhoto }"
       />
     </div>
   </div>

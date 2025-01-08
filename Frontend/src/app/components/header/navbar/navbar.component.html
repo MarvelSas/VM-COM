@@ -41,7 +41,7 @@
           class="product-item"
         >
           <img
-            [src]="this.API_IMG + product.photos[0]"
+            [src]="this.API_IMG + product.photos[product.mainPhotoId]"
             alt="{{ product.name }}"
             class="product-image"
           />
