@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { first, last, Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { IAddressResponse } from '../models/address.model';
+import { IAddress } from '../models/address.model';
+import { IApiResponse } from '../models/api-response.model';
 
 @Injectable({
   providedIn: 'root',
@@ -29,23 +30,44 @@ export class UserService {
     return of(this.dummyUserData);
   }
 
-  updateUserData() {}
+  updateUserData(userData: any) {}
 
   getUserAddress(): Observable<any> {
-    return this.http.get<IAddressResponse>(`${this.API_URL}address/1`);
+    return this.http.get<IApiResponse<IAddress>>(`${this.API_URL}address/1`);
   }
 
-  saveUserAddress(userAddress: any) {
+  addNewAddress(userAddress: IAddress) {
     const newAddress = {
-      street: userAddress.shipStreet,
-      zipCode: userAddress.shipZipCode,
-      city: userAddress.shipCity,
+      firstName: userAddress.firstName,
+      lastName: userAddress.lastName,
+      phoneNumber: userAddress.phoneNumber,
+      street: userAddress.street,
+      zipCode: userAddress.zipCode,
+      city: userAddress.city,
     };
 
-    console.log(userAddress);
-    console.log(newAddress);
+    return this.http.post(`${this.API_URL}address`, newAddress);
+  }
 
-    console.log(newAddress);
+  updateAddress(userAddress: IAddress) {
+    console.log(userAddress);
+    const newAddress = {
+      firstName: userAddress.firstName,
+      lastName: userAddress.lastName,
+      phoneNumber: userAddress.phoneNumber,
+      street: userAddress.street,
+      zipCode: userAddress.zipCode,
+      city: userAddress.city,
+    };
+
+    // console.log(userAddress);
+    // console.log(newAddress);
+
+    // console.log(newAddress);
     return this.http.put(`${this.API_URL}address/1`, newAddress);
+  }
+
+  changePassword(passwords: any) {
+    console.log(passwords);
   }
 }

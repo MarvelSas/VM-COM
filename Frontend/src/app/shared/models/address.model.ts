@@ -7,10 +7,10 @@ export interface IAddressResponse {
 }
 
 interface IAddressData {
-  data: IAddressData2;
+  data: IAddress;
 }
 
-interface IAddressData2 {
+export interface IAddress {
   id: number;
   firstName: string;
   lastName: string;
