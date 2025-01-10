@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IAddressResponse } from 'src/app/shared/models/address.model';
+import { IApiResponse } from 'src/app/shared/models/api-response.model';
+import { IUserDetails } from 'src/app/shared/models/user.model';
+import { AuthService } from 'src/app/shared/services/auth.service';
 import { UserService } from 'src/app/shared/services/user.service';
 
 @Component({
@@ -20,7 +23,11 @@ export class UserProfileComponent implements OnInit {
   userAddress: IAddressResponse;
   addressNotFound = false;
 
-  constructor(private fb: FormBuilder, private userService: UserService) {
+  constructor(
+    private fb: FormBuilder,
+    private userService: UserService,
+    private authService: AuthService
+  ) {
     this.userForm = this.fb.group({
       firstName: ['', [Validators.required, Validators.minLength(2)]],
       lastName: ['', [Validators.required, Validators.minLength(2)]],
@@ -51,13 +58,21 @@ export class UserProfileComponent implements OnInit {
 
   getUserData() {
     this.userService.getUserData().subscribe({
-      next: (res) => {
+      next: (res: IApiResponse<IUserDetails>) => {
         this.userData = res;
         this.userForm.patchValue({
-          firstName: res.name,
-          lastName: res.surname,
-          email: res.email,
-          phone: res.phone,
+          firstName:
+            res.data.data.firstName === '' ? 'Brak' : res.data.data.firstName,
+          lastName:
+            res.data.data.lastName === '' ? 'Brak' : res.data.data.lastName,
+          email:
+            this.authService.currentUserEmail === ''
+              ? 'Brak'
+              : this.authService.currentUserEmail,
+          phone:
+            res.data.data.phoneNumber === ''
+              ? 'Brak'
+              : res.data.data.phoneNumber,
         });
       },
       error: (error) => {

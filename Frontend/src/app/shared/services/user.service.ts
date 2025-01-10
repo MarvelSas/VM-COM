@@ -4,6 +4,7 @@ import { first, last, Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { IAddress } from '../models/address.model';
 import { IApiResponse } from '../models/api-response.model';
+import { IUserDetails } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root',
@@ -11,23 +12,24 @@ import { IApiResponse } from '../models/api-response.model';
 export class UserService {
   API_URL = environment.API_URL;
 
-  dummyUserData = {
-    name: 'John',
-    surname: 'Doe',
-    email: 'test@mail.com',
-    phone: '123456789',
-  };
-  dummyAddressData = {
-    city: 'Warsaw',
-    street: 'Marszałkowska',
-    number: '1',
-    zip: '00-000',
-  };
+  // dummyUserData = {
+  //   name: 'John',
+  //   surname: 'Doe',
+  //   email: 'test@mail.com',
+  //   phone: '123456789',
+  // };
+  // dummyAddressData = {
+  //   city: 'Warsaw',
+  //   street: 'Marszałkowska',
+  //   number: '1',
+  //   zip: '00-000',
+  // };
 
   constructor(private http: HttpClient) {}
 
   getUserData(): Observable<any> {
-    return of(this.dummyUserData);
+    // return of(this.dummyUserData);
+    return this.http.get<IApiResponse<IUserDetails>>(`${this.API_URL}appUser`);
   }
 
   updateUserData(userData: any) {}

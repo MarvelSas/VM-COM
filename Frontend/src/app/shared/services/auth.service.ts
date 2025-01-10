@@ -17,6 +17,7 @@ import { IJwtPayload } from '../models/jwt.model';
 })
 export class AuthService implements OnInit {
   user = new BehaviorSubject(null);
+  currentUserEmail: string | null = null;
   API_URL = environment.API_URL;
   TOKEN = null;
   REFRESH_TOKEN = null;
@@ -196,6 +197,7 @@ export class AuthService implements OnInit {
     localStorage.setItem('refreshToken', refreshToken);
     this.user.next(user);
     this.roleService.setRoles([user.role]);
+    this.currentUserEmail = user.email;
     console.log('User role:', user.role);
   }
 

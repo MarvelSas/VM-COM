@@ -4,6 +4,15 @@ export interface IUser {
   role: string;
 }
 
+export interface IUserDetails {
+  data: {
+    firstName: string;
+    lastName: string;
+    phoneNumber: string;
+    email: string;
+  };
+}
+
 export class User {
   constructor(
     public email: string,
