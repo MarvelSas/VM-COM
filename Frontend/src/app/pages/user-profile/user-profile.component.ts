@@ -17,6 +17,7 @@ export class UserProfileComponent implements OnInit {
   passwordForm: FormGroup;
   editModeUser = false;
   editModeAddress = false;
+  addNewAddressMode = false;
   editModePassword = false;
   userData: any = {};
   addresses: IAddress[] = [];
@@ -123,7 +124,7 @@ export class UserProfileComponent implements OnInit {
         this.addresses.push(address);
       }
 
-      if (this.editModeAddress) {
+      if (!this.addNewAddressMode) {
         this.userService
           .updateAddress(
             this.addressForm.value,
@@ -174,11 +175,15 @@ export class UserProfileComponent implements OnInit {
     this.editModePassword = !this.editModePassword;
   }
 
-  toggleEditAddress(): void {
-    this.editModeAddress = !this.editModeAddress;
+  addNewAddressButton(): void {
+    console.log('Add new address');
+    this.addNewAddressMode = true;
+    this.editModeAddress = true;
+    this.addressForm.reset();
   }
 
   selectAddress(index: number): void {
+    this.addNewAddressMode = false;
     this.selectedAddressIndex = index;
     this.addressForm.patchValue(this.addresses[index]);
     this.editModeAddress = true;
@@ -188,5 +193,12 @@ export class UserProfileComponent implements OnInit {
     this.selectedAddressIndex = null;
     this.addressForm.reset();
     this.editModeAddress = true;
+  }
+
+  cancelAddressForm(): void {
+    this.editModeAddress = false;
+    this.selectedAddressIndex = null;
+    this.addNewAddressMode = false;
+    this.addressForm.reset();
   }
 }

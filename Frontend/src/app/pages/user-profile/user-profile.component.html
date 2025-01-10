@@ -181,7 +181,7 @@
       <button
         type="button"
         class="btn btn-primary mb-3"
-        (click)="addNewAddress()"
+        (click)="addNewAddressButton()"
       >
         Dodaj nowy adres
       </button>
@@ -204,7 +204,9 @@
 
       <form [formGroup]="addressForm" (ngSubmit)="saveAddressChanges()">
         <div *ngIf="editModeAddress">
-          <h5>Edytuj adres</h5>
+          <h5 class="addresFormTitle">
+            {{ addNewAddressMode ? "Dodaj nowy adres" : "Edytuj adres" }}
+          </h5>
           <div class="mb-3">
             <label for="firstName" class="form-label">Imię</label>
             <input
@@ -275,7 +277,7 @@
           <button
             type="button"
             class="btn btn-secondary"
-            (click)="toggleEditAddress()"
+            (click)="cancelAddressForm()"
           >
             Anuluj
           </button>
