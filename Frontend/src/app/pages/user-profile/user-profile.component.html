@@ -289,7 +289,7 @@
             class="btn btn-primary"
             (click)="toggleEditAdress()"
           >
-            Edytuj dane
+            {{ addressNotFound ? "Dodaj nowy adres" : "Edytuj adres" }}
           </button>
         </ng-template>
       </form>
