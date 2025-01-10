@@ -2,10 +2,7 @@ package com.VMcom.VMcom.config;
 
 import com.VMcom.VMcom.enums.AppUserRole;
 import com.VMcom.VMcom.model.*;
-import com.VMcom.VMcom.repository.AppUserRepository;
-import com.VMcom.VMcom.repository.ProductCategoryRepository;
-import com.VMcom.VMcom.repository.ProductRepository;
-import com.VMcom.VMcom.repository.ShopCartRepository;
+import com.VMcom.VMcom.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,6 +22,8 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
     private final ProductCategoryRepository productCategoryRepository;
     private final ProductRepository productRepository;
     private final ShopCartRepository shopCartRepository;
+    private final AddressRepository addressRepository;
+    private final ProductSpecificationLineRepository productSpecificationLineRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -51,7 +50,20 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
         shopCartForAdmin.setAppUser(admin);
         shopCartRepository.save(shopCartForAdmin);
 
-        
+        //Add admin address
+        Address addressForAdmin = new Address(
+                "Piotr",
+                "Kowalski",
+                "+48 223-254-525",
+                "ul. Testowa 1",
+                "00-001",
+                "Warszawa",
+                admin
+        );
+
+        addressRepository.save(addressForAdmin);
+
+
 
         //Add user
         List<ShopCartLine> shopCartLinesForUser = new ArrayList<>();
@@ -73,6 +85,20 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
         shopCartForUser.setAppUser(user);
         shopCartRepository.save(shopCartForUser);
 
+        //Add user address
+
+        Address addressForUser = new Address(
+                "Jan",
+                "Kowalski",
+                "+48 223-254-525",
+                "ul. Testowa 1",
+                "00-001",
+                "Warszawa",
+                user
+        );
+
+        addressRepository.save(addressForUser);
+
 
 
 //Add test product category
@@ -87,7 +113,7 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
         ProductCategory productCategory9 = productCategoryRepository.save(new ProductCategory("Akcesoria"));
 
 //Add products
-        productRepository.save(new Product(
+       Product product1 = productRepository.save(new Product(
                 "LG Ultragear 27GP850P NanoIPS HDR",
                 "Zachwycający design oraz niezwykle bogata funkcjonalność – to czyni z monitora LG 27GP850P-B narzędzie, dzięki któremu odkryjesz gaming na nowo. Solidna konstrukcja połączona z panelem Nano IPS WQHD oferuje najlepsze doznania z gry w każdym calu. Bogate kolory, najdrobniejsze szczegóły i niezwykle szybki czas reakcji to cechy, dzięki którym odniesiesz sukces na wirtualnych polach bitwy. Poznaj gamingowy monitor LG 27GP850P-B.",
                 1199.00,
@@ -98,7 +124,9 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
                 ""
         ));
 
-        productRepository.save(new Product(
+
+
+        Product product2 = productRepository.save(new Product(
                 "Nothing Phone (2) - 256 GB + 12 GB", "Odkryj rewolucyjny smartfon Nothing Phone (2) - połączenie doskonałej wydajności, wspaniałego wyświetlacza i innowacyjnych funkcji. Dzięki układowi Snapdragon® 8+ Gen 1, doświadczysz niezrównanej mocy i szybkości działania. Imponujący wyświetlacz OLED o rozmiarze 6,7 cala i jasności pikseli sięgającej 1600 nitów zapewnia niesamowitą jakość obrazu.",
                 2499.00,
                 Arrays.asList("nothing1.jpg", "nothing2.jpg", "nothing3.jpg", "nothing4.jpg", "nothing5.jpg", "nothing6.jpg", "nothing7.jpg"),
@@ -294,5 +322,20 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
                 productCategory8,
                 ""
         ));
+
+
+        //Add product specifications
+
+        ProductSpecificationLine productSpecificationLineOneForProductOne = new ProductSpecificationLine("Rozmiar ekranu", "27 cali", product1);
+        productSpecificationLineRepository.save(productSpecificationLineOneForProductOne);
+        ProductSpecificationLine productSpecificationLineTwoForProductOne = new ProductSpecificationLine("Rozdzielczość", "2560x1440", product1);
+        productSpecificationLineRepository.save(productSpecificationLineTwoForProductOne);
+
+        ProductSpecificationLine productSpecificationLineOneForProductTwo = new ProductSpecificationLine("Rozmiar ekranu", "6 cali", product2);
+        productSpecificationLineRepository.save(productSpecificationLineOneForProductTwo);
+        ProductSpecificationLine productSpecificationLineTwoForProductTwo = new ProductSpecificationLine("Bateria", "3800mAh", product2);
+        productSpecificationLineRepository.save(productSpecificationLineTwoForProductTwo);
     }
+
+
 }

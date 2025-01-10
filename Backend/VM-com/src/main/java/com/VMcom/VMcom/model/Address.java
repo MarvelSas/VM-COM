@@ -41,4 +41,14 @@ public class Address {
     @JsonIgnore
     @OneToMany(mappedBy = "address")
     private List<AppUserOrder> appUserOrders;
+
+    public Address(String firstName, String lastName, String phoneNumber, String street, String zipCode, String city, AppUser appUser) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.street = street;
+        this.zipCode = zipCode;
+        this.city = city;
+        this.appUser = appUser;
+    }
 }
