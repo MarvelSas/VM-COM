@@ -3,9 +3,13 @@
     <div class="card-header">
       <h4 class="card-title mb-0">Profil użytkownika</h4>
     </div>
+
+    <!---------------------->
+    <!--- FORM USER DATA --->
+    <!---------------------->
     <div class="card-body">
-      <form [formGroup]="userForm" (ngSubmit)="saveChanges()">
-        <div *ngIf="editMode; else displayMode">
+      <form [formGroup]="userForm" (ngSubmit)="saveUserChanges()">
+        <div *ngIf="editModeUser; else displayModeUser">
           <h5>Dane osobowe</h5>
           <div class="mb-3">
             <label for="firstName" class="form-label">Imię</label>
@@ -38,73 +42,10 @@
           </div>
 
           <div class="mb-3">
-            <label for="phone" class="form-label">Telefon</label>
+            <label for="phoneNumber" class="form-label">Telefon</label>
             <input
-              id="phone"
-              formControlName="phone"
-              type="text"
-              class="form-control"
-            />
-          </div>
-
-          <hr />
-
-          <h5>Adres do wysyłki</h5>
-          <div class="mb-3">
-            <label for="shipFirstName" class="form-label">Imię</label>
-            <input
-              id="shipFirstName"
-              formControlName="shipFirstName"
-              type="text"
-              class="form-control"
-            />
-          </div>
-
-          <div class="mb-3">
-            <label for="shipLastName" class="form-label">Nazwisko</label>
-            <input
-              id="shipLastName"
-              formControlName="shipLastName"
-              type="text"
-              class="form-control"
-            />
-          </div>
-
-          <div class="mb-3">
-            <label for="shipStreet" class="form-label">Ulica</label>
-            <input
-              id="shipStreet"
-              formControlName="shipStreet"
-              type="text"
-              class="form-control"
-            />
-          </div>
-
-          <div class="mb-3">
-            <label for="shipCity" class="form-label">Miasto</label>
-            <input
-              id="shipCity"
-              formControlName="shipCity"
-              type="text"
-              class="form-control"
-            />
-          </div>
-
-          <div class="mb-3">
-            <label for="shipZipCode" class="form-label">Kod pocztowy</label>
-            <input
-              id="shipZipCode"
-              formControlName="shipZipCode"
-              type="text"
-              class="form-control"
-            />
-          </div>
-
-          <div class="mb-3">
-            <label for="shipPhoneNumber" class="form-label">Telefon</label>
-            <input
-              id="shipPhoneNumber"
-              formControlName="shipPhoneNumber"
+              id="phoneNumber"
+              formControlName="phoneNumber"
               type="text"
               class="form-control"
             />
@@ -120,13 +61,16 @@
           <button
             type="button"
             class="btn btn-secondary"
-            (click)="toggleEdit()"
+            (click)="toggleEditUser()"
           >
             Anuluj
           </button>
         </div>
 
-        <ng-template #displayMode>
+        <!-- -------------------->
+        <!-- DISPLAY USER DATA -->
+        <!-- -------------------->
+        <ng-template #displayModeUser>
           <h5>Dane osobowe</h5>
           <p><strong>Imię:</strong> {{ userForm.get("firstName")?.value }}</p>
           <p>
@@ -135,42 +79,209 @@
           <p>
             <strong>Adres e-mail:</strong> {{ userForm.get("email")?.value }}
           </p>
-          <p><strong>Telefon:</strong> {{ userForm.get("phone")?.value }}</p>
-
-          <hr />
-
-          <h5>Adres do wysyłki</h5>
-          <p *ngIf="addressNotFound" class="text-danger">
-            <strong>Brak adresu do wysyłki!</strong>
+          <p>
+            <strong>Telefon:</strong> {{ userForm.get("phoneNumber")?.value }}
           </p>
-          <div *ngIf="!addressNotFound">
-            <p>
-              <strong>Imię:</strong> {{ userForm.get("shipFirstName")?.value }}
-            </p>
-            <p>
-              <strong>Nazwisko:</strong>
-              {{ userForm.get("shipLastName")?.value }}
-            </p>
-            <p>
-              <strong>Ulica:</strong> {{ userForm.get("shipStreet")?.value }}
-            </p>
-            <p>
-              <strong>Miasto:</strong> {{ userForm.get("shipCity")?.value }}
-            </p>
-            <p>
-              <strong>Kod pocztowy:</strong>
-              {{ userForm.get("shipZipCode")?.value }}
-            </p>
-            <p>
-              <strong>Telefon:</strong>
-              {{ userForm.get("shipPhoneNumber")?.value }}
-            </p>
-          </div>
-
-          <button type="button" class="btn btn-primary" (click)="toggleEdit()">
-            Edytuj
+          <button
+            type="button"
+            class="btn btn-primary"
+            (click)="toggleEditUser()"
+          >
+            Edytuj dane
           </button>
         </ng-template>
+      </form>
+    </div>
+    <hr />
+
+    <!------------------------>
+    <!-- FORM USER PASSWORD -->
+    <!------------------------>
+    <div class="card-body">
+      <h5>Dane konta</h5>
+      <div *ngIf="editModePassword; else displayModePassword">
+        <form [formGroup]="passwordForm" (ngSubmit)="savePasswordChanges()">
+          <div class="mb-3">
+            <label for="oldPassword" class="form-label">Stare hasło</label>
+            <input
+              id="oldPassword"
+              formControlName="oldPassword"
+              type="password"
+              class="form-control"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="newPassword" class="form-label">Nowe hasło</label>
+            <input
+              id="newPassword"
+              formControlName="newPassword"
+              type="password"
+              class="form-control"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="confirmPassword" class="form-label"
+              >Powtórz hasło</label
+            >
+            <input
+              id="confirmPassword"
+              formControlName="confirmPassword"
+              type="password"
+              class="form-control"
+            />
+          </div>
+
+          <button
+            type="submit"
+            class="btn btn-success me-2"
+            [disabled]="passwordForm.invalid"
+          >
+            Zapisz
+          </button>
+          <button
+            type="button"
+            class="btn btn-secondary"
+            (click)="toggleEditPassword()"
+          >
+            Anuluj
+          </button>
+        </form>
+      </div>
+
+      <!---------------------------->
+      <!-- PASSWORD CHANGE BUTTON -->
+      <!---------------------------->
+      <ng-template #displayModePassword>
+        <div class="buttonsContainer">
+          <button
+            type="button"
+            class="btn btn-primary"
+            (click)="toggleEditPassword()"
+          >
+            Zmień hasło
+          </button>
+          <button
+            type="button"
+            class="btn btn-primary"
+            (click)="toggleEditPassword()"
+            disabled
+          >
+            Zmień adres e-mail
+          </button>
+        </div>
+      </ng-template>
+    </div>
+    <hr />
+
+    <!-- -------------------->
+    <!-- FORM USER ADDRESS -->
+    <!-- -------------------->
+    <div class="card-body">
+      <h5>Adresy do wysyłki</h5>
+      <button
+        type="button"
+        class="btn btn-primary mb-3"
+        (click)="addNewAddressButton()"
+      >
+        Dodaj nowy adres
+      </button>
+      <div class="address-cards">
+        <div
+          class="address-card"
+          *ngFor="let address of addresses; let i = index"
+          (click)="selectAddress(i)"
+          [ngClass]="{ selected: i === selectedAddressIndex }"
+          tooltip="Kliknij, aby edytować"
+        >
+          <p><strong>Imię:</strong> {{ address.firstName }}</p>
+          <p><strong>Nazwisko:</strong> {{ address.lastName }}</p>
+          <p><strong>Ulica:</strong> {{ address.street }}</p>
+          <p><strong>Miasto:</strong> {{ address.city }}</p>
+          <p><strong>Kod pocztowy:</strong> {{ address.zipCode }}</p>
+          <p><strong>Telefon:</strong> {{ address.phoneNumber }}</p>
+        </div>
+      </div>
+
+      <form [formGroup]="addressForm" (ngSubmit)="saveAddressChanges()">
+        <div *ngIf="editModeAddress">
+          <h5 class="addresFormTitle">
+            {{ addNewAddressMode ? "Dodaj nowy adres" : "Edytuj adres" }}
+          </h5>
+          <div class="mb-3">
+            <label for="firstName" class="form-label">Imię</label>
+            <input
+              id="firstName"
+              formControlName="firstName"
+              type="text"
+              class="form-control"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label for="lastName" class="form-label">Nazwisko</label>
+            <input
+              id="lastName"
+              formControlName="lastName"
+              type="text"
+              class="form-control"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label for="street" class="form-label">Ulica</label>
+            <input
+              id="street"
+              formControlName="street"
+              type="text"
+              class="form-control"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label for="city" class="form-label">Miasto</label>
+            <input
+              id="city"
+              formControlName="city"
+              type="text"
+              class="form-control"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label for="zipCode" class="form-label">Kod pocztowy</label>
+            <input
+              id="zipCode"
+              formControlName="zipCode"
+              type="text"
+              class="form-control"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label for="phoneNumber" class="form-label">Telefon</label>
+            <input
+              id="phoneNumber"
+              formControlName="phoneNumber"
+              type="text"
+              class="form-control"
+            />
+          </div>
+
+          <button
+            type="submit"
+            class="btn btn-success me-2"
+            [disabled]="addressForm.invalid"
+          >
+            Zapisz
+          </button>
+          <button
+            type="button"
+            class="btn btn-secondary"
+            (click)="cancelAddressForm()"
+          >
+            Anuluj
+          </button>
+        </div>
       </form>
     </div>
   </div>

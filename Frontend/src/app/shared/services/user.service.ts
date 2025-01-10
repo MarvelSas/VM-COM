@@ -1,8 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { first, last, Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { IAddressResponse } from '../models/address.model';
+import { IAddress } from '../models/address.model';
+import { IApiResponse } from '../models/api-response.model';
+import { IUserDetails } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root',
@@ -10,42 +12,69 @@ import { IAddressResponse } from '../models/address.model';
 export class UserService {
   API_URL = environment.API_URL;
 
-  dummyUserData = {
-    name: 'John',
-    surname: 'Doe',
-    email: 'test@mail.com',
-    phone: '123456789',
-  };
-  dummyAddressData = {
-    city: 'Warsaw',
-    street: 'Marszałkowska',
-    number: '1',
-    zip: '00-000',
-  };
+  // dummyUserData = {
+  //   name: 'John',
+  //   surname: 'Doe',
+  //   email: 'test@mail.com',
+  //   phone: '123456789',
+  // };
+  // dummyAddressData = {
+  //   city: 'Warsaw',
+  //   street: 'Marszałkowska',
+  //   number: '1',
+  //   zip: '00-000',
+  // };
 
   constructor(private http: HttpClient) {}
 
   getUserData(): Observable<any> {
-    return of(this.dummyUserData);
+    // return of(this.dummyUserData);
+    return this.http.get<IApiResponse<IUserDetails>>(`${this.API_URL}appUser`);
   }
 
-  updateUserData() {}
-
-  getUserAddress(): Observable<any> {
-    return this.http.get<IAddressResponse>(`${this.API_URL}address/1`);
+  updateUserData(userData: IUserDetails) {
+    return this.http.patch(`${this.API_URL}appUser`, userData);
   }
 
-  saveUserAddress(userAddress: any) {
+  getUserAddresses(): Observable<any> {
+    return this.http.get<IApiResponse<IAddress>>(`${this.API_URL}addresses`);
+  }
+  addUserAddress(newAddress): Observable<any> {
+    return this.http.post(`${this.API_URL}addresses`, newAddress);
+  }
+
+  addNewAddress(userAddress: IAddress) {
     const newAddress = {
-      street: userAddress.shipStreet,
-      zipCode: userAddress.shipZipCode,
-      city: userAddress.shipCity,
+      firstName: userAddress.firstName,
+      lastName: userAddress.lastName,
+      phoneNumber: userAddress.phoneNumber,
+      street: userAddress.street,
+      zipCode: userAddress.zipCode,
+      city: userAddress.city,
     };
 
-    console.log(userAddress);
-    console.log(newAddress);
+    return this.http.post(`${this.API_URL}address`, newAddress);
+  }
 
-    console.log(newAddress);
-    return this.http.put(`${this.API_URL}address/1`, newAddress);
+  updateAddress(userAddress: IAddress, id: number) {
+    console.log(userAddress);
+    const newAddress = {
+      firstName: userAddress.firstName,
+      lastName: userAddress.lastName,
+      phoneNumber: userAddress.phoneNumber,
+      street: userAddress.street,
+      zipCode: userAddress.zipCode,
+      city: userAddress.city,
+    };
+
+    // console.log(userAddress);
+    // console.log(newAddress);
+
+    // console.log(newAddress);
+    return this.http.put(`${this.API_URL}address/${id}`, newAddress);
+  }
+
+  changePassword(passwords: any) {
+    console.log(passwords);
   }
 }

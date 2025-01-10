@@ -34,6 +34,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   user = null;
   searchResults: IProduct[] = [];
   API_IMG = environment.API_IMG;
+  cartCount: number = 3;
 
   constructor(
     private authService: AuthService,

@@ -6,11 +6,11 @@ export interface IAddressResponse {
   data: IAddressData;
 }
 
-interface IAddressData {
-  data: IAddressData2;
+export interface IAddressData {
+  data: IAddress[];
 }
 
-interface IAddressData2 {
+export interface IAddress {
   id: number;
   firstName: string;
   lastName: string;
