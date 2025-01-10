@@ -11,6 +11,7 @@ import { ToastrService } from 'ngx-toastr';
 import { RoleService } from './role.service';
 import { IApiResponse, IAuthResponse } from '../models/api-response.model';
 import { IJwtPayload } from '../models/jwt.model';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -25,7 +26,8 @@ export class AuthService implements OnInit {
   constructor(
     private http: HttpClient,
     private toastr: ToastrService,
-    private roleService: RoleService
+    private roleService: RoleService,
+    private router: Router
   ) {}
 
   signIn(loginData) {
@@ -157,6 +159,7 @@ export class AuthService implements OnInit {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
     this.roleService.setRoles([]);
+    this.router.navigate(['/']);
 
     this.toastr.info('Wylogowano pomyślnie!', null, {
       positionClass: 'toast-bottom-right',
