@@ -62,7 +62,7 @@ public class AppUserController {
             return ResponseEntity.ok(
                     Response.builder()
                             .timeStamp(LocalDateTime.now())
-                            .data(Map.of("data", appUserService.getAppUserDetails()))
+                            .data(Map.of("appUserDetails", appUserService.getAppUserDetails()))
                             .message("User details returned successfully")
                             .status(HttpStatus.OK)
                             .statusCode(HttpStatus.OK.value())
