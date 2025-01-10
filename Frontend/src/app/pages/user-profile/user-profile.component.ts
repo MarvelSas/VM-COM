@@ -136,6 +136,9 @@ export class UserProfileComponent implements OnInit {
               console.error('Error saving user data:', error);
             },
             complete: () => {
+              this.editModeAddress = false;
+              this.selectedAddressIndex = null;
+              this.addressForm.reset();
               this.getAddresses();
             },
           });
@@ -149,7 +152,11 @@ export class UserProfileComponent implements OnInit {
           error: (error) => {
             console.error('Error saving user address:', error);
           },
-          complete: () => {},
+          complete: () => {
+            this.addNewAddressMode = null;
+            this.editModeAddress = false;
+            this.addressForm.reset();
+          },
         });
       }
 
