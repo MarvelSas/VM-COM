@@ -32,7 +32,7 @@ export class UserProfileComponent implements OnInit {
       firstName: ['', [Validators.required, Validators.minLength(2)]],
       lastName: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
-      phoneNumber: ['', [Validators.required, Validators.pattern(/^\d{9}$/)]],
+      phoneNumber: ['', [Validators.required]],
     });
 
     this.addressForm = this.fb.group({
