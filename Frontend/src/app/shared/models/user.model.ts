@@ -5,7 +5,7 @@ export interface IUser {
 }
 
 export interface IUserDetails {
-  data: {
+  appUserDetails: {
     firstName: string;
     lastName: string;
     phoneNumber: string;

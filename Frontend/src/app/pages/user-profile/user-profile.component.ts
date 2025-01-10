@@ -61,19 +61,24 @@ export class UserProfileComponent implements OnInit {
     this.userService.getUserData().subscribe({
       next: (res: IApiResponse<IUserDetails>) => {
         this.userData = res;
+        console.log(this.userData);
         this.userForm.patchValue({
           firstName:
-            res.data.data.firstName === '' ? 'Brak' : res.data.data.firstName,
+            res.data.appUserDetails.firstName === ''
+              ? 'Brak'
+              : res.data.appUserDetails.firstName,
           lastName:
-            res.data.data.lastName === '' ? 'Brak' : res.data.data.lastName,
+            res.data.appUserDetails.lastName === ''
+              ? 'Brak'
+              : res.data.appUserDetails.lastName,
           email:
             this.authService.currentUserEmail === ''
               ? 'Brak'
               : this.authService.currentUserEmail,
           phoneNumber:
-            res.data.data.phoneNumber === ''
+            res.data.appUserDetails.phoneNumber === ''
               ? 'Brak'
-              : res.data.data.phoneNumber,
+              : res.data.appUserDetails.phoneNumber,
         });
       },
       error: (error) => {
