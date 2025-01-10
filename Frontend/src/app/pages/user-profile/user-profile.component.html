@@ -134,7 +134,7 @@
           <button
             type="submit"
             class="btn btn-success me-2"
-            [disabled]="userForm.invalid"
+            [disabled]="passwordForm.invalid"
           >
             Zapisz
           </button>
@@ -177,9 +177,34 @@
     <!-- FORM USER ADDRESS -->
     <!-- -------------------->
     <div class="card-body">
+      <h5>Adresy do wysyłki</h5>
+      <button
+        type="button"
+        class="btn btn-primary mb-3"
+        (click)="addNewAddress()"
+      >
+        Dodaj nowy adres
+      </button>
+      <div class="address-cards">
+        <div
+          class="address-card"
+          *ngFor="let address of addresses; let i = index"
+          (click)="selectAddress(i)"
+          [ngClass]="{ selected: i === selectedAddressIndex }"
+          tooltip="Kliknij, aby edytować"
+        >
+          <p><strong>Imię:</strong> {{ address.firstName }}</p>
+          <p><strong>Nazwisko:</strong> {{ address.lastName }}</p>
+          <p><strong>Ulica:</strong> {{ address.street }}</p>
+          <p><strong>Miasto:</strong> {{ address.city }}</p>
+          <p><strong>Kod pocztowy:</strong> {{ address.zipCode }}</p>
+          <p><strong>Telefon:</strong> {{ address.phoneNumber }}</p>
+        </div>
+      </div>
+
       <form [formGroup]="addressForm" (ngSubmit)="saveAddressChanges()">
-        <div *ngIf="editModeAddress; else displayModeAddress">
-          <h5>Adres do wysyłki</h5>
+        <div *ngIf="editModeAddress">
+          <h5>Edytuj adres</h5>
           <div class="mb-3">
             <label for="firstName" class="form-label">Imię</label>
             <input
@@ -243,57 +268,18 @@
           <button
             type="submit"
             class="btn btn-success me-2"
-            [disabled]="userForm.invalid"
+            [disabled]="addressForm.invalid"
           >
             Zapisz
           </button>
           <button
             type="button"
             class="btn btn-secondary"
-            (click)="toggleEditAdress()"
+            (click)="toggleEditAddress()"
           >
             Anuluj
           </button>
         </div>
-
-        <!-- -------------------->
-        <!-- DISPLAY ADDRESS -->
-        <!-- -------------------->
-        <ng-template #displayModeAddress>
-          <h5>Adres do wysyłki</h5>
-          <p *ngIf="addressNotFound" class="text-danger">
-            <strong>Brak adresu do wysyłki!</strong>
-          </p>
-          <div *ngIf="!addressNotFound">
-            <p>
-              <strong>Imię:</strong> {{ addressForm.get("firstName")?.value }}
-            </p>
-            <p>
-              <strong>Nazwisko:</strong>
-              {{ addressForm.get("lastName")?.value }}
-            </p>
-            <p>
-              <strong>Ulica:</strong> {{ addressForm.get("street")?.value }}
-            </p>
-            <p><strong>Miasto:</strong> {{ addressForm.get("city")?.value }}</p>
-            <p>
-              <strong>Kod pocztowy:</strong>
-              {{ addressForm.get("zipCode")?.value }}
-            </p>
-            <p>
-              <strong>Telefon:</strong>
-              {{ addressForm.get("phoneNumber")?.value }}
-            </p>
-          </div>
-
-          <button
-            type="button"
-            class="btn btn-primary"
-            (click)="toggleEditAdress()"
-          >
-            {{ addressNotFound ? "Dodaj nowy adres" : "Edytuj adres" }}
-          </button>
-        </ng-template>
       </form>
     </div>
   </div>

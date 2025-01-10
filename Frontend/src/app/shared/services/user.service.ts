@@ -39,6 +39,9 @@ export class UserService {
   getUserAddresses(): Observable<any> {
     return this.http.get<IApiResponse<IAddress>>(`${this.API_URL}addresses`);
   }
+  addUserAddress(newAddress): Observable<any> {
+    return this.http.post(`${this.API_URL}addresses`, newAddress);
+  }
 
   addNewAddress(userAddress: IAddress) {
     const newAddress = {
@@ -53,7 +56,7 @@ export class UserService {
     return this.http.post(`${this.API_URL}address`, newAddress);
   }
 
-  updateAddress(userAddress: IAddress) {
+  updateAddress(userAddress: IAddress, id: number) {
     console.log(userAddress);
     const newAddress = {
       firstName: userAddress.firstName,
@@ -68,7 +71,7 @@ export class UserService {
     // console.log(newAddress);
 
     // console.log(newAddress);
-    return this.http.put(`${this.API_URL}address/1`, newAddress);
+    return this.http.put(`${this.API_URL}address/${id}`, newAddress);
   }
 
   changePassword(passwords: any) {

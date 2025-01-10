@@ -95,3 +95,27 @@ strong {
     margin: 5px 0;
   }
 }
+
+.address-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.address-card {
+  flex: 1 1 calc(33.333% - 10px);
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.address-card:hover {
+  background-color: #f8f8f8;
+}
+
+.address-card.selected {
+  border-color: #007bff;
+  background-color: #e9f5ff;
+}

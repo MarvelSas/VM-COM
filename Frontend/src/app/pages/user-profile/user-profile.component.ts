@@ -1,14 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import {
-  IAddress,
-  IAddressData,
-  IAddressResponse,
-} from 'src/app/shared/models/address.model';
-import { IApiResponse } from 'src/app/shared/models/api-response.model';
-import { IUserDetails } from 'src/app/shared/models/user.model';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { UserService } from 'src/app/shared/services/user.service';
+import { IAddress, IAddressData } from 'src/app/shared/models/address.model';
+import { IApiResponse } from 'src/app/shared/models/api-response.model';
+import { IUserDetails } from 'src/app/shared/models/user.model';
 
 @Component({
   selector: 'app-user-profile',
@@ -23,9 +19,8 @@ export class UserProfileComponent implements OnInit {
   editModeAddress = false;
   editModePassword = false;
   userData: any = {};
-  addressData: any = {};
-  userAddress: IAddressResponse;
-  addressNotFound = false;
+  addresses: IAddress[] = [];
+  selectedAddressIndex: number = null;
 
   constructor(
     private fb: FormBuilder,
@@ -40,6 +35,7 @@ export class UserProfileComponent implements OnInit {
     });
 
     this.addressForm = this.fb.group({
+      id: [null],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       street: ['', Validators.required],
@@ -89,37 +85,12 @@ export class UserProfileComponent implements OnInit {
   getAddresses() {
     this.userService.getUserAddresses().subscribe({
       next: (res: IApiResponse<IAddressData>) => {
-        console.log(res.data);
-        this.addressData = res;
-        this.addressForm.patchValue({
-          firstName: res.data.data[0].firstName,
-          lastName: res.data.data[0].lastName,
-          street: res.data.data[0].street,
-          city: res.data.data[0].city,
-          zipCode: res.data.data[0].zipCode,
-          phoneNumber: res.data.data[0].phoneNumber,
-        });
-        this.addressNotFound = false;
+        this.addresses = res.data.data;
       },
       error: (error) => {
-        if (error.status === 400) {
-          this.addressNotFound = true;
-        } else {
-          console.error('Error fetching user address:', error);
-        }
+        console.error('Error fetching user addresses:', error);
       },
     });
-  }
-  toggleEditUser() {
-    this.editModeUser = !this.editModeUser;
-  }
-
-  toggleEditAdress() {
-    this.editModeAddress = !this.editModeAddress;
-  }
-
-  toggleEditPassword() {
-    this.editModePassword = !this.editModePassword;
   }
 
   saveUserChanges() {
@@ -138,43 +109,84 @@ export class UserProfileComponent implements OnInit {
     }
   }
 
+  savePasswordChanges() {
+    if (this.passwordForm.valid) {
+    }
+  }
+
   saveAddressChanges() {
     if (this.addressForm.valid) {
-      this.editModeAddress = false;
-      console.log('Address data saved:', this.addressForm.value);
-      if (this.addressNotFound) {
-        console.log('Dodawanie nowego adresu');
-        this.userService.addNewAddress(this.addressForm.value).subscribe({
-          next: (res) => {
-            // console.log('User address saved:', res);
-          },
-          error: (error) => {
-            console.error('Error saving user data:', error);
-          },
-          complete: () => {
-            // this.getAddresses();
-          },
-        });
+      const address = this.addressForm.value;
+      if (this.selectedAddressIndex !== null) {
+        this.addresses[this.selectedAddressIndex] = address;
       } else {
-        console.log('Aktualizacja adresu');
-        this.userService.updateAddress(this.addressForm.value).subscribe({
+        this.addresses.push(address);
+      }
+
+      if (this.editModeAddress) {
+        this.userService
+          .updateAddress(
+            this.addressForm.value,
+            this.addresses[this.selectedAddressIndex].id
+          )
+          .subscribe({
+            next: (res) => {},
+            error: (error) => {
+              console.error('Error saving user data:', error);
+            },
+            complete: () => {
+              this.getAddresses();
+            },
+          });
+      } else {
+        this.userService.addNewAddress(address).subscribe({
           next: (res) => {
-            // console.log('User address saved:', res);
-          },
-          error: (error) => {
-            console.error('Error saving user data:', error);
-          },
-          complete: () => {
+            this.editModeAddress = false;
+            this.selectedAddressIndex = null;
             this.getAddresses();
           },
+          error: (error) => {
+            console.error('Error saving user address:', error);
+          },
+          complete: () => {},
         });
       }
+
+      // this.userService.updateUserAddresses(this.addresses).subscribe({
+      //   next: (res) => {
+      //     this.editModeAddress = false;
+      //     this.selectedAddressIndex = null;
+      //   },
+      //   error: (error) => {
+      //     console.error('Error saving user address:', error);
+      //   },
+      // });
     } else {
       console.error('Invalid form data');
     }
   }
 
-  savePasswordChanges() {
-    this.userService.changePassword(this.passwordForm.value);
+  toggleEditUser(): void {
+    this.editModeUser = !this.editModeUser;
+  }
+
+  toggleEditPassword(): void {
+    this.editModePassword = !this.editModePassword;
+  }
+
+  toggleEditAddress(): void {
+    this.editModeAddress = !this.editModeAddress;
+  }
+
+  selectAddress(index: number): void {
+    this.selectedAddressIndex = index;
+    this.addressForm.patchValue(this.addresses[index]);
+    this.editModeAddress = true;
+  }
+
+  addNewAddress(): void {
+    this.selectedAddressIndex = null;
+    this.addressForm.reset();
+    this.editModeAddress = true;
   }
 }
