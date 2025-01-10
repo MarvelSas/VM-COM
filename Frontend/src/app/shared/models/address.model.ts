@@ -6,8 +6,8 @@ export interface IAddressResponse {
   data: IAddressData;
 }
 
-interface IAddressData {
-  data: IAddress;
+export interface IAddressData {
+  data: IAddress[];
 }
 
 export interface IAddress {

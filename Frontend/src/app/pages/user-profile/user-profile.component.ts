@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { IAddressResponse } from 'src/app/shared/models/address.model';
+import {
+  IAddress,
+  IAddressData,
+  IAddressResponse,
+} from 'src/app/shared/models/address.model';
 import { IApiResponse } from 'src/app/shared/models/api-response.model';
 import { IUserDetails } from 'src/app/shared/models/user.model';
 import { AuthService } from 'src/app/shared/services/auth.service';
@@ -83,16 +87,17 @@ export class UserProfileComponent implements OnInit {
   }
 
   getAddresses() {
-    this.userService.getUserAddress().subscribe({
-      next: (res: IAddressResponse) => {
+    this.userService.getUserAddresses().subscribe({
+      next: (res: IApiResponse<IAddressData>) => {
+        console.log(res.data);
         this.addressData = res;
         this.addressForm.patchValue({
-          firstName: res.data.data.firstName,
-          lastName: res.data.data.lastName,
-          street: res.data.data.street,
-          city: res.data.data.city,
-          zipCode: res.data.data.zipCode,
-          phoneNumber: res.data.data.phoneNumber,
+          firstName: res.data.data[0].firstName,
+          lastName: res.data.data[0].lastName,
+          street: res.data.data[0].street,
+          city: res.data.data[0].city,
+          zipCode: res.data.data[0].zipCode,
+          phoneNumber: res.data.data[0].phoneNumber,
         });
         this.addressNotFound = false;
       },
@@ -159,7 +164,9 @@ export class UserProfileComponent implements OnInit {
           error: (error) => {
             console.error('Error saving user data:', error);
           },
-          complete: () => {},
+          complete: () => {
+            this.getAddresses();
+          },
         });
       }
     } else {
