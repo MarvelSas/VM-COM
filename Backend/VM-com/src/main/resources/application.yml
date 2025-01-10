@@ -2,7 +2,7 @@ spring:
   datasource:
 #    EXTERNAL DATABASE
     password: hpIBGdv9j6CE
-    url: jdbc:postgresql://ep-royal-fog-a2dwl67l.eu-central-1.aws.neon.tech:5432/VM-com2
+    url: jdbc:postgresql://ep-royal-fog-a2dwl67l.eu-central-1.aws.neon.tech:5432/VM-com
     username: VM-com
     driver-class-name: org.postgresql.Driver
 #

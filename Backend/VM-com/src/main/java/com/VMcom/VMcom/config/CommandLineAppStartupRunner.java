@@ -89,10 +89,7 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
 //Add products
         productRepository.save(new Product(
                 "LG Ultragear 27GP850P NanoIPS HDR",
-                "Zachwycający design oraz niezwykle bogata funkcjonalność – to czyni z monitora LG 27GP850P-B narzędzie, dzięki któremu odkryjesz gaming na nowo.\n" +
-                        "Solidna konstrukcja połączona z panelem Nano IPS WQHD oferuje najlepsze doznania z gry w każdym calu.\n" +
-                        "Bogate kolory, najdrobniejsze szczegóły i niezwykle szybki czas reakcji to cechy, dzięki którym odniesiesz sukces na wirtualnych polach bitwy.\n" +
-                        "Poznaj gamingowy monitor LG 27GP850P-B.",
+                "Zachwycający design oraz niezwykle bogata funkcjonalność – to czyni z monitora LG 27GP850P-B narzędzie, dzięki któremu odkryjesz gaming na nowo. Solidna konstrukcja połączona z panelem Nano IPS WQHD oferuje najlepsze doznania z gry w każdym calu. Bogate kolory, najdrobniejsze szczegóły i niezwykle szybki czas reakcji to cechy, dzięki którym odniesiesz sukces na wirtualnych polach bitwy. Poznaj gamingowy monitor LG 27GP850P-B.",
                 1199.00,
                 Arrays.asList("lg1.jpg", "lg2.jpg", "lg3.jpg", "lg4.jpg", "lg5.jpg", "lg6.jpg", "lg7.jpg"),
                 0,
@@ -102,101 +99,24 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
         ));
 
         productRepository.save(new Product(
-                "Nothing Phone (2) - 256 GB + 12 GB",
-                "Odkryj rewolucyjny smartfon Nothing Phone (2) - połączenie doskonałej wydajności, wspaniałego wyświetlacza i innowacyjnych funkcji.\n" +
-                        "Dzięki układowi Snapdragon® 8+ Gen 1, doświadczysz niezrównanej mocy i szybkości działania.\n" +
-                        "Imponujący wyświetlacz OLED o rozmiarze 6,7 cala i jasności pikseli sięgającej 1600 nitów zapewnia niesamowitą jakość obrazu.",
+                "Nothing Phone (2) - 256 GB + 12 GB", "Odkryj rewolucyjny smartfon Nothing Phone (2) - połączenie doskonałej wydajności, wspaniałego wyświetlacza i innowacyjnych funkcji. Dzięki układowi Snapdragon® 8+ Gen 1, doświadczysz niezrównanej mocy i szybkości działania. Imponujący wyświetlacz OLED o rozmiarze 6,7 cala i jasności pikseli sięgającej 1600 nitów zapewnia niesamowitą jakość obrazu.",
                 2499.00,
                 Arrays.asList("nothing1.jpg", "nothing2.jpg", "nothing3.jpg", "nothing4.jpg", "nothing5.jpg", "nothing6.jpg", "nothing7.jpg"),
                 0,
                 2L,
-                productCategory6,
+                productCategory6
+                ,
                 ""
         ));
 
         productRepository.save(new Product(
                 "Apple MacBook Pro 14 M2",
-                "Apple MacBook Pro 14 M2 to zaawansowany laptop stworzony z myślą o profesjonalistach poszukujących najwyższej wydajności i doskonałej jakości wykonania.\n" +
-                        "Wyposażony w najnowszy procesor Apple M2, 16 GB pamięci RAM oraz 512 GB SSD, oferuje błyskawiczne ładowanie aplikacji oraz płynne działanie nawet podczas najbardziej wymagających zadań.\n" +
-                        "Ekran Retina o rozdzielczości 3024x1964 z technologią ProMotion i jasnością do 1000 nitów zapewnia wyjątkową ostrość i bogate kolory, które ożywią Twoje projekty.\n" +
-                        "Obudowa z aluminium nie tylko prezentuje się elegancko, ale również zapewnia trwałość i solidność.\n" +
-                        "Idealny wybór dla grafików, inżynierów i każdego, kto potrzebuje sprzętu do intensywnej pracy twórczej.",
+                "Apple MacBook Pro 14 M2 to zaawansowany laptop stworzony z myślą o profesjonalistach poszukujących najwyższej wydajności i doskonałej jakości wykonania. Wyposażony w najnowszy procesor Apple M2, 16 GB pamięci RAM oraz 512 GB SSD, oferuje błyskawiczne ładowanie aplikacji oraz płynne działanie nawet podczas najbardziej wymagających zadań. Ekran Retina o rozdzielczości 3024x1964 z technologią ProMotion i jasnością do 1000 nitów zapewnia wyjątkową ostrość i bogate kolory, które ożywią Twoje projekty. Obudowa z aluminium nie tylko prezentuje się elegancko, ale również zapewnia trwałość i solidność. Idealny wybór dla grafików, inżynierów i każdego, kto potrzebuje sprzętu do intensywnej pracy twórczej.",
                 10999.00,
                 Arrays.asList("apple1.jpg", "apple2.jpg", "apple3.jpg"),
                 0,
                 5L,
                 productCategory1,
-                ""
-        ));
-
-        productRepository.save(new Product(
-                "Samsung Galaxy Tab S9 Ultra",
-                "Samsung Galaxy Tab S9 Ultra to tablet, który redefiniuje standardy mobilnej wydajności.\n" +
-                        "Wyposażony w procesor Snapdragon 8 Gen 2 i aż 16 GB pamięci RAM, ten potężny sprzęt radzi sobie z każdą aplikacją i grą.\n" +
-                        "Gigantyczny wyświetlacz AMOLED o przekątnej 14,6 cala i rozdzielczości 2960x1848 oferuje niesamowite kolory oraz szczegółowość obrazu.\n" +
-                        "Dzięki baterii o pojemności 11200 mAh możesz cieszyć się długim czasem pracy na jednym ładowaniu.\n" +
-                        "Idealny wybór dla artystów, profesjonalistów i entuzjastów multimediów.",
-                5799.00,
-                Arrays.asList("samsung1.jpg", "samsung2.jpg", "samsung3.jpg"),
-                0,
-                5L,
-                productCategory2,
-                ""
-        ));
-
-        productRepository.save(new Product(
-                "Sony WH-1000XM5",
-                "Sony WH-1000XM5 to bezprzewodowe słuchawki, które oferują niesamowitą jakość dźwięku oraz jedną z najlepszych redukcji szumów na rynku.\n" +
-                        "Dzięki przetwornikom o średnicy 30 mm oraz obsłudze Hi-Res Audio, usłyszysz każdy detal swojej ulubionej muzyki.\n" +
-                        "Wygodne nauszniki i długi czas pracy na baterii (do 30 godzin) sprawiają, że są one idealnym wyborem na każdą podróż.\n" +
-                        "Funkcje takie jak Adaptive Sound Control czy Speak-to-Chat dodatkowo podnoszą komfort użytkowania.",
-                1699.00,
-                Arrays.asList("sony1.jpg", "sony2.jpg", "sony3.jpg", "sony4.jpg"),
-                0,
-                2L,
-                productCategory3,
-                ""
-        ));
-
-        productRepository.save(new Product(
-                "Dell XPS 15",
-                "Dell XPS 15 to laptop stworzony dla osób, które potrzebują narzędzia do pracy i rozrywki w jednym urządzeniu.\n" +
-                        "Wyposażony w procesor Intel Core i7-12700H, kartę graficzną NVIDIA RTX 3050 oraz 16 GB RAM, zapewnia wydajność wystarczającą do edycji wideo, projektowania graficznego oraz grania.\n" +
-                        "Ekran InfinityEdge o rozdzielczości 3840x2400 zapewnia doskonałą jakość obrazu i szerokie kąty widzenia.\n" +
-                        "Stylowy design, wysoka jakość wykonania oraz długi czas pracy na baterii sprawiają, że Dell XPS 15 to laptop premium w każdym calu.",
-                8999.00,
-                Arrays.asList("dell1.jpg", "dell2.jpg", "dell3.jpg"),
-                0,
-                5L,
-                productCategory4,
-                ""
-        ));
-
-        productRepository.save(new Product(
-                "PlayStation 5 Digital Edition",
-                "PlayStation 5 Digital Edition to konsola nowej generacji, która oferuje wyjątkową grafikę, błyskawiczne czasy ładowania oraz bogatą bibliotekę ekskluzywnych gier.\n" +
-                        "Wyposażona w procesor AMD Ryzen Zen 2 oraz kartę graficzną RDNA 2, konsola zapewnia rozdzielczość 4K oraz płynność do 120 klatek na sekundę.\n" +
-                        "Dysk SSD o pojemności 825 GB gwarantuje szybki dostęp do gier i aplikacji, a minimalistyczny design świetnie komponuje się z każdym wnętrzem.\n" +
-                        "Doskonały wybór dla graczy, którzy stawiają na cyfrową dystrybucję gier.",
-                2399.00,
-                Arrays.asList("ps51.jpg", "ps52.jpg", "ps53.jpg"),
-                0,
-                2L,
-                productCategory5,
-                ""
-        ));
-
-        productRepository.save(new Product(
-                "Kindle Paperwhite Signature Edition",
-                "Kindle Paperwhite Signature Edition to idealny czytnik e-booków dla osób, które cenią sobie wygodę czytania w każdej sytuacji.\n" +
-                        "Wyposażony w ekran 6,8 cala z regulowanym oświetleniem oraz technologią E-Ink, oferuje komfort czytania zbliżony do papierowej książki.\n" +
-                        "Dzięki pojemnej baterii możesz korzystać z urządzenia przez tygodnie bez konieczności ładowania.\n" +
-                        "Dodatkowe funkcje, takie jak bezprzewodowe ładowanie oraz 32 GB pamięci, sprawiają, że jest to jeden z najlepszych czytników na rynku.",
-                799.00,
-                Arrays.asList("kindle1.jpg", "kindle2.jpg"),
-                0,
-                3L,
-                productCategory6,
                 ""
         ));
 
