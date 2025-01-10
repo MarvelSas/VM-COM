@@ -42,10 +42,10 @@
           </div>
 
           <div class="mb-3">
-            <label for="phone" class="form-label">Telefon</label>
+            <label for="phoneNumber" class="form-label">Telefon</label>
             <input
-              id="phone"
-              formControlName="phone"
+              id="phoneNumber"
+              formControlName="phoneNumber"
               type="text"
               class="form-control"
             />
@@ -79,7 +79,9 @@
           <p>
             <strong>Adres e-mail:</strong> {{ userForm.get("email")?.value }}
           </p>
-          <p><strong>Telefon:</strong> {{ userForm.get("phone")?.value }}</p>
+          <p>
+            <strong>Telefon:</strong> {{ userForm.get("phoneNumber")?.value }}
+          </p>
           <button
             type="button"
             class="btn btn-primary"

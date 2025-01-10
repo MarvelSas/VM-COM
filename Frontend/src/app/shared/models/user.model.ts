@@ -9,7 +9,7 @@ export interface IUserDetails {
     firstName: string;
     lastName: string;
     phoneNumber: string;
-    email: string;
+    email?: string;
   };
 }
 

@@ -32,7 +32,9 @@ export class UserService {
     return this.http.get<IApiResponse<IUserDetails>>(`${this.API_URL}appUser`);
   }
 
-  updateUserData(userData: any) {}
+  updateUserData(userData: IUserDetails) {
+    return this.http.patch(`${this.API_URL}appUser`, userData);
+  }
 
   getUserAddress(): Observable<any> {
     return this.http.get<IApiResponse<IAddress>>(`${this.API_URL}address/1`);

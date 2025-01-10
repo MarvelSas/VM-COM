@@ -32,7 +32,7 @@ export class UserProfileComponent implements OnInit {
       firstName: ['', [Validators.required, Validators.minLength(2)]],
       lastName: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
-      phone: ['', [Validators.required, Validators.pattern(/^\d{9}$/)]],
+      phoneNumber: ['', [Validators.required, Validators.pattern(/^\d{9}$/)]],
     });
 
     this.addressForm = this.fb.group({
@@ -69,7 +69,7 @@ export class UserProfileComponent implements OnInit {
             this.authService.currentUserEmail === ''
               ? 'Brak'
               : this.authService.currentUserEmail,
-          phone:
+          phoneNumber:
             res.data.data.phoneNumber === ''
               ? 'Brak'
               : res.data.data.phoneNumber,
@@ -120,7 +120,16 @@ export class UserProfileComponent implements OnInit {
   saveUserChanges() {
     if (this.userForm.valid) {
       this.editModeUser = false;
-      // console.log('User data saved:', this.userForm.value);
+
+      this.userService.updateUserData(this.userForm.value).subscribe({
+        next: (res) => {},
+        error: (error) => {
+          console.error('Error saving user data:', error);
+        },
+        complete: () => {
+          // this.getUserData();
+        },
+      });
     }
   }
 
