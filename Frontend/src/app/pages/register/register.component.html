@@ -9,6 +9,11 @@
           type="text"
           placeholder="Imię"
           formControlName="firstname"
+          [ngClass]="{
+            'input-invalid':
+              signUpForm.get('firstname').touched &&
+              signUpForm.get('firstname').invalid
+          }"
         />
       </div>
       <div>
@@ -18,6 +23,11 @@
           type="text"
           placeholder="Nazwisko"
           formControlName="lastname"
+          [ngClass]="{
+            'input-invalid':
+              signUpForm.get('lastname').touched &&
+              signUpForm.get('lastname').invalid
+          }"
         />
       </div>
 
@@ -28,6 +38,10 @@
           type="text"
           placeholder="Adres e-mail"
           formControlName="email"
+          [ngClass]="{
+            'input-invalid':
+              signUpForm.get('email').touched && signUpForm.get('email').invalid
+          }"
         />
       </div>
 
@@ -38,7 +52,22 @@
           type="password"
           placeholder="Hasło"
           formControlName="password"
+          [ngClass]="{
+            'input-invalid':
+              signUpForm.get('password').touched &&
+              signUpForm.get('password').invalid
+          }"
+          [tooltip]="
+            signUpForm.get('password').touched &&
+            signUpForm.get('password').invalid
+              ? 'Hasło musi zawierać co najmniej 8 znaków, w tym jedną cyfrę, jedną dużą literę i jeden znak specjalny.'
+              : ''
+          "
         />
+        <p class="password-hint">
+          Hasło musi zawierać co najmniej 8 znaków, w tym jedną cyfrę, jedną
+          dużą literę i jeden znak specjalny.
+        </p>
       </div>
       <div class="controls">
         <button class="button" (click)="onRegisterHandler()">
