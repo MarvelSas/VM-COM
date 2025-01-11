@@ -91,14 +91,17 @@
             <app-product-item
               *ngFor="let productEl of products"
               [id]="productEl.id"
-              [name]="productEl.name"
-              [price]="productEl.price"
-              [photos]="productEl.photos"
-              [mainPhotoId]="productEl.mainPhotoId"
-              [description]="productEl.description"
+              [product]="productEl"
             ></app-product-item>
           </ng-container>
         </div>
+
+        <!-- 
+        [name]="productEl.name"
+        [price]="productEl.price"
+        [photos]="productEl.photos"
+        [mainPhotoId]="productEl.mainPhotoId"
+        [description]="productEl.description" -->
 
         <div class="newProductsControls">
           <button class="btn btn-primary p-3" (click)="onShowMore()">

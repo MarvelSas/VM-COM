@@ -18,6 +18,7 @@ import { IProduct } from 'src/app/shared/models/product.model';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { ProductsService } from 'src/app/shared/services/products.service';
 import { RoleService } from 'src/app/shared/services/role.service';
+import { ShoppingCartService } from 'src/app/shared/services/shopping-cart.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -34,13 +35,14 @@ export class NavbarComponent implements OnInit, OnDestroy {
   user = null;
   searchResults: IProduct[] = [];
   API_IMG = environment.API_IMG;
-  cartCount: number = 3;
+  cartCount = 0;
 
   constructor(
     private authService: AuthService,
     protected roleService: RoleService,
     private productsService: ProductsService,
-    private router: Router
+    private router: Router,
+    private cartService: ShoppingCartService
   ) {}
 
   ngOnInit(): void {
@@ -48,6 +50,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
     this.userSub = this.authService.user.subscribe((res) => {
       this.user = res;
+    });
+
+    this.cartService.cartQuantitySubject.subscribe((cartQuantity) => {
+      this.cartCount = cartQuantity;
     });
   }
 

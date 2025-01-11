@@ -199,12 +199,13 @@
       <app-product-item
         *ngFor="let productEl of products"
         [id]="productEl.id"
-        [name]="productEl.name"
-        [price]="productEl.price"
-        [photos]="productEl.photos"
-        [mainPhotoId]="productEl.mainPhotoId"
-        [description]="productEl.description"
+        [product]="productEl"
       >
+        <!-- [name]="productEl.name"
+      [price]="productEl.price"
+      [photos]="productEl.photos"
+      [mainPhotoId]="productEl.mainPhotoId"
+      [description]="productEl.description" -->
       </app-product-item>
     </ng-container>
 
