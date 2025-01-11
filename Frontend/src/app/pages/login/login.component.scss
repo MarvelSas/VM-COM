@@ -59,11 +59,18 @@ form input {
 
 .input-invalid {
   border-color: #dc3545;
+  margin-bottom: 50px;
+  transition: all 0.3s;
 }
 
 .invalid-feedback {
-  height: 25px;
+  height: 15px;
   display: block;
   color: #dc3545;
-  font-size: 0.875em;
+  font-size: 0.8rem;
+
+  div {
+    margin-top: -5px;
+    position: absolute;
+  }
 }
