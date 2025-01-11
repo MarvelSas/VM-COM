@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import { IAddProductReq, IProduct } from '../models/product.model';
 import { IApiResponse } from '../models/api-response.model';
 import { IShopCard } from '../models/shop-cart.model';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -12,12 +13,16 @@ import { IShopCard } from '../models/shop-cart.model';
 export class ShoppingCartService {
   API_URL = environment.API_URL;
   private items = [];
+  public cartQuantitySubject = new BehaviorSubject<number>(0);
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    console.log(this.items);
+  }
 
   addItem(product: IAddProductReq) {
     // this.items.push(product);
-    console.log(product);
+    // console.log(product);
+    this.cartQuantitySubject.next(this.cartQuantitySubject.value + 1);
 
     return this.http.post(`${this.API_URL + endpoints.cardAddItem}`, product);
   }
@@ -29,7 +34,9 @@ export class ShoppingCartService {
   }
 
   changeQuantity(productId: number, quantity: number) {
-    console.log(productId, quantity);
+    // console.log(productId, quantity);
+    // console.log(quantity);
+    // this.cartQuantitySubject.next(quantity);
     return this.http.patch(
       `${this.API_URL + endpoints.cardChangeQuantity + '/' + productId}`,
       quantity
@@ -44,6 +51,7 @@ export class ShoppingCartService {
 
   clearCart() {
     this.items = [];
+    this.cartQuantitySubject.next(0);
     return this.http.delete(`${this.API_URL + endpoints.cardClearItems}`);
   }
 }
