@@ -56,7 +56,22 @@
         name="productName"
         placeholder="Nazwa produktu"
         formControlName="productName"
+        [ngClass]="{
+          'input-invalid':
+            addProductForm.get('productName').touched &&
+            addProductForm.get('productName').invalid
+        }"
       />
+    </div>
+    <div class="invalid-feedback">
+      <div
+        *ngIf="
+          addProductForm.get('productName').touched &&
+          addProductForm.get('productName').errors['required']
+        "
+      >
+        Wprowadź nazwę produktu.
+      </div>
     </div>
   </div>
 
@@ -71,6 +86,16 @@
         placeholder="Opis produktu"
         formControlName="productDescription"
       ></textarea>
+      <div class="invalid-feedback">
+        <div
+          *ngIf="
+            addProductForm.get('productDescription').touched &&
+            addProductForm.get('productDescription').errors['required']
+          "
+        >
+          Wprowadź opis produktu.
+        </div>
+      </div>
       <div class="characterCount">{{ characterCount }} / 8000</div>
     </div>
   </div>
