@@ -6,6 +6,7 @@ import com.VMcom.VMcom.model.*;
 import com.VMcom.VMcom.repository.AppUserRepository;
 import com.VMcom.VMcom.repository.ShopCartRepository;
 import com.VMcom.VMcom.repository.TokenRepository;
+import com.VMcom.VMcom.repository.TokenSessionRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -33,6 +34,7 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final TokenRepository tokenRepository;
     private final ShopCartRepository shopCartRepository;
+    private final TokenSessionRepository tokenSessionRepository;
 
     public AppUser getAppUserFromContextHolder(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -66,13 +68,23 @@ public class AuthenticationService {
         claims.put("roles",user.getAppUserRole());
         revokeAllAccessAndRefreshAppUserTokens(appUser);
         var jwtToken = jwtService.generateToken(claims,user);
-        saveUserToken(appUser, jwtToken,TokenType.ACCESS);
+        Token savedJwtToken = saveUserToken(appUser, jwtToken,TokenType.ACCESS);
         var jwtRefreshToken = jwtService.generateRefreshToken(user);
-        saveUserToken(appUser,jwtRefreshToken,TokenType.REFRESH);
+        Token savedJwtRefreshToken = saveUserToken(appUser,jwtRefreshToken,TokenType.REFRESH);
+        generateTokenSession(savedJwtToken,savedJwtRefreshToken);
         return AuthenciationResponse.builder()
                 .accessToken(jwtToken)
                 .refreshToken(jwtRefreshToken)
                 .build();
+
+    }
+
+    private void generateTokenSession(Token accessToken, Token refreshToken){
+       tokenSessionRepository.save(TokenSession.builder()
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
+                .build());
+
 
     }
 
@@ -107,7 +119,28 @@ public class AuthenticationService {
         revokeAllUsersTokens(appUser,tokenRepository.findAllValidAccessTokensByUser(appUser.getId()));
     }
 
-    private void saveUserToken(AppUser appUser, String jwtToken,TokenType tokenType) {
+    private void revokeAccessAndRefreshAppUserTokenByAccessToken(String accessTokenString){
+      Token accessToken = tokenRepository.findByToken(accessTokenString).orElseThrow(() -> new InvalidParameterException("access token not found"));
+      TokenSession tokenSession = tokenSessionRepository.findByAccessToken(accessToken).orElseThrow(() -> new InvalidParameterException("token session not found"));
+      revokeAccessAndRefreshAppUserTokenByTokenSession(tokenSession);
+    }
+
+    private void revokeAccessAndRefreshAppUserTokenByRefreshToken(String refreshTokenString){
+      Token refreshToken = tokenRepository.findByToken(refreshTokenString).orElseThrow(() -> new InvalidParameterException("refresh token not found"));
+      TokenSession tokenSession = tokenSessionRepository.findByRefreshToken(refreshToken).orElseThrow(() -> new InvalidParameterException("token session not found"));
+      revokeAccessAndRefreshAppUserTokenByTokenSession(tokenSession);
+    }
+
+    private void  revokeAccessAndRefreshAppUserTokenByTokenSession(TokenSession tokenSession){
+        tokenSession.getAccessToken().setRevoked(true);
+        tokenSession.getAccessToken().setExpired(true);
+        tokenSession.getRefreshToken().setRevoked(true);
+        tokenSession.getRefreshToken().setExpired(true);
+        tokenRepository.save(tokenSession.getAccessToken());
+        tokenRepository.save(tokenSession.getRefreshToken());
+    }
+
+    private Token saveUserToken(AppUser appUser, String jwtToken,TokenType tokenType) {
         var token = Token.builder()
                 .appUser(appUser)
                 .token(jwtToken)
@@ -115,7 +148,7 @@ public class AuthenticationService {
                 .expired(false)
                 .revoked(false)
                 .build();
-        tokenRepository.save(token);
+       return tokenRepository.save(token);
     }
 
 
@@ -132,11 +165,11 @@ public class AuthenticationService {
 
         HashMap<String,Object> claims = new HashMap<>();
         claims.put("roles",user.getAppUserRole());
-        revokeAllAccessAndRefreshAppUserTokens(user);
         var jwtToken = jwtService.generateToken(claims,user);
-        saveUserToken(user, jwtToken,TokenType.ACCESS);
+        Token savedJwtToken = saveUserToken(user, jwtToken,TokenType.ACCESS);
         var jwtRefreshToken = jwtService.generateRefreshToken(user);
-        saveUserToken(user,jwtRefreshToken,TokenType.REFRESH);
+        Token savedJwtRefreshToken = saveUserToken(user,jwtRefreshToken,TokenType.REFRESH);
+        generateTokenSession(savedJwtToken,savedJwtRefreshToken);
         return AuthenciationResponse.builder()
                 .accessToken(jwtToken)
                 .refreshToken(jwtRefreshToken)
@@ -161,13 +194,14 @@ public class AuthenticationService {
             .map(t -> !t.isExpired() && !t.isRevoked())
             .orElse(false);
             if(jwtService.isTokenValid(refreshToken,user) && isTokenValid){
-                revokeAllAccessAndRefreshAppUserTokens(user);
+                revokeAccessAndRefreshAppUserTokenByRefreshToken(refreshToken);
                 HashMap<String,Object> claims = new HashMap<>();
                 claims.put("roles",user.getAppUserRole());
                 String accessToken = jwtService.generateToken(claims,user);
-                saveUserToken(user, accessToken,TokenType.ACCESS);
+                Token savedJwtToken = saveUserToken(user, accessToken,TokenType.ACCESS);
                 String newRefreshToken = jwtService.generateRefreshToken(user);
-                saveUserToken(user,newRefreshToken,TokenType.REFRESH);
+                Token savedNewJwtRefreshToken = saveUserToken(user,newRefreshToken,TokenType.REFRESH);
+                generateTokenSession(savedJwtToken,savedNewJwtRefreshToken);
                 authenciationResponse = AuthenciationResponse.builder()
                         .accessToken(accessToken)
                         .refreshToken(newRefreshToken)

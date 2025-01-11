@@ -36,8 +36,8 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
         shopCartForAdmin = shopCartRepository.save(shopCartForAdmin);
 
         AppUser admin = new AppUser(
-                "Admin",
-                "",
+                "Piotr",
+                "Kowalski",
                 "admin@mail.com",
                 passwordEncoder.encode("password"),
                 AppUserRole.ROLE_ADMIN,
@@ -72,8 +72,8 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
 
 
         AppUser user = new AppUser(
-                "User",
-                "",
+                "Jan",
+                "Kowalski",
                 "user@mail.com",
                 passwordEncoder.encode("password"),
                 AppUserRole.ROLE_USER,
