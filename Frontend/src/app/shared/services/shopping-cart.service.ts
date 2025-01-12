@@ -5,7 +5,7 @@ import { environment } from 'src/environments/environment';
 import { IAddProductReq, IProduct } from '../models/product.model';
 import { IApiResponse } from '../models/api-response.model';
 import { IShopCard } from '../models/shop-cart.model';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -28,9 +28,18 @@ export class ShoppingCartService {
   }
 
   getItems() {
-    return this.http.get<IApiResponse<IShopCard>>(
-      `${this.API_URL + endpoints.cardGetItems}`
-    );
+    return this.http
+      .get<IApiResponse<IShopCard>>(`${this.API_URL + endpoints.cardGetItems}`)
+      .pipe(
+        tap((res: IApiResponse<IShopCard>) => {
+          const totalQuantity = res.data.data.shopCardLines.reduce(
+            (sum, item) => sum + item.quantity,
+            0
+          );
+          this.cartQuantitySubject.next(totalQuantity);
+          console.log(totalQuantity);
+        })
+      );
   }
 
   changeQuantity(productId: number, quantity: number) {
