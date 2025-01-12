@@ -70,7 +70,11 @@
         </p>
       </div>
       <div class="controls">
-        <button class="button" (click)="onRegisterHandler()">
+        <button
+          class="button"
+          (click)="onRegisterHandler()"
+          [disabled]="signUpForm.invalid"
+        >
           Zarejestruj
         </button>
         <div class="links">

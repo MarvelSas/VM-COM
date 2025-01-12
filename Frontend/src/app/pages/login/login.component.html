@@ -20,7 +20,7 @@
             <div
               *ngIf="
                 signInForm.get('email').touched &&
-                signInForm.get('email').errors['required']
+                signInForm.get('email').errors?.['required']
               "
             >
               Wprowadź adres e-mail.
@@ -28,7 +28,7 @@
             <div
               *ngIf="
                 signInForm.get('email').touched &&
-                signInForm.get('email').errors['email']
+                signInForm.get('email').errors?.['email']
               "
             >
               Wprowadzono nieprawidłowy adres e-mail.
@@ -52,7 +52,7 @@
             <div
               *ngIf="
                 signInForm.get('password').touched &&
-                signInForm.get('password').errors['required']
+                signInForm.get('password').errors?.['required']
               "
             >
               Wprowadź hasło.
@@ -60,7 +60,13 @@
           </div>
         </div>
         <div class="controls">
-          <button class="button" (click)="onLoginHandler()">Zaloguj</button>
+          <button
+            class="button"
+            (click)="onLoginHandler()"
+            [disabled]="signInForm.invalid"
+          >
+            Zaloguj
+          </button>
           <div class="links">
             <p><a routerLink="#">Nie pamiętasz hasła?</a></p>
           </div>

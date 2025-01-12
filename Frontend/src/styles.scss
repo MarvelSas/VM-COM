@@ -74,6 +74,10 @@ a {
 .button:active {
   background-color: red;
 }
+
+.button:disabled {
+  background-color: gray;
+}
 .nav-link {
   color: #222222;
 }
