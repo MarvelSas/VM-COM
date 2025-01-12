@@ -272,6 +272,7 @@ export class AdminProductsComponent implements OnInit {
         },
         error: (err) => {
           console.error(err.message);
+          this.isSubmitting = false;
           this.toastr.error('Błąd dodawania produktu!', null, {
             positionClass: 'toast-bottom-right',
           });
@@ -331,7 +332,10 @@ export class AdminProductsComponent implements OnInit {
   // }
 
   // WYCZYSZCZENIE FORMULARZA
-  onClear() {
+  onClear(e?: Event) {
+    if (e) {
+      e.preventDefault();
+    }
     this.addProductForm.reset();
     this.images = [];
     this.imagesName = [];

@@ -101,11 +101,7 @@
   </div>
 
   <div class="form-item">
-    <button
-      type="button"
-      class="btn btn-primary"
-      (click)="toggleAdditionalInfo()"
-    >
+    <button type="button" class="button" (click)="toggleAdditionalInfo()">
       {{
         addProductForm.get("hasAdditionalInfo").value
           ? "Usuń dodatkowe informacje"
@@ -272,18 +268,20 @@
         </button>
       </div>
     </div>
-    <button type="button" class="btn btn-primary" (click)="addSpecification()">
-      +
-    </button>
+    <button type="button" class="button" (click)="addSpecification()">+</button>
   </div>
 
   <div class="buttonsSection">
-    <button class="button btn-submit" type="submit" [disabled]="isSubmitting">
+    <button
+      class="button btn-submit"
+      type="submit"
+      [disabled]="isSubmitting || !addProductForm.valid"
+    >
       {{ isEditing ? "Zapisz zmiany" : "Dodaj produkt" }}
     </button>
     <button
       class="button btn-clear"
-      (click)="onClear()"
+      (click)="onClear($event)"
       [disabled]="isSubmitting"
     >
       {{ isEditing ? "Anuluj" : "Wyczyść" }}
