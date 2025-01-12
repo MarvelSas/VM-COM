@@ -34,6 +34,7 @@ export class AdminProductsComponent implements OnInit {
   isLoading = false;
   isSubmitting = false;
   searchProduct: string = '';
+  productToDelete: number = null;
 
   constructor(
     private adminProductsService: adminProductsService,
@@ -301,6 +302,14 @@ export class AdminProductsComponent implements OnInit {
     }
 
     // this.adminProductsService.addProductNew(this.formData).subscribe();
+  }
+
+  setProductToDelete(id: number) {
+    this.productToDelete = id;
+  }
+  confirmDelete() {
+    this.onDeleteProduct(this.productToDelete);
+    this.productToDelete = null;
   }
 
   //

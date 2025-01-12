@@ -15,7 +15,7 @@ export class AdminCategoriesComponent implements OnInit {
   isEditing = false;
   isLoading = false;
   editingCategory: { id: number; name: string } = null;
-
+  categoryToDelete: number = null;
   constructor(
     private adminCategoriesService: adminCategoriesService,
     private toastr: ToastrService
@@ -144,5 +144,13 @@ export class AdminCategoriesComponent implements OnInit {
   onClear2() {
     this.addCategoryForm.reset();
     this.isEditing = false;
+  }
+
+  setCategoryToDelete(id: any) {
+    this.categoryToDelete = id;
+  }
+  confirmDelete() {
+    this.onDeleteCategory(this.categoryToDelete);
+    this.categoryToDelete = null;
   }
 }

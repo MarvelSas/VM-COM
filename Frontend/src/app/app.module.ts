@@ -37,6 +37,7 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { HelpUserComponent } from './pages/help-user/help-user.component';
 import { FavoritesProductsComponent } from './pages/favorites-products/favorites-products.component';
 import { ErrorComponent } from './pages/error/error.component';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 @NgModule({
   declarations: [
@@ -78,6 +79,7 @@ import { ErrorComponent } from './pages/error/error.component';
     TabsModule,
     FormsModule,
     PaginationModule,
+    ModalModule.forRoot(),
   ],
   providers: [
     {
