@@ -67,7 +67,7 @@
       <div
         *ngIf="
           addProductForm.get('productName').touched &&
-          addProductForm.get('productName').errors['required']
+          addProductForm.get('productName').errors?.['required']
         "
       >
         Wprowadź nazwę produktu.
@@ -90,7 +90,7 @@
         <div
           *ngIf="
             addProductForm.get('productDescription').touched &&
-            addProductForm.get('productDescription').errors['required']
+            addProductForm.get('productDescription').errors?.['required']
           "
         >
           Wprowadź opis produktu.
@@ -137,7 +137,22 @@
         name="productPrice"
         placeholder="Cena"
         formControlName="productPrice"
+        [ngClass]="{
+          'input-invalid':
+            addProductForm.get('productPrice').touched &&
+            addProductForm.get('productPrice').invalid
+        }"
       />
+    </div>
+    <div class="invalid-feedback">
+      <div
+        *ngIf="
+          addProductForm.get('productPrice').touched &&
+          addProductForm.get('productPrice').errors?.['required']
+        "
+      >
+        Wprowadź cenę produktu.
+      </div>
     </div>
   </div>
 
@@ -151,7 +166,22 @@
         name="productAmount"
         placeholder="Ilość"
         formControlName="productAmount"
+        [ngClass]="{
+          'input-invalid':
+            addProductForm.get('productAmount').touched &&
+            addProductForm.get('productAmount').invalid
+        }"
       />
+    </div>
+    <div class="invalid-feedback">
+      <div
+        *ngIf="
+          addProductForm.get('productAmount').touched &&
+          addProductForm.get('productAmount').errors?.['required']
+        "
+      >
+        Wprowadź ilość produktu.
+      </div>
     </div>
   </div>
 
@@ -179,12 +209,30 @@
 
   <div class="form-item">
     <label for="productCategory">Kategoria: </label>
-    <select name="productCategory" formControlName="productCategory">
+    <select
+      name="productCategory"
+      formControlName="productCategory"
+      [ngClass]="{
+        'input-invalid':
+          addProductForm.get('productCategory').touched &&
+          addProductForm.get('productCategory').invalid
+      }"
+    >
       <option value="" disabled selected>Wybierz kategorię</option>
       <option *ngFor="let category of categories" [value]="category.id">
         {{ category.name }}
       </option>
     </select>
+    <div class="invalid-feedback">
+      <div
+        *ngIf="
+          addProductForm.get('productCategory').touched &&
+          addProductForm.get('productCategory').errors?.['required']
+        "
+      >
+        Wybierz kategorię produktu.
+      </div>
+    </div>
   </div>
 
   <div class="form-item">
@@ -200,12 +248,20 @@
           formControlName="title"
           placeholder="Tytuł"
           class="form-control me-2"
+          [ngClass]="{
+            'input-invalid':
+              spec.get('title').touched && spec.get('title').invalid
+          }"
         />
         <input
           type="text"
           formControlName="value"
           placeholder="Wartość"
           class="form-control me-2"
+          [ngClass]="{
+            'input-invalid':
+              spec.get('value').touched && spec.get('value').invalid
+          }"
         />
         <button
           type="button"
