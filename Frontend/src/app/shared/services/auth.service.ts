@@ -101,10 +101,10 @@ export class AuthService implements OnInit {
     this.REFRESH_TOKEN = refreshToken;
 
     if (!accessToken) {
-      console.log('No access token found!');
-      this.toastr.error('Błąd autologowania!', null, {
-        positionClass: 'toast-bottom-right',
-      });
+      // console.log('No access token found!');
+      // this.toastr.error('Błąd autologowania!', null, {
+      //   positionClass: 'toast-bottom-right',
+      // });
       return;
     }
 
@@ -141,10 +141,10 @@ export class AuthService implements OnInit {
         },
       });
     } else {
-      console.log('Tokens is not valid!');
-      this.toastr.error('Błąd autologowania!', null, {
-        positionClass: 'toast-bottom-right',
-      });
+      // console.log('Tokens is not valid!');
+      // this.toastr.error('Błąd autologowania!', null, {
+      //   positionClass: 'toast-bottom-right',
+      // });
     }
   }
 
