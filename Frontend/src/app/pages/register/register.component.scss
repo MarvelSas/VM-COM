@@ -24,8 +24,9 @@ label {
 }
 
 form input {
-  margin: 0.25rem;
+  margin: 0.5rem 0.25rem;
   padding: 0.5rem;
+  width: 100%;
 }
 
 .controls .links {
@@ -34,4 +35,15 @@ form input {
 
 .links p {
   padding: 0.2rem;
+}
+
+.input-invalid {
+  border-color: #dc3545;
+  margin-bottom: 50px;
+}
+
+.password-hint {
+  font-size: 0.8rem;
+  color: gray;
+  padding: 0 0.5rem;
 }

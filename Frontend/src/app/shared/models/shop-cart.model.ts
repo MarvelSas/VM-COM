@@ -1,9 +1,11 @@
 import { IProduct } from './product.model';
 
 export interface IShopCard {
-  id: number;
-  shopCardLines: IShopCardLine[];
-  totalPrice: number;
+  data: {
+    id: number;
+    shopCardLines: IShopCardLine[];
+    totalPrice: number;
+  };
 }
 
 export interface IShopCardLine {

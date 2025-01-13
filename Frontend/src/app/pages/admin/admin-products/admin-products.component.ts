@@ -34,6 +34,7 @@ export class AdminProductsComponent implements OnInit {
   isLoading = false;
   isSubmitting = false;
   searchProduct: string = '';
+  productToDelete: number = null;
 
   constructor(
     private adminProductsService: adminProductsService,
@@ -272,6 +273,7 @@ export class AdminProductsComponent implements OnInit {
         },
         error: (err) => {
           console.error(err.message);
+          this.isSubmitting = false;
           this.toastr.error('Błąd dodawania produktu!', null, {
             positionClass: 'toast-bottom-right',
           });
@@ -300,6 +302,14 @@ export class AdminProductsComponent implements OnInit {
     }
 
     // this.adminProductsService.addProductNew(this.formData).subscribe();
+  }
+
+  setProductToDelete(id: number) {
+    this.productToDelete = id;
+  }
+  confirmDelete() {
+    this.onDeleteProduct(this.productToDelete);
+    this.productToDelete = null;
   }
 
   //
@@ -331,7 +341,10 @@ export class AdminProductsComponent implements OnInit {
   // }
 
   // WYCZYSZCZENIE FORMULARZA
-  onClear() {
+  onClear(e?: Event) {
+    if (e) {
+      e.preventDefault();
+    }
     this.addProductForm.reset();
     this.images = [];
     this.imagesName = [];

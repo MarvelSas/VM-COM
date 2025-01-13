@@ -30,7 +30,9 @@
           </button>
           <button
             class="button btn-delete"
-            (click)="onDeleteProduct(product.id)"
+            data-bs-toggle="modal"
+            data-bs-target="#deleteProductModal"
+            (click)="setProductToDelete(product.id)"
           >
             Usuń
           </button>
@@ -56,7 +58,22 @@
         name="productName"
         placeholder="Nazwa produktu"
         formControlName="productName"
+        [ngClass]="{
+          'input-invalid':
+            addProductForm.get('productName').touched &&
+            addProductForm.get('productName').invalid
+        }"
       />
+    </div>
+    <div class="invalid-feedback">
+      <div
+        *ngIf="
+          addProductForm.get('productName').touched &&
+          addProductForm.get('productName').errors?.['required']
+        "
+      >
+        Wprowadź nazwę produktu.
+      </div>
     </div>
   </div>
 
@@ -71,16 +88,22 @@
         placeholder="Opis produktu"
         formControlName="productDescription"
       ></textarea>
+      <div class="invalid-feedback">
+        <div
+          *ngIf="
+            addProductForm.get('productDescription').touched &&
+            addProductForm.get('productDescription').errors?.['required']
+          "
+        >
+          Wprowadź opis produktu.
+        </div>
+      </div>
       <div class="characterCount">{{ characterCount }} / 8000</div>
     </div>
   </div>
 
   <div class="form-item">
-    <button
-      type="button"
-      class="btn btn-primary"
-      (click)="toggleAdditionalInfo()"
-    >
+    <button type="button" class="button" (click)="toggleAdditionalInfo()">
       {{
         addProductForm.get("hasAdditionalInfo").value
           ? "Usuń dodatkowe informacje"
@@ -112,7 +135,22 @@
         name="productPrice"
         placeholder="Cena"
         formControlName="productPrice"
+        [ngClass]="{
+          'input-invalid':
+            addProductForm.get('productPrice').touched &&
+            addProductForm.get('productPrice').invalid
+        }"
       />
+    </div>
+    <div class="invalid-feedback">
+      <div
+        *ngIf="
+          addProductForm.get('productPrice').touched &&
+          addProductForm.get('productPrice').errors?.['required']
+        "
+      >
+        Wprowadź cenę produktu.
+      </div>
     </div>
   </div>
 
@@ -126,7 +164,22 @@
         name="productAmount"
         placeholder="Ilość"
         formControlName="productAmount"
+        [ngClass]="{
+          'input-invalid':
+            addProductForm.get('productAmount').touched &&
+            addProductForm.get('productAmount').invalid
+        }"
       />
+    </div>
+    <div class="invalid-feedback">
+      <div
+        *ngIf="
+          addProductForm.get('productAmount').touched &&
+          addProductForm.get('productAmount').errors?.['required']
+        "
+      >
+        Wprowadź ilość produktu.
+      </div>
     </div>
   </div>
 
@@ -154,12 +207,30 @@
 
   <div class="form-item">
     <label for="productCategory">Kategoria: </label>
-    <select name="productCategory" formControlName="productCategory">
+    <select
+      name="productCategory"
+      formControlName="productCategory"
+      [ngClass]="{
+        'input-invalid':
+          addProductForm.get('productCategory').touched &&
+          addProductForm.get('productCategory').invalid
+      }"
+    >
       <option value="" disabled selected>Wybierz kategorię</option>
       <option *ngFor="let category of categories" [value]="category.id">
         {{ category.name }}
       </option>
     </select>
+    <div class="invalid-feedback">
+      <div
+        *ngIf="
+          addProductForm.get('productCategory').touched &&
+          addProductForm.get('productCategory').errors?.['required']
+        "
+      >
+        Wybierz kategorię produktu.
+      </div>
+    </div>
   </div>
 
   <div class="form-item">
@@ -175,12 +246,20 @@
           formControlName="title"
           placeholder="Tytuł"
           class="form-control me-2"
+          [ngClass]="{
+            'input-invalid':
+              spec.get('title').touched && spec.get('title').invalid
+          }"
         />
         <input
           type="text"
           formControlName="value"
           placeholder="Wartość"
           class="form-control me-2"
+          [ngClass]="{
+            'input-invalid':
+              spec.get('value').touched && spec.get('value').invalid
+          }"
         />
         <button
           type="button"
@@ -191,21 +270,61 @@
         </button>
       </div>
     </div>
-    <button type="button" class="btn btn-primary" (click)="addSpecification()">
-      +
-    </button>
+    <button type="button" class="button" (click)="addSpecification()">+</button>
   </div>
 
   <div class="buttonsSection">
-    <button class="button btn-submit" type="submit" [disabled]="isSubmitting">
+    <button
+      class="button btn-submit"
+      type="submit"
+      [disabled]="isSubmitting || !addProductForm.valid"
+    >
       {{ isEditing ? "Zapisz zmiany" : "Dodaj produkt" }}
     </button>
     <button
       class="button btn-clear"
-      (click)="onClear()"
+      (click)="onClear($event)"
       [disabled]="isSubmitting"
     >
       {{ isEditing ? "Anuluj" : "Wyczyść" }}
     </button>
   </div>
 </form>
+
+<div
+  class="modal fade"
+  id="deleteProductModal"
+  tabindex="-1"
+  aria-labelledby="deleteProductModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteProductModalLabel">
+          Potwierdzenie usunięcia
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">Czy na pewno chcesz usunąć ten produkt?</div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Anuluj
+        </button>
+        <button
+          type="button"
+          class="btn btn-danger"
+          (click)="confirmDelete()"
+          data-bs-dismiss="modal"
+        >
+          Usuń
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

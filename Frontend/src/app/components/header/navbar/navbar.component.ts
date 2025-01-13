@@ -48,6 +48,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     document.addEventListener('click', this.onDocumentClick.bind(this));
 
+    this.cartService.getItems().subscribe();
     this.userSub = this.authService.user.subscribe((res) => {
       this.user = res;
     });

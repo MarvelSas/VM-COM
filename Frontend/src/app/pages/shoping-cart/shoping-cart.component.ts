@@ -48,17 +48,21 @@ export class ShopingCartComponent implements OnInit {
   }
 
   changeQuantity(productId: number, quantity: number): void {
-    this.shoppingCartService.changeQuantity(productId, quantity).subscribe({
-      next: (response) => {
-        console.log('Quantity updated successfully', response);
-      },
-      error: (error) => {
-        console.error('Error updating quantity', error);
-      },
-      complete: () => {
-        this.getShoppingCart();
-      },
-    });
+    if (quantity >= 1) {
+      this.shoppingCartService.changeQuantity(productId, quantity).subscribe({
+        next: (response) => {
+          console.log('Quantity updated successfully', response);
+        },
+        error: (error) => {
+          console.error('Error updating quantity', error);
+        },
+        complete: () => {
+          this.getShoppingCart();
+        },
+      });
+    } else {
+      this.removeFromCart(productId);
+    }
   }
 
   removeFromCart(productId: number): void {

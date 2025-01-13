@@ -115,7 +115,7 @@
 }
 
 .button-edit {
-  background-color: #007bff;
+  background-color: #222222;
   color: white;
 }
 
@@ -139,6 +139,22 @@
 .characterCount {
   font-size: 0.9em;
   color: #888;
-  margin-top: 5px;
+  margin-top: -15px;
   text-align: right;
+}
+
+.input-invalid {
+  border-color: #dc3545 !important;
+}
+
+.invalid-feedback {
+  height: 15px;
+  display: block;
+  color: #dc3545;
+  font-size: 0.8rem;
+
+  div {
+    // margin-top: -5px;
+    position: absolute;
+  }
 }

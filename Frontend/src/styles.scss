@@ -74,3 +74,30 @@ a {
 .button:active {
   background-color: red;
 }
+
+.button:disabled {
+  background-color: gray;
+}
+.nav-link {
+  color: #222222;
+}
+
+.nav-link:hover {
+  color: #444444;
+}
+
+.page-link {
+  color: white !important;
+  background-color: #222222 !important;
+  border: 1px solid #444444 !important;
+}
+
+.page-link:hover {
+  color: white !important;
+  background-color: #3a3a3a !important;
+}
+
+.page-item.active .page-link {
+  color: white !important;
+  background: #444444 !important;
+}

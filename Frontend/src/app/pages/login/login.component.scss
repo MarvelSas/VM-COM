@@ -56,3 +56,20 @@ form input {
 .links p {
   padding: 0.2rem;
 }
+
+.input-invalid {
+  border-color: #dc3545;
+  margin-bottom: 50px;
+}
+
+.invalid-feedback {
+  height: 15px;
+  display: block;
+  color: #dc3545;
+  font-size: 0.8rem;
+
+  div {
+    margin-top: -5px;
+    position: absolute;
+  }
+}

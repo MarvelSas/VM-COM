@@ -4,29 +4,71 @@
       <h4>Zaloguj się</h4>
       <form [formGroup]="signInForm">
         <div>
-          <!-- <label for="email">Adres email:</label> -->
           <input
             id="email"
             type="text"
             placeholder="Adres e-mail"
             formControlName="email"
+            [ngClass]="{
+              'input-invalid':
+                signInForm.get('email').touched &&
+                signInForm.get('email').invalid
+            }"
           />
+
+          <div class="invalid-feedback">
+            <div
+              *ngIf="
+                signInForm.get('email').touched &&
+                signInForm.get('email').errors?.['required']
+              "
+            >
+              Wprowadź adres e-mail.
+            </div>
+            <div
+              *ngIf="
+                signInForm.get('email').touched &&
+                signInForm.get('email').errors?.['email']
+              "
+            >
+              Wprowadzono nieprawidłowy adres e-mail.
+            </div>
+          </div>
         </div>
 
         <div>
-          <!-- <label for="password">Hasło:</label> -->
           <input
             id="password"
             type="password"
             placeholder="Hasło"
             formControlName="password"
+            [ngClass]="{
+              'input-invalid':
+                signInForm.get('password').touched &&
+                signInForm.get('password').invalid
+            }"
           />
+          <div class="invalid-feedback">
+            <div
+              *ngIf="
+                signInForm.get('password').touched &&
+                signInForm.get('password').errors?.['required']
+              "
+            >
+              Wprowadź hasło.
+            </div>
+          </div>
         </div>
         <div class="controls">
-          <button class="button" (click)="onLoginHandler()">Zaloguj</button>
+          <button
+            class="button"
+            (click)="onLoginHandler()"
+            [disabled]="signInForm.invalid"
+          >
+            Zaloguj
+          </button>
           <div class="links">
             <p><a routerLink="#">Nie pamiętasz hasła?</a></p>
-            <!-- <p><a routerLink="../register">Utwórz nowe konto</a></p> -->
           </div>
         </div>
       </form>

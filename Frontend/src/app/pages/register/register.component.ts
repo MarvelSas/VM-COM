@@ -22,7 +22,7 @@ export class RegisterComponent implements OnInit {
     this.signUpForm = new FormGroup({
       firstname: new FormControl(null, Validators.required),
       lastname: new FormControl(null, Validators.required),
-      email: new FormControl(null, Validators.required),
+      email: new FormControl(null, [Validators.required, Validators.email]),
       password: new FormControl(null, Validators.required),
     });
   }
@@ -38,16 +38,14 @@ export class RegisterComponent implements OnInit {
         },
         error: (err) => {
           console.error(err.message);
-
-          // TODO
-          // if (err.error.message === 'User already exists!')
-          //   this.toast.error('Użytkownik już istnieje!', null, {
-          //     positionClass: 'toast-bottom-right',
-          //   });
-
-          this.toast.error('Błąd rejestracji!', null, {
-            positionClass: 'toast-bottom-right',
-          });
+          if (
+            err.status === 400 &&
+            err.error.message.includes('already exist')
+          ) {
+            this.toast.error('Błąd podczas rejestracji!', null, {
+              positionClass: 'toast-bottom-right',
+            });
+          }
         },
       });
     }
