@@ -88,15 +88,15 @@
   </div> -->
 
 <div class="custom-container">
-  <div class="row mb-3">
+  <div class="row mb-3 filters-container">
     <!-- ITEMS PER PAGE -->
-    <div class="col-auto">
+    <div class="col-auto filter-item">
       <label for="itemsPerPage" class="form-label">Ilość:</label>
       <select
         id="itemsPerPage"
         [(ngModel)]="itemsPerPage"
         (change)="getPageableProducts()"
-        class="form-select"
+        class="form-select numbers"
       >
         <option [value]="5">5</option>
         <option [value]="10">10</option>
@@ -105,39 +105,39 @@
       </select>
     </div>
     <!-- SORT BY -->
-    <div class="col-auto">
+    <div class="col-auto filter-item">
       <label for="sortBy" class="form-label">Sortuj po:</label>
       <select
         id="sortBy"
         [(ngModel)]="sortBy"
         (change)="getPageableProducts()"
-        class="form-select"
+        class="form-select words"
       >
         <option value="name">Nazwa</option>
         <option value="price">Cena</option>
       </select>
     </div>
     <!-- ORDER BY -->
-    <div class="col-auto">
+    <div class="col-auto filter-item">
       <label for="orderBy" class="form-label">Kolejność:</label>
       <select
         id="orderBy"
         [(ngModel)]="order"
         (change)="getPageableProducts()"
-        class="form-select"
+        class="form-select words"
       >
         <option value="asc">Rosnąco</option>
         <option value="dsc">Malejąco</option>
       </select>
     </div>
     <!-- CATEGORY -->
-    <div class="col-auto">
+    <div class="col-auto filter-item">
       <label for="category" class="form-label">Kategoria:</label>
       <select
         id="category"
         [(ngModel)]="category"
         (change)="getPageableProducts()"
-        class="form-select"
+        class="form-select words"
       >
         <option value="All">Wszystkie</option>
         <option
@@ -149,26 +149,30 @@
       </select>
     </div>
     <!-- MIN PRICE -->
-    <div class="col-auto">
-      <label for="minPrice" class="form-label">Minimalna cena:</label>
+    <div class="col-auto filter-item">
+      <label for="minPrice" class="form-label" tooltip="Minimalna cena"
+        >Min. cena:</label
+      >
       <input
         type="number"
         id="minPrice"
         [(ngModel)]="minPrice"
         (input)="getPageableProducts()"
-        class="form-control w-50"
+        class="form-control numbers"
         placeholder="0"
       />
     </div>
     <!-- MAX PRICE -->
-    <div class="col-auto">
-      <label for="maxPrice" class="form-label">Minimalna cena:</label>
+    <div class="col-auto filter-item">
+      <label for="maxPrice" class="form-label" tooltip="Maksymalna cena"
+        >Maks. cena:</label
+      >
       <input
         type="number"
-        id="minPrice"
+        id="maxPrice"
         [(ngModel)]="maxPrice"
         (input)="getPageableProducts()"
-        class="form-control w-50"
+        class="form-control numbers"
         placeholder="1000"
       />
     </div>
