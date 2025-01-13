@@ -53,6 +53,8 @@ public class AuthenticationService {
             throw new InvalidParameterException("User with email "+request.getEmail()+" already exist");
         }
 
+        checkPassword(request.getPassword());
+
         var user = new AppUser(
                 request.getFirstname(),
                 request.getLastname(),
@@ -78,6 +80,24 @@ public class AuthenticationService {
                 .build();
 
     }
+
+
+    private void checkPassword(String password){
+        if(password.isEmpty()){
+            throw new InvalidParameterException("Password can't be empty");
+        }
+
+        if(password.length() < 8){
+            throw new InvalidParameterException("Password must be at least 8 characters long");
+        }
+
+        if(password.length() > 20){
+            throw new InvalidParameterException("Password must be at most 20 characters long");
+        }
+
+    }
+
+
 
     private void generateTokenSession(Token accessToken, Token refreshToken){
        tokenSessionRepository.save(TokenSession.builder()
@@ -230,6 +250,8 @@ public class AuthenticationService {
     }
 
     private boolean validateOldAndNewPassword(Map<String, String> request){
+
+        checkPassword(request.get("newPassword"));
 
         if(request.get("newPassword").isEmpty()){
             throw new InvalidParameterException("New password can't be empty");
