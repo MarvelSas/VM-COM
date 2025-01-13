@@ -120,9 +120,9 @@ export class AuthService implements OnInit {
     const tokenIsValid = this.tokenIsValid(accessToken);
     console.log('Token is valid: ', tokenIsValid);
     if (accessToken && tokenIsValid) {
-      this.toastr.success('Zalogowano pomyślne!', null, {
-        positionClass: 'toast-bottom-right',
-      });
+      // this.toastr.success('Zalogowano pomyślne!', null, {
+      //   positionClass: 'toast-bottom-right',
+      // });
       const user = new User(
         decodedToken.sub,
         decodedToken.roles,
