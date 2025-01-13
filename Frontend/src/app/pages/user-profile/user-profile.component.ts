@@ -218,7 +218,7 @@ export class UserProfileComponent implements OnInit {
     this.editModePassword = !this.editModePassword;
   }
 
-  addNewAddressButton(): void {
+  showFormNewAddress(): void {
     this.addNewAddressMode = true;
     this.editModeAddress = true;
     this.addressForm.reset();
