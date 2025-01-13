@@ -5,6 +5,7 @@ import { UserService } from 'src/app/shared/services/user.service';
 import { IAddress, IAddressData } from 'src/app/shared/models/address.model';
 import { IApiResponse } from 'src/app/shared/models/api-response.model';
 import { IUserDetails } from 'src/app/shared/models/user.model';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-user-profile',
@@ -26,7 +27,8 @@ export class UserProfileComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
-    private authService: AuthService
+    private authService: AuthService,
+    private toastrService: ToastrService
   ) {
     this.userForm = this.fb.group({
       firstName: ['', [Validators.required, Validators.minLength(2)]],
@@ -104,8 +106,19 @@ export class UserProfileComponent implements OnInit {
       this.editModeUser = false;
 
       this.userService.updateUserData(this.userForm.value).subscribe({
-        next: (res) => {},
+        next: (res) => {
+          this.toastrService.success(
+            'Dane użytkownika zostały zaktualizowane!',
+            null,
+            {
+              positionClass: 'toast-bottom-right',
+            }
+          );
+        },
         error: (error) => {
+          this.toastrService.error('Błąd podczas aktualizacji danych!', null, {
+            positionClass: 'toast-bottom-right',
+          });
           console.error('Error saving user data:', error);
         },
         complete: () => {
@@ -117,6 +130,9 @@ export class UserProfileComponent implements OnInit {
 
   savePasswordChanges() {
     if (this.passwordForm.valid) {
+      this.toastrService.success('Hasło zostało zaktualizowane!', null, {
+        positionClass: 'toast-bottom-right',
+      });
     }
   }
 
@@ -136,7 +152,11 @@ export class UserProfileComponent implements OnInit {
             this.addresses[this.selectedAddressIndex].id
           )
           .subscribe({
-            next: (res) => {},
+            next: (res) => {
+              this.toastrService.success('Adres został zaktualizowany!', null, {
+                positionClass: 'toast-bottom-right',
+              });
+            },
             error: (error) => {
               console.error('Error saving user data:', error);
             },
@@ -153,6 +173,9 @@ export class UserProfileComponent implements OnInit {
             this.editModeAddress = false;
             this.selectedAddressIndex = null;
             this.getAddresses();
+            this.toastrService.success('Dodano nowy adres!', null, {
+              positionClass: 'toast-bottom-right',
+            });
           },
           error: (error) => {
             console.error('Error saving user address:', error);
@@ -164,16 +187,6 @@ export class UserProfileComponent implements OnInit {
           },
         });
       }
-
-      // this.userService.updateUserAddresses(this.addresses).subscribe({
-      //   next: (res) => {
-      //     this.editModeAddress = false;
-      //     this.selectedAddressIndex = null;
-      //   },
-      //   error: (error) => {
-      //     console.error('Error saving user address:', error);
-      //   },
-      // });
     } else {
       console.error('Invalid form data');
     }
