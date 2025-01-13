@@ -94,6 +94,15 @@ export class AuthService implements OnInit {
       );
   }
 
+  changePassword(passwordData) {
+    const body = {
+      oldPassword: passwordData.oldPassword,
+      newPassword: passwordData.newPassword,
+    };
+
+    return this.http.post(`${this.API_URL + endpoints.changePassword}`, body);
+  }
+
   autoLogin() {
     const accessToken = localStorage.getItem('accessToken');
     const refreshToken = localStorage.getItem('refreshToken');
@@ -118,7 +127,7 @@ export class AuthService implements OnInit {
     // console.log('Current time: ', new Date());
 
     const tokenIsValid = this.tokenIsValid(accessToken);
-    console.log('Token is valid: ', tokenIsValid);
+    // console.log('Token is valid: ', tokenIsValid);
     if (accessToken && tokenIsValid) {
       // this.toastr.success('Zalogowano pomyślne!', null, {
       //   positionClass: 'toast-bottom-right',
@@ -131,13 +140,13 @@ export class AuthService implements OnInit {
       );
       this.authorizeUser(user, accessToken, refreshToken);
     } else if (this.tokenIsValid(refreshToken)) {
-      console.log('Odswiezam token!');
+      // console.log('Odswiezam token!');
       this.refreshToken().subscribe({
         next: (res) => {
-          console.log(res);
+          // console.log(res);
         },
         error: (err) => {
-          console.log(err);
+          console.error(err);
         },
       });
     } else {
@@ -201,7 +210,7 @@ export class AuthService implements OnInit {
     this.user.next(user);
     this.roleService.setRoles([user.role]);
     this.currentUserEmail = user.email;
-    console.log('User role:', user.role);
+    // console.log('User role:', user.role);
   }
 
   ngOnInit(): void {}
