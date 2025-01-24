@@ -1,7 +1,6 @@
 package com.VMcom.VMcom.services;
 
 import com.VMcom.VMcom.enums.AppUserRole;
-import com.VMcom.VMcom.enums.TokenType;
 import com.VMcom.VMcom.model.*;
 import com.VMcom.VMcom.repository.AppUserRepository;
 import com.VMcom.VMcom.repository.ShopCartRepository;
@@ -19,9 +18,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.security.InvalidParameterException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Map;
 
 @Service
@@ -70,13 +69,11 @@ public class AuthenticationService {
         claims.put("roles",user.getAppUserRole());
         revokeAllAccessAndRefreshAppUserTokens(appUser);
         var jwtToken = jwtService.generateToken(claims,user);
-        Token savedJwtToken = saveUserToken(appUser, jwtToken,TokenType.ACCESS);
         var jwtRefreshToken = jwtService.generateRefreshToken(user);
-        Token savedJwtRefreshToken = saveUserToken(appUser,jwtRefreshToken,TokenType.REFRESH);
-        generateTokenSession(savedJwtToken,savedJwtRefreshToken);
+        generateTokenSession(jwtToken,jwtRefreshToken);
         return AuthenciationResponse.builder()
-                .accessToken(jwtToken)
-                .refreshToken(jwtRefreshToken)
+                .accessToken(jwtToken.getToken())
+                .refreshToken(jwtRefreshToken.getToken())
                 .build();
 
     }
@@ -135,16 +132,6 @@ public class AuthenticationService {
 
     }
 
-    public void revokeAllAccessAppUserToken(AppUser appUser){
-        revokeAllUsersTokens(appUser,tokenRepository.findAllValidAccessTokensByUser(appUser.getId()));
-    }
-
-    private void revokeAccessAndRefreshAppUserTokenByAccessToken(String accessTokenString){
-      Token accessToken = tokenRepository.findByToken(accessTokenString).orElseThrow(() -> new InvalidParameterException("access token not found"));
-      TokenSession tokenSession = tokenSessionRepository.findByAccessToken(accessToken).orElseThrow(() -> new InvalidParameterException("token session not found"));
-      revokeAccessAndRefreshAppUserTokenByTokenSession(tokenSession);
-    }
-
     private void revokeAccessAndRefreshAppUserTokenByRefreshToken(String refreshTokenString){
       Token refreshToken = tokenRepository.findByToken(refreshTokenString).orElseThrow(() -> new InvalidParameterException("refresh token not found"));
       TokenSession tokenSession = tokenSessionRepository.findByRefreshToken(refreshToken).orElseThrow(() -> new InvalidParameterException("token session not found"));
@@ -160,16 +147,6 @@ public class AuthenticationService {
         tokenRepository.save(tokenSession.getRefreshToken());
     }
 
-    private Token saveUserToken(AppUser appUser, String jwtToken,TokenType tokenType) {
-        var token = Token.builder()
-                .appUser(appUser)
-                .token(jwtToken)
-                .tokenType(tokenType)
-                .expired(false)
-                .revoked(false)
-                .build();
-       return tokenRepository.save(token);
-    }
 
 
     public AuthenciationResponse authenticate(AuthenciationRequest request) {
@@ -185,14 +162,12 @@ public class AuthenticationService {
 
         HashMap<String,Object> claims = new HashMap<>();
         claims.put("roles",user.getAppUserRole());
-        var jwtToken = jwtService.generateToken(claims,user);
-        Token savedJwtToken = saveUserToken(user, jwtToken,TokenType.ACCESS);
-        var jwtRefreshToken = jwtService.generateRefreshToken(user);
-        Token savedJwtRefreshToken = saveUserToken(user,jwtRefreshToken,TokenType.REFRESH);
-        generateTokenSession(savedJwtToken,savedJwtRefreshToken);
+        Token jwtToken = jwtService.generateToken(claims,user);
+        Token jwtRefreshToken = jwtService.generateRefreshToken(user);
+        generateTokenSession(jwtToken,jwtRefreshToken);
         return AuthenciationResponse.builder()
-                .accessToken(jwtToken)
-                .refreshToken(jwtRefreshToken)
+                .accessToken(jwtToken.getToken())
+                .refreshToken(jwtRefreshToken.getToken())
                 .build();
 
     }
@@ -217,14 +192,12 @@ public class AuthenticationService {
                 revokeAccessAndRefreshAppUserTokenByRefreshToken(refreshToken);
                 HashMap<String,Object> claims = new HashMap<>();
                 claims.put("roles",user.getAppUserRole());
-                String accessToken = jwtService.generateToken(claims,user);
-                Token savedJwtToken = saveUserToken(user, accessToken,TokenType.ACCESS);
-                String newRefreshToken = jwtService.generateRefreshToken(user);
-                Token savedNewJwtRefreshToken = saveUserToken(user,newRefreshToken,TokenType.REFRESH);
-                generateTokenSession(savedJwtToken,savedNewJwtRefreshToken);
+                Token accessToken = jwtService.generateToken(claims,user);
+                Token newRefreshToken = jwtService.generateRefreshToken(user);
+                generateTokenSession(accessToken,newRefreshToken);
                 authenciationResponse = AuthenciationResponse.builder()
-                        .accessToken(accessToken)
-                        .refreshToken(newRefreshToken)
+                        .accessToken(accessToken.getToken())
+                        .refreshToken(newRefreshToken.getToken())
                         .build();
 
             }
