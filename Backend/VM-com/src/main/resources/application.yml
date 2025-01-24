@@ -2,7 +2,7 @@ spring:
   datasource:
 #    EXTERNAL DATABASE
     password: hpIBGdv9j6CE
-    url: jdbc:postgresql://ep-royal-fog-a2dwl67l.eu-central-1.aws.neon.tech:5432/VM-com
+    url: jdbc:postgresql://ep-royal-fog-a2dwl67l.eu-central-1.aws.neon.tech:5432/VM-com2
     username: VM-com
     driver-class-name: org.postgresql.Driver
 #
@@ -31,6 +31,8 @@ application:
   security:
     jwt:
       secret-key: 42285f5c5975375d20587e57565476356420274b433a767c5e6d4b503a
+      # 4 hours
       expiration: 1440000
       refresh-token:
+        # 7 days
         expiration: 604800000

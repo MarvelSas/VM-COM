@@ -1,10 +1,15 @@
 package com.VMcom.VMcom.services;
 
+import com.VMcom.VMcom.enums.TokenType;
+import com.VMcom.VMcom.model.AppUser;
+import com.VMcom.VMcom.model.Token;
+import com.VMcom.VMcom.repository.TokenRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -13,10 +18,12 @@ import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 import java.util.function.Function;
 
 
 @Service
+@RequiredArgsConstructor
 public class JWTService {
 
     @Value("${application.security.jwt.secret-key}")
@@ -26,6 +33,8 @@ public class JWTService {
     @Value("${application.security.jwt.refresh-token.expiration}")
     private long refreshExpiration;
 
+    private final TokenRepository tokenRepository;
+
 
 
 
@@ -34,29 +43,51 @@ public class JWTService {
         return extractClaim(token,Claims::getSubject);
     }
 
-    public String generateToken(UserDetails userDetails){
-        return generateToken(new HashMap<>(), userDetails);
+
+    public Token generateToken(Map<String, Object> extraClaims, AppUser appUser){
+        return buildToken(extraClaims,appUser,jwtExpiration,TokenType.ACCESS);
     }
 
-    public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails){
-        return buildToken(extraClaims,userDetails,jwtExpiration);
-    }
-
-    public String generateRefreshToken( UserDetails userDetails){
-        return buildToken(new HashMap<>(),userDetails,refreshExpiration);
+    public Token generateRefreshToken( AppUser appUser){
+        return buildToken(new HashMap<>(),appUser,refreshExpiration,TokenType.REFRESH);
     }
 
 
-    private String buildToken(Map<String, Object> extraClaims, UserDetails userDetails,long expiration){
-        return Jwts
-                .builder()
-                .setClaims(extraClaims)
-                .setSubject(userDetails.getUsername())
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis()+expiration))
-                .signWith(getSignInKey(), SignatureAlgorithm.HS256)
-                .compact();
+    private Token buildToken(Map<String, Object> extraClaims, AppUser appUser, long expiration, TokenType tokenType){
+        // Add a unique identifier to the extra claims
+        extraClaims.put("jti", UUID.randomUUID().toString());
+
+        String token;
+            do {
+                token = Jwts
+                        .builder()
+                        .setClaims(extraClaims)
+                        .setSubject(appUser.getUsername())
+                        .setIssuedAt(new Date(System.currentTimeMillis()))
+                        .setExpiration(new Date(System.currentTimeMillis()+expiration))
+                        .signWith(getSignInKey(), SignatureAlgorithm.HS256)
+                        .compact();
+                System.out.println(token);
+            }while (tokenRepository.existsByToken(token));
+
+           return saveToken(token,tokenType,appUser);
+
+
+
     }
+
+    private Token saveToken(String tokenString, TokenType tokenType, AppUser appUser){
+        Token token = Token.builder()
+                .token(tokenString)
+                .tokenType(tokenType)
+                .appUser(appUser)
+                .expired(false)
+                .revoked(false)
+                .build();
+      return tokenRepository.save(token);
+
+    }
+
 
 
     public boolean isTokenValid(String token,UserDetails userDetails){
