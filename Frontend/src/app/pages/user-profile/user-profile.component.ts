@@ -5,6 +5,7 @@ import { UserService } from 'src/app/shared/services/user.service';
 import { IAddress, IAddressData } from 'src/app/shared/models/address.model';
 import { IApiResponse } from 'src/app/shared/models/api-response.model';
 import { IUserDetails } from 'src/app/shared/models/user.model';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-user-profile',
@@ -26,7 +27,8 @@ export class UserProfileComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
-    private authService: AuthService
+    private authService: AuthService,
+    private toastrService: ToastrService
   ) {
     this.userForm = this.fb.group({
       firstName: ['', [Validators.required, Validators.minLength(2)]],
@@ -61,7 +63,6 @@ export class UserProfileComponent implements OnInit {
     this.userService.getUserData().subscribe({
       next: (res: IApiResponse<IUserDetails>) => {
         this.userData = res;
-        console.log(this.userData);
         this.userForm.patchValue({
           firstName:
             res.data.appUserDetails.firstName === ''
@@ -104,19 +105,51 @@ export class UserProfileComponent implements OnInit {
       this.editModeUser = false;
 
       this.userService.updateUserData(this.userForm.value).subscribe({
-        next: (res) => {},
+        next: (_) => {},
         error: (error) => {
+          this.toastrService.error('Błąd podczas aktualizacji danych!', null, {
+            positionClass: 'toast-bottom-right',
+          });
           console.error('Error saving user data:', error);
         },
         complete: () => {
-          // this.getUserData();
+          this.toastrService.success(
+            'Dane użytkownika zostały zaktualizowane!',
+            null,
+            {
+              positionClass: 'toast-bottom-right',
+            }
+          );
         },
       });
     }
   }
 
   savePasswordChanges() {
-    if (this.passwordForm.valid) {
+    if (
+      this.passwordForm.valid &&
+      this.passwordForm.value.newPassword ===
+        this.passwordForm.value.confirmPassword
+    ) {
+      this.authService.changePassword(this.passwordForm.value).subscribe({
+        next: (_) => {},
+        error: (error) => {
+          console.error('Error saving user data:', error);
+          this.toastrService.error('Błąd podczas aktualizacji hasła!', null, {
+            positionClass: 'toast-bottom-right',
+          });
+        },
+        complete: () => {
+          this.passwordForm.reset();
+          this.toastrService.success('Hasło zostało zaktualizowane!', null, {
+            positionClass: 'toast-bottom-right',
+          });
+        },
+      });
+    } else {
+      this.toastrService.error('Wprowadzono różne hasła!', null, {
+        positionClass: 'toast-bottom-right',
+      });
     }
   }
 
@@ -136,7 +169,7 @@ export class UserProfileComponent implements OnInit {
             this.addresses[this.selectedAddressIndex].id
           )
           .subscribe({
-            next: (res) => {},
+            next: (_) => {},
             error: (error) => {
               console.error('Error saving user data:', error);
             },
@@ -145,11 +178,15 @@ export class UserProfileComponent implements OnInit {
               this.selectedAddressIndex = null;
               this.addressForm.reset();
               this.getAddresses();
+
+              this.toastrService.success('Adres został zaktualizowany!', null, {
+                positionClass: 'toast-bottom-right',
+              });
             },
           });
       } else {
         this.userService.addNewAddress(address).subscribe({
-          next: (res) => {
+          next: (_) => {
             this.editModeAddress = false;
             this.selectedAddressIndex = null;
             this.getAddresses();
@@ -161,19 +198,13 @@ export class UserProfileComponent implements OnInit {
             this.addNewAddressMode = null;
             this.editModeAddress = false;
             this.addressForm.reset();
+
+            this.toastrService.success('Dodano nowy adres!', null, {
+              positionClass: 'toast-bottom-right',
+            });
           },
         });
       }
-
-      // this.userService.updateUserAddresses(this.addresses).subscribe({
-      //   next: (res) => {
-      //     this.editModeAddress = false;
-      //     this.selectedAddressIndex = null;
-      //   },
-      //   error: (error) => {
-      //     console.error('Error saving user address:', error);
-      //   },
-      // });
     } else {
       console.error('Invalid form data');
     }
@@ -187,8 +218,7 @@ export class UserProfileComponent implements OnInit {
     this.editModePassword = !this.editModePassword;
   }
 
-  addNewAddressButton(): void {
-    console.log('Add new address');
+  showFormNewAddress(): void {
     this.addNewAddressMode = true;
     this.editModeAddress = true;
     this.addressForm.reset();

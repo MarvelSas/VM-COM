@@ -33,9 +33,11 @@
                       />
                     </div>
                     <div class="col-md-3 col-lg-3 col-xl-3">
-                      <p class="lead fw-normal mb-2">
-                        {{ product.product.name }}
-                      </p>
+                      <a [routerLink]="['/product', product.product.id]">
+                        <p class="lead fw-normal mb-2">
+                          {{ product.product.name }}
+                        </p>
+                      </a>
                       <p><span class="text-muted">Wersja: </span>Standardowa</p>
                     </div>
                     <div class="col-md-3 col-lg-3 col-xl-2 d-flex">

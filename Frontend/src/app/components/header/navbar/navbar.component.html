@@ -1,8 +1,8 @@
 <div class="navbar">
-  <div class="logoContainer" routerLink="/">
+  <a class="logoContainer" routerLink="/">
     <!-- <p>navbar works!</p> -->
     <img class="logoImg" src="../../../../assets/vm-com.png" />
-  </div>
+  </a>
   <div class="searchContainer d-flex align-items-center">
     <input
       #searchInput
@@ -35,9 +35,9 @@
       *ngIf="searchResults.length"
     >
       <ul class="product-list">
-        <li
+        <a
           *ngFor="let product of searchResults"
-          (click)="onSelectProduct(product)"
+          [routerLink]="['/product', product.id]"
           class="product-item"
         >
           <img
@@ -49,12 +49,12 @@
             <h5 class="product-name">{{ product.name }}</h5>
             <p class="product-price">{{ product.price }} zł</p>
           </div>
-        </li>
+        </a>
       </ul>
     </div>
   </div>
   <div class="buttonsContainer">
-    <div
+    <a
       class="buttonIcon"
       routerLink="admin"
       *hasRole="['ROLE_ADMIN']"
@@ -62,10 +62,10 @@
       placement="bottom"
     >
       <i class="fa-solid fa-user-tie fa-lg" style="color: #853030"></i>
-    </div>
+    </a>
 
     <!-- TODO: IF USER ROLE === ADMIN -->
-    <div
+    <a
       class="buttonIcon"
       routerLink="profile"
       *ngIf="user"
@@ -73,44 +73,39 @@
       placement="bottom"
     >
       <div><i class="fa-solid fa-user fa-lg"></i></div>
-    </div>
-    <div class="buttonLogin" routerLink="login" *ngIf="!user">
+    </a>
+    <a class="buttonLogin" routerLink="login" *ngIf="!user">
       <div>
         <span>Cześć,</span>
         <span>zaloguj się</span>
       </div>
       <div><i class="fa-solid fa-user fa-lg"></i></div>
-    </div>
+    </a>
     <!-- <div class="btn btn-primary m-1" routerLink="register" *ngIf="!user">
       Register
     </div> -->
 
-    <div
+    <a
       class="buttonIcon"
       routerLink="help"
       tooltip="Potrzebujesz pomocy?"
       placement="bottom"
     >
       <i class="fa-solid fa-headphones fa-lg"></i>
-    </div>
-    <div
+    </a>
+    <a
       class="buttonIcon"
       routerLink="favorites"
       tooltip="Ulubione produkty"
       placement="bottom"
     >
       <i class="fa-solid fa-heart fa-lg"></i>
-    </div>
-    <div
-      class="buttonIcon"
-      routerLink="cart"
-      tooltip="Koszyk"
-      placement="bottom"
-    >
+    </a>
+    <a class="buttonIcon" routerLink="cart" tooltip="Koszyk" placement="bottom">
       <i class="fa-solid fa-cart-shopping fa-lg"></i>
       <span class="cartCount" *ngIf="cartCount">{{ cartCount }}</span>
-    </div>
-    <div
+    </a>
+    <a
       class="buttonIcon"
       (click)="logout()"
       *ngIf="user"
@@ -118,6 +113,6 @@
       placement="bottom"
     >
       <i class="fa-solid fa-right-from-bracket fa-lg"></i>
-    </div>
+    </a>
   </div>
 </div>

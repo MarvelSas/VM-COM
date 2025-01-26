@@ -94,6 +94,15 @@ export class AuthService implements OnInit {
       );
   }
 
+  changePassword(passwordData) {
+    const body = {
+      oldPassword: passwordData.oldPassword,
+      newPassword: passwordData.newPassword,
+    };
+
+    return this.http.post(`${this.API_URL + endpoints.changePassword}`, body);
+  }
+
   autoLogin() {
     const accessToken = localStorage.getItem('accessToken');
     const refreshToken = localStorage.getItem('refreshToken');
@@ -101,10 +110,10 @@ export class AuthService implements OnInit {
     this.REFRESH_TOKEN = refreshToken;
 
     if (!accessToken) {
-      console.log('No access token found!');
-      this.toastr.error('Błąd autologowania!', null, {
-        positionClass: 'toast-bottom-right',
-      });
+      // console.log('No access token found!');
+      // this.toastr.error('Błąd autologowania!', null, {
+      //   positionClass: 'toast-bottom-right',
+      // });
       return;
     }
 
@@ -118,11 +127,11 @@ export class AuthService implements OnInit {
     // console.log('Current time: ', new Date());
 
     const tokenIsValid = this.tokenIsValid(accessToken);
-    console.log('Token is valid: ', tokenIsValid);
+    // console.log('Token is valid: ', tokenIsValid);
     if (accessToken && tokenIsValid) {
-      this.toastr.success('Zalogowano pomyślne!', null, {
-        positionClass: 'toast-bottom-right',
-      });
+      // this.toastr.success('Zalogowano pomyślne!', null, {
+      //   positionClass: 'toast-bottom-right',
+      // });
       const user = new User(
         decodedToken.sub,
         decodedToken.roles,
@@ -131,20 +140,20 @@ export class AuthService implements OnInit {
       );
       this.authorizeUser(user, accessToken, refreshToken);
     } else if (this.tokenIsValid(refreshToken)) {
-      console.log('Odswiezam token!');
+      // console.log('Odswiezam token!');
       this.refreshToken().subscribe({
         next: (res) => {
-          console.log(res);
+          // console.log(res);
         },
         error: (err) => {
-          console.log(err);
+          console.error(err);
         },
       });
     } else {
-      console.log('Tokens is not valid!');
-      this.toastr.error('Błąd autologowania!', null, {
-        positionClass: 'toast-bottom-right',
-      });
+      // console.log('Tokens is not valid!');
+      // this.toastr.error('Błąd autologowania!', null, {
+      //   positionClass: 'toast-bottom-right',
+      // });
     }
   }
 
@@ -201,7 +210,7 @@ export class AuthService implements OnInit {
     this.user.next(user);
     this.roleService.setRoles([user.role]);
     this.currentUserEmail = user.email;
-    console.log('User role:', user.role);
+    // console.log('User role:', user.role);
   }
 
   ngOnInit(): void {}

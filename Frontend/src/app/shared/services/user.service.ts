@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import { IAddress } from '../models/address.model';
 import { IApiResponse } from '../models/api-response.model';
 import { IUserDetails } from '../models/user.model';
+import { endpoints } from 'src/enums/endpoints.enum';
 
 @Injectable({
   providedIn: 'root',
@@ -12,35 +13,22 @@ import { IUserDetails } from '../models/user.model';
 export class UserService {
   API_URL = environment.API_URL;
 
-  // dummyUserData = {
-  //   name: 'John',
-  //   surname: 'Doe',
-  //   email: 'test@mail.com',
-  //   phone: '123456789',
-  // };
-  // dummyAddressData = {
-  //   city: 'Warsaw',
-  //   street: 'Marszałkowska',
-  //   number: '1',
-  //   zip: '00-000',
-  // };
-
   constructor(private http: HttpClient) {}
 
   getUserData(): Observable<any> {
-    // return of(this.dummyUserData);
-    return this.http.get<IApiResponse<IUserDetails>>(`${this.API_URL}appUser`);
+    return this.http.get<IApiResponse<IUserDetails>>(
+      `${this.API_URL + endpoints.getUser}`
+    );
   }
 
   updateUserData(userData: IUserDetails) {
-    return this.http.patch(`${this.API_URL}appUser`, userData);
+    return this.http.patch(`${this.API_URL + endpoints.updateUser}`, userData);
   }
 
   getUserAddresses(): Observable<any> {
-    return this.http.get<IApiResponse<IAddress>>(`${this.API_URL}addresses`);
-  }
-  addUserAddress(newAddress): Observable<any> {
-    return this.http.post(`${this.API_URL}addresses`, newAddress);
+    return this.http.get<IApiResponse<IAddress>>(
+      `${this.API_URL + endpoints.getUserAddresses}`
+    );
   }
 
   addNewAddress(userAddress: IAddress) {
@@ -53,11 +41,13 @@ export class UserService {
       city: userAddress.city,
     };
 
-    return this.http.post(`${this.API_URL}address`, newAddress);
+    return this.http.post(
+      `${this.API_URL + endpoints.addUserAddress}`,
+      newAddress
+    );
   }
 
   updateAddress(userAddress: IAddress, id: number) {
-    console.log(userAddress);
     const newAddress = {
       firstName: userAddress.firstName,
       lastName: userAddress.lastName,
@@ -67,14 +57,9 @@ export class UserService {
       city: userAddress.city,
     };
 
-    // console.log(userAddress);
-    // console.log(newAddress);
-
-    // console.log(newAddress);
-    return this.http.put(`${this.API_URL}address/${id}`, newAddress);
-  }
-
-  changePassword(passwords: any) {
-    console.log(passwords);
+    return this.http.put(
+      `${this.API_URL + endpoints.updateAddress + id}`,
+      newAddress
+    );
   }
 }

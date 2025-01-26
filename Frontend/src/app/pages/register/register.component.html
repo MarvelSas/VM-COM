@@ -1,9 +1,8 @@
 <div class="custom-container">
-  <div class="card">
+  <div class="card register-card">
     <h4>Rejestracja</h4>
     <form [formGroup]="signUpForm">
       <div>
-        <!-- <label class="test" for="name">Imię:</label> -->
         <input
           id="firstname"
           type="text"
@@ -15,9 +14,18 @@
               signUpForm.get('firstname').invalid
           }"
         />
+        <div class="invalid-feedback">
+          <div
+            *ngIf="
+              signUpForm.get('firstname').touched &&
+              signUpForm.get('firstname').errors?.['required']
+            "
+          >
+            Wprowadź imię.
+          </div>
+        </div>
       </div>
       <div>
-        <!-- <label for="surname">Nazwisko:</label> -->
         <input
           id="lastname"
           type="text"
@@ -29,10 +37,19 @@
               signUpForm.get('lastname').invalid
           }"
         />
+        <div class="invalid-feedback">
+          <div
+            *ngIf="
+              signUpForm.get('lastname').touched &&
+              signUpForm.get('lastname').errors?.['required']
+            "
+          >
+            Wprowadź nazwisko.
+          </div>
+        </div>
       </div>
 
       <div>
-        <!-- <label for="email">Adres email:</label> -->
         <input
           id="email"
           type="text"
@@ -43,10 +60,27 @@
               signUpForm.get('email').touched && signUpForm.get('email').invalid
           }"
         />
+        <div class="invalid-feedback">
+          <div
+            *ngIf="
+              signUpForm.get('email').touched &&
+              signUpForm.get('email').errors?.['required']
+            "
+          >
+            Wprowadź adres e-mail.
+          </div>
+          <div
+            *ngIf="
+              signUpForm.get('email').touched &&
+              signUpForm.get('email').errors?.['email']
+            "
+          >
+            Wprowadzono nieprawidłowy adres e-mail.
+          </div>
+        </div>
       </div>
 
       <div>
-        <!-- <label for="password">Hasło:</label> -->
         <input
           id="password"
           type="password"
@@ -57,21 +91,32 @@
               signUpForm.get('password').touched &&
               signUpForm.get('password').invalid
           }"
-          [tooltip]="
-            signUpForm.get('password').touched &&
-            signUpForm.get('password').invalid
-              ? 'Hasło musi zawierać co najmniej 8 znaków, w tym jedną cyfrę, jedną dużą literę i jeden znak specjalny.'
-              : ''
-          "
         />
+        <div class="invalid-feedback">
+          <div
+            *ngIf="
+              signUpForm.get('password').touched &&
+              signUpForm.get('password').errors?.['required']
+            "
+          >
+            Wprowadź hasło.
+          </div>
+          <div
+            *ngIf="
+              signUpForm.get('password').touched &&
+              signUpForm.get('password').errors?.['minlength']
+            "
+          >
+            Hasło musi mieć co najmniej 8 znaków.
+          </div>
+        </div>
         <p class="password-hint">
-          Hasło musi zawierać co najmniej 8 znaków, w tym jedną cyfrę, jedną
-          dużą literę i jeden znak specjalny.
+          Pamiętaj, aby hasło zawierało co najmniej 8 znaków.
         </p>
       </div>
       <div class="controls">
         <button
-          class="button"
+          class="button-register"
           (click)="onRegisterHandler()"
           [disabled]="signUpForm.invalid"
         >

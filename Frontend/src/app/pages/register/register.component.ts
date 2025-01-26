@@ -23,7 +23,10 @@ export class RegisterComponent implements OnInit {
       firstname: new FormControl(null, Validators.required),
       lastname: new FormControl(null, Validators.required),
       email: new FormControl(null, [Validators.required, Validators.email]),
-      password: new FormControl(null, Validators.required),
+      password: new FormControl(null, [
+        Validators.required,
+        Validators.minLength(8),
+      ]),
     });
   }
 
@@ -38,10 +41,7 @@ export class RegisterComponent implements OnInit {
         },
         error: (err) => {
           console.error(err.message);
-          if (
-            err.status === 400 &&
-            err.error.message.includes('already exist')
-          ) {
+          if (err.status === 400) {
             this.toast.error('Błąd podczas rejestracji!', null, {
               positionClass: 'toast-bottom-right',
             });
