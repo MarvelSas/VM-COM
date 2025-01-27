@@ -2,7 +2,8 @@ package com.VMcom.VMcom.config;
 
 
 import com.VMcom.VMcom.services.AppUserService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -30,7 +31,7 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 
 @Configuration
 @EnableWebSecurity
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class SecurityConfig {
 
 
@@ -38,6 +39,8 @@ public class SecurityConfig {
     private final AppUserService appUserService;
     private final LogoutHandler logoutHandler;
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
+    @Value("${application.security.cors.allowed-origins}")
+    private String allowedOrigins;
 
     private static final String[] WHITE_LIST_URL = {
 
@@ -138,7 +141,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.applyPermitDefaultValues();
-        configuration.setAllowedOrigins(List.of("https://dev.dwuglowy.live"));
+        configuration.setAllowedOrigins(List.of(allowedOrigins));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD","PATCH"));
         configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
