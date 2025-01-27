@@ -29,15 +29,20 @@ public class JWTService {
     @Value("${application.security.jwt.secret-key}")
     private String secretKey;
     @Value("${application.security.jwt.expiration}")
-    private long jwtExpiration;
+    private String jwtExpiration;
     @Value("${application.security.jwt.refresh-token.expiration}")
-    private long refreshExpiration;
+    private String refreshExpiration;
 
     private final TokenRepository tokenRepository;
 
 
+    private Long parseJwtExpiration(){
+        return Long.parseLong(jwtExpiration);
+    }
 
-
+    private Long parseRefreshExpiration(){
+        return Long.parseLong(refreshExpiration);
+    }
 
     public String extractEmail(String token) {
         return extractClaim(token,Claims::getSubject);
@@ -45,11 +50,12 @@ public class JWTService {
 
 
     public Token generateToken(Map<String, Object> extraClaims, AppUser appUser){
-        return buildToken(extraClaims,appUser,jwtExpiration,TokenType.ACCESS);
+
+        return buildToken(extraClaims,appUser,parseJwtExpiration(),TokenType.ACCESS);
     }
 
     public Token generateRefreshToken( AppUser appUser){
-        return buildToken(new HashMap<>(),appUser,refreshExpiration,TokenType.REFRESH);
+        return buildToken(new HashMap<>(),appUser,parseRefreshExpiration(),TokenType.REFRESH);
     }
 
 

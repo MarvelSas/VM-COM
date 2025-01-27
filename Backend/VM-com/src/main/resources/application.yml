@@ -1,9 +1,13 @@
 spring:
   datasource:
 #    EXTERNAL DATABASE
-    password: hpIBGdv9j6CE
-    url: jdbc:postgresql://ep-royal-fog-a2dwl67l.eu-central-1.aws.neon.tech:5432/VM-com2
-    username: VM-com
+
+#    url: jdbc:postgresql://ep-royal-fog-a2dwl67l.eu-central-1.aws.neon.tech:5432/VM-com2
+#    username: VM-com
+#    password: hpIBGdv9j6CE
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
     driver-class-name: org.postgresql.Driver
 #
 #    LOCAL DOCKER DATABASE
@@ -29,10 +33,12 @@ spring:
 
 application:
   security:
+    cors:
+      allowed-origins: ${CORS_ALLOWED_ORIGINS}
     jwt:
       secret-key: 42285f5c5975375d20587e57565476356420274b433a767c5e6d4b503a
       # 4 hours
-      expiration: 1440000
+      expiration: ${ACCESS_TOKEN_EXPIRATION_TIME:1440000}
       refresh-token:
         # 7 days
-        expiration: 604800000
+        expiration: ${REFRESH_TOKEN_EXPIRATION_TIME:604800000}
