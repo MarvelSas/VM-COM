@@ -2,11 +2,11 @@
 
 <img src="./assets/screenshot.png" width="500px">
 
-VM-COM is a modern e-commerce application designed to provide a secure and seamless online shopping experience.  
+VM-COM is a modern e-commerce application that makes online shopping safe and easy.  
 The project utilizes a robust and scalable technology stack, ensuring high performance and security.
 
 On the backend, we use **Spring Boot**, known for its stability and enterprise-level security.  
-The frontend is built with **TypeScript**, **Bootstrap**, and **SASS**, delivering a clean and responsive UI.
+The frontend is built with **Angular**, **TypeScript**, **Bootstrap**, and **SASS**, delivering a clean and responsive UI.
 
 ## 🔥 Features
 
