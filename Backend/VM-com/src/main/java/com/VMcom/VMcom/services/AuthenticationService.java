@@ -1,21 +1,27 @@
 package com.VMcom.VMcom.services;
 
 import com.VMcom.VMcom.enums.AppUserRole;
-import com.VMcom.VMcom.model.AppUser;
-import com.VMcom.VMcom.model.AuthenciationRequest;
-import com.VMcom.VMcom.model.AuthenciationResponse;
-import com.VMcom.VMcom.model.RegisterRequest;
+import com.VMcom.VMcom.model.*;
 import com.VMcom.VMcom.repository.AppUserRepository;
+import com.VMcom.VMcom.repository.ShopCartRepository;
+import com.VMcom.VMcom.repository.TokenRepository;
+import com.VMcom.VMcom.repository.TokenSessionRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.security.InvalidParameterException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -25,29 +31,125 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JWTService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final TokenRepository tokenRepository;
+    private final ShopCartRepository shopCartRepository;
+    private final TokenSessionRepository tokenSessionRepository;
 
-    public String register(RegisterRequest request) {
+    public AppUser getAppUserFromContextHolder(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null)
+            throw new IllegalStateException("No authentication object found in security context");
+        return findUserByUsername(authentication.getName());
+    }
+
+    private AppUser findUserByUsername(String username) {
+        return appUserRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User with username " + username + " not found"));
+    }
+
+    public AuthenciationResponse register(RegisterRequest request) {
         if(appUserRepository.findByUsername(request.getEmail()).isPresent()){
             throw new InvalidParameterException("User with email "+request.getEmail()+" already exist");
         }
+
+        checkPassword(request.getPassword());
 
         var user = new AppUser(
                 request.getFirstname(),
                 request.getLastname(),
                 request.getEmail(),
                 passwordEncoder.encode(request.getPassword()),
-                AppUserRole.USER,
+                AppUserRole.ROLE_USER,
                 false,
-                true);
-        appUserRepository.save(user);
+                true,
+                request.getPhoneNumber());
+        AppUser appUser = appUserRepository.save(user);
+        createShopCart(appUser);
         HashMap<String,Object> claims = new HashMap<>();
         claims.put("roles",user.getAppUserRole());
+        revokeAllAccessAndRefreshAppUserTokens(appUser);
         var jwtToken = jwtService.generateToken(claims,user);
-        return jwtToken;
+        var jwtRefreshToken = jwtService.generateRefreshToken(user);
+        generateTokenSession(jwtToken,jwtRefreshToken);
+        return AuthenciationResponse.builder()
+                .accessToken(jwtToken.getToken())
+                .refreshToken(jwtRefreshToken.getToken())
+                .build();
 
     }
 
-    public String authenticate(AuthenciationRequest request) {
+
+    private void checkPassword(String password){
+        if(password.isEmpty()){
+            throw new InvalidParameterException("Password can't be empty");
+        }
+
+        if(password.length() < 8){
+            throw new InvalidParameterException("Password must be at least 8 characters long");
+        }
+
+        if(password.length() > 20){
+            throw new InvalidParameterException("Password must be at most 20 characters long");
+        }
+
+    }
+
+
+
+    private void generateTokenSession(Token accessToken, Token refreshToken){
+       tokenSessionRepository.save(TokenSession.builder()
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
+                .build());
+
+
+    }
+
+    public void createShopCart(AppUser appUser){
+        ShopCart shopCart = new ShopCart();
+        List<ShopCartLine> shopCartLines = new ArrayList<>();
+        shopCart.setShopCardLines(shopCartLines);
+        shopCart.setAppUser(appUser);
+        shopCartRepository.save(shopCart);
+    }
+
+    public void revokeAllAccessAndRefreshAppUserTokens(AppUser appUser){
+        revokeAllUsersTokens(appUser,tokenRepository.findAllValidTokensByUser(appUser.getId()));
+    }
+
+    public void revokeAllUsersTokens(AppUser appUser, List<Token> validAppUserTokens){
+
+        if (validAppUserTokens.isEmpty()){
+            return;
+        }
+
+        validAppUserTokens.forEach(t ->{
+            t.setExpired(true);
+            t.setRevoked(true);
+        });
+
+        tokenRepository.saveAll(validAppUserTokens);
+
+    }
+
+    private void revokeAccessAndRefreshAppUserTokenByRefreshToken(String refreshTokenString){
+      Token refreshToken = tokenRepository.findByToken(refreshTokenString).orElseThrow(() -> new InvalidParameterException("refresh token not found"));
+      TokenSession tokenSession = tokenSessionRepository.findByRefreshToken(refreshToken).orElseThrow(() -> new InvalidParameterException("token session not found"));
+      revokeAccessAndRefreshAppUserTokenByTokenSession(tokenSession);
+    }
+
+    private void  revokeAccessAndRefreshAppUserTokenByTokenSession(TokenSession tokenSession){
+        tokenSession.getAccessToken().setRevoked(true);
+        tokenSession.getAccessToken().setExpired(true);
+        tokenSession.getRefreshToken().setRevoked(true);
+        tokenSession.getRefreshToken().setExpired(true);
+        tokenRepository.save(tokenSession.getAccessToken());
+        tokenRepository.save(tokenSession.getRefreshToken());
+    }
+
+
+
+    public AuthenciationResponse authenticate(AuthenciationRequest request) {
 
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -60,8 +162,83 @@ public class AuthenticationService {
 
         HashMap<String,Object> claims = new HashMap<>();
         claims.put("roles",user.getAppUserRole());
-        var jwtToken = jwtService.generateToken(claims,user);
-        return jwtToken;
+        Token jwtToken = jwtService.generateToken(claims,user);
+        Token jwtRefreshToken = jwtService.generateRefreshToken(user);
+        generateTokenSession(jwtToken,jwtRefreshToken);
+        return AuthenciationResponse.builder()
+                .accessToken(jwtToken.getToken())
+                .refreshToken(jwtRefreshToken.getToken())
+                .build();
 
     }
+
+    public AuthenciationResponse refresthToken(HttpServletRequest request) {
+
+        final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
+        final String refreshToken;
+        final String username;
+        AuthenciationResponse authenciationResponse = new AuthenciationResponse();
+        if(authHeader == null || !authHeader.startsWith("Bearer ")){
+            return authenciationResponse;
+        }
+        refreshToken = authHeader.substring(7);
+        username = jwtService.extractEmail(refreshToken);
+        if(username != null){
+            var user = this.appUserRepository.findByUsername(username).orElseThrow();
+            boolean isTokenValid = tokenRepository.findByToken(refreshToken)
+            .map(t -> !t.isExpired() && !t.isRevoked())
+            .orElse(false);
+            if(jwtService.isTokenValid(refreshToken,user) && isTokenValid){
+                revokeAccessAndRefreshAppUserTokenByRefreshToken(refreshToken);
+                HashMap<String,Object> claims = new HashMap<>();
+                claims.put("roles",user.getAppUserRole());
+                Token accessToken = jwtService.generateToken(claims,user);
+                Token newRefreshToken = jwtService.generateRefreshToken(user);
+                generateTokenSession(accessToken,newRefreshToken);
+                authenciationResponse = AuthenciationResponse.builder()
+                        .accessToken(accessToken.getToken())
+                        .refreshToken(newRefreshToken.getToken())
+                        .build();
+
+            }
+            return authenciationResponse;
+        }
+
+        return authenciationResponse;
+    }
+
+    public Boolean changePassword(Map<String, String> request) {
+
+        AppUser appUser = getAppUserFromContextHolder();
+
+        if(passwordEncoder.matches(request.get("oldPassword"),appUser.getPassword()) && validateOldAndNewPassword(request)){
+            appUser.setPassword(passwordEncoder.encode(request.get("newPassword")));
+            appUserRepository.save(appUser);
+            return true;
+        }else {
+            throw new InvalidParameterException("Old password is incorrect");
+        }
+
+
+    }
+
+    private boolean validateOldAndNewPassword(Map<String, String> request){
+
+        checkPassword(request.get("newPassword"));
+
+        if(request.get("newPassword").isEmpty()){
+            throw new InvalidParameterException("New password can't be empty");
+        }
+
+        if(request.get("oldPassword").isEmpty()){
+            throw new InvalidParameterException("Old password can't be empty");
+        }
+
+        if(request.get("newPassword").equals(request.get("oldPassword"))){
+            throw new InvalidParameterException("New password can't be the same as old password");
+        }
+
+        return true;
+    }
+
 }

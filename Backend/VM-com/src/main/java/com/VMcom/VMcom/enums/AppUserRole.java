@@ -1,7 +1,7 @@
 package com.VMcom.VMcom.enums;
 
 public enum AppUserRole {
-    USER,
-    ADMIN
+    ROLE_USER,
+    ROLE_ADMIN
 
 }

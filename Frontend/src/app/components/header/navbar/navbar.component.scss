@@ -5,7 +5,7 @@
   justify-content: space-between;
   align-items: center;
   background-color: $nav-background-color;
-  height: 3rem;
+  height: 4rem;
 }
 
 .logoContainer {
@@ -20,9 +20,10 @@
   height: 2.25rem;
   border: none;
   border-radius: 6px;
+  background-color: #f2f2f2;
 }
 
-.btn {
+.button {
   margin: 0.25rem;
   padding: 0.5rem;
   background-color: $nav-button-background-color;
@@ -30,26 +31,79 @@
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  transition: opacity 0.3s, transform 0.3s;
+  height: 200px;
 }
 
-.btn:hover {
-  background-color: $nav-button-hover-background-color;
+.buttonsContainer {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+.buttonLogin {
+  padding: 0.5rem 0.8rem;
+  width: 125px;
+  height: 50px;
+  border-radius: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+
+  span {
+    display: block;
+    &:first-child {
+      font-size: 0.9rem;
+      color: #898989;
+    }
+    &:last-child {
+      font-size: 0.8rem;
+      color: #444444;
+    }
+  }
+}
+
+.buttonIcon {
+  margin: 0 1rem;
+  padding: 0.8rem;
+  height: 50px;
+  background-color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.buttonIcon:hover,
+.buttonLogin:hover {
+  background-color: darken(white, 10%);
+  transition: background-color 0.5s;
+}
+
+.button:hover {
+  opacity: 0.85;
+  transform: translateY(-2px);
+  // background-color: $nav-button-hover-background-color;
 }
 
 //DROPDOWN MENU
 .dropdown {
   position: relative;
   display: inline-block;
+
+  button {
+    width: 125px;
+  }
 }
 
-.btnDropdown {
-  width: 5rem;
-}
+// .btnDropdown {
+//   width: 5rem;
+// }
 
 .dropdownContent {
   display: none;
   position: absolute;
-  background-color: $dropdown-background-color;
+  background-color: #ffffff;
   border-radius: 6px;
   min-width: 8rem;
   box-shadow: 0px 8px 8px 0px rgba(0, 0, 0, 0.2);
@@ -61,12 +115,153 @@
   padding: 0.5rem 1rem;
   text-decoration: none;
   display: block;
+  cursor: pointer;
+  transition: background-color 0.5s;
 }
 
 .dropdownContent a:hover {
-  background-color: dropdown-hover-background-color;
+  background-color: #f2f2f2;
 }
 
 .dropdown:hover .dropdownContent {
   display: block;
+}
+
+.searchContainer {
+  position: relative;
+  padding: 5px;
+  border-radius: 6px;
+  background-color: #f2f2f2;
+
+  .dropdownSearchButton {
+    background-color: #f2f2f2;
+    // background-color: white;
+    color: #444444;
+    border: none;
+    cursor: pointer;
+    border-radius: 3px;
+    height: 35px;
+    transition: background-color 0.5s;
+  }
+
+  .dropdownSearchButton:hover {
+    background-color: #ffffff;
+  }
+
+  .spacer {
+    height: 40px;
+    margin: 0 5px;
+    border: 1px solid #dddddd;
+    border-radius: 3px;
+  }
+
+  .btnSearch {
+    background-color: #222222;
+    height: 35px;
+    width: 60px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.5s;
+  }
+
+  .btnSearch:hover {
+    background-color: #444444;
+  }
+
+  .searchResults {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    max-height: 400px;
+    overflow-y: auto;
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      li {
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+        transition: background-color 0.2s, transform 0.1s;
+
+        &:hover {
+          background-color: #f0f0f0;
+          transform: translateX(2px);
+        }
+      }
+    }
+  }
+
+  .product-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 99%;
+  }
+
+  .product-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  .product-item:hover {
+    background-color: #f8f8f8;
+  }
+
+  .product-image {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-right: 10px;
+  }
+
+  .product-info {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .product-name {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+  }
+
+  .product-price {
+    margin: 0;
+    font-size: 14px;
+    color: #888;
+  }
+}
+
+.cartCount {
+  padding: 8px;
+  background-color: rgba(0, 0, 0, 0.3);
+  color: white;
+  border-radius: 50%;
+  height: 20px;
+  width: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.8rem;
+  font-weight: bold;
+  position: absolute;
+  margin-left: 20px;
+  margin-top: -5px;
 }

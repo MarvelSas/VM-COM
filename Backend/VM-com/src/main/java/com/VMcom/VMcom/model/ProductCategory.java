@@ -1,5 +1,6 @@
 package com.VMcom.VMcom.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -21,6 +22,7 @@ public class ProductCategory {
     @Column(name = "id")
     private Long id;
     private String name;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "categoryId", referencedColumnName = "id")
     private List<Product> products;

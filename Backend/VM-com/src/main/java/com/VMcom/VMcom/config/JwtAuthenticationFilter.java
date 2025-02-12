@@ -1,5 +1,6 @@
 package com.VMcom.VMcom.config;
 
+import com.VMcom.VMcom.repository.TokenRepository;
 import com.VMcom.VMcom.services.AppUserService;
 import com.VMcom.VMcom.services.JWTService;
 import jakarta.servlet.FilterChain;
@@ -23,11 +24,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JWTService jwtService;
     private final AppUserService appUserService;
+    private final TokenRepository tokenRepository;
     @Override
     protected void doFilterInternal(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull FilterChain filterChain) throws ServletException, IOException {
         final String authHeader = request.getHeader("Authorization");
         final String jwt;
         final String username;
+       
         if(authHeader == null || !authHeader.startsWith("Bearer ")){
             filterChain.doFilter(request,response);
             return;
@@ -36,15 +39,20 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         username = jwtService.extractEmail(jwt);
         if(username != null && SecurityContextHolder.getContext().getAuthentication() == null){
             UserDetails userDetails = this.appUserService.loadUserByUsername(username);
-            if(jwtService.isTokenValid(jwt,userDetails)){
+            var isTokenValid = tokenRepository.findByToken(jwt)
+                    .map(t -> !t.isExpired() && !t.isRevoked())
+                    .orElse(false);
+            if(jwtService.isTokenValid(jwt,userDetails) && isTokenValid){
+                System.out.println("JwtAuthenticationFilter");
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                         userDetails,
                         null,
                         userDetails.getAuthorities()
                         );
+                System.out.println(authenticationToken);
                  authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                  SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-                System.out.println("test");
+
             }
         }
         filterChain.doFilter(request,response);

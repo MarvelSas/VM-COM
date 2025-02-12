@@ -1,28 +1,131 @@
-<div class="registerCard">
+<div class="custom-container">
+  <div class="card register-card">
+    <h4>Rejestracja</h4>
     <form [formGroup]="signUpForm">
-        <div>
-            <!-- <label class="test" for="name">Imię:</label> -->
-            <input id="firstname" type="text" placeholder="Imię" formControlName="firstname" />
+      <div>
+        <input
+          id="firstname"
+          type="text"
+          placeholder="Imię"
+          formControlName="firstname"
+          [ngClass]="{
+            'input-invalid':
+              signUpForm.get('firstname').touched &&
+              signUpForm.get('firstname').invalid
+          }"
+        />
+        <div class="invalid-feedback">
+          <div
+            *ngIf="
+              signUpForm.get('firstname').touched &&
+              signUpForm.get('firstname').errors?.['required']
+            "
+          >
+            Wprowadź imię.
+          </div>
         </div>
-        <div>
-            <!-- <label for="surname">Nazwisko:</label> -->
-            <input id="lastname" type="text" placeholder="Nazwisko" formControlName="lastname" />
+      </div>
+      <div>
+        <input
+          id="lastname"
+          type="text"
+          placeholder="Nazwisko"
+          formControlName="lastname"
+          [ngClass]="{
+            'input-invalid':
+              signUpForm.get('lastname').touched &&
+              signUpForm.get('lastname').invalid
+          }"
+        />
+        <div class="invalid-feedback">
+          <div
+            *ngIf="
+              signUpForm.get('lastname').touched &&
+              signUpForm.get('lastname').errors?.['required']
+            "
+          >
+            Wprowadź nazwisko.
+          </div>
         </div>
+      </div>
 
-        <div>
-            <!-- <label for="email">Adres email:</label> -->
-            <input id="email" type="text" placeholder="Adres e-mail" formControlName="email" />
+      <div>
+        <input
+          id="email"
+          type="text"
+          placeholder="Adres e-mail"
+          formControlName="email"
+          [ngClass]="{
+            'input-invalid':
+              signUpForm.get('email').touched && signUpForm.get('email').invalid
+          }"
+        />
+        <div class="invalid-feedback">
+          <div
+            *ngIf="
+              signUpForm.get('email').touched &&
+              signUpForm.get('email').errors?.['required']
+            "
+          >
+            Wprowadź adres e-mail.
+          </div>
+          <div
+            *ngIf="
+              signUpForm.get('email').touched &&
+              signUpForm.get('email').errors?.['email']
+            "
+          >
+            Wprowadzono nieprawidłowy adres e-mail.
+          </div>
         </div>
+      </div>
 
-        <div>
-            <!-- <label for="password">Hasło:</label> -->
-            <input id="password" type="password" placeholder="Hasło" formControlName="password" />
+      <div>
+        <input
+          id="password"
+          type="password"
+          placeholder="Hasło"
+          formControlName="password"
+          [ngClass]="{
+            'input-invalid':
+              signUpForm.get('password').touched &&
+              signUpForm.get('password').invalid
+          }"
+        />
+        <div class="invalid-feedback">
+          <div
+            *ngIf="
+              signUpForm.get('password').touched &&
+              signUpForm.get('password').errors?.['required']
+            "
+          >
+            Wprowadź hasło.
+          </div>
+          <div
+            *ngIf="
+              signUpForm.get('password').touched &&
+              signUpForm.get('password').errors?.['minlength']
+            "
+          >
+            Hasło musi mieć co najmniej 8 znaków.
+          </div>
         </div>
-        <div class="controls">
-            <button class="g-btn" (click)="onRegisterHandler()">Zarejestruj</button>
-            <div class="links">
-                <p><a routerLink="../login">Chcesz się zalogować?</a></p>
-            </div>
+        <p class="password-hint">
+          Pamiętaj, aby hasło zawierało co najmniej 8 znaków.
+        </p>
+      </div>
+      <div class="controls">
+        <button
+          class="button-register"
+          (click)="onRegisterHandler()"
+          [disabled]="signUpForm.invalid"
+        >
+          Zarejestruj
+        </button>
+        <div class="links">
+          <p><a routerLink="../login">Chcesz się zalogować?</a></p>
         </div>
+      </div>
     </form>
+  </div>
 </div>

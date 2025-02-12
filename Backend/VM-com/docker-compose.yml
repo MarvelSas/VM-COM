@@ -1,13 +1,18 @@
 version: "3.9"
-
 services:
-  db:
+  vmcom_app-database:
     image: postgres
-    container_name: vmcom_psql_db
-    restart: no
+    container_name: vmcom_app-database
     environment:
-      - POSTGRES_USER=vmcom
-      - POSTGRES_PASSWORD=vmcom_secret_password
-      - POSTGRES_DB=vmcom_db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=postgres_db
     ports:
-      - '5432:5432'
+      - '5433:5432'
+    networks:
+      - vmcom_network
+    restart: always
+
+networks:
+  vmcom_network:
+    driver: bridge
