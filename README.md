@@ -15,15 +15,11 @@ The frontend is built with **Angular**, **TypeScript**, **Bootstrap**, and **SAS
 ✅ **Shopping Cart & Order Simulation** – Users can add products to the cart, but order finalization is disabled as this is a demo.  
 ✅ **Dockerized Deployment with Nginx** – Simplified and scalable deployment using containerized environments.
 
----
-
 ## 🚀 Live Demo
 
 🔗 **Try it out here:** **[VM-COM Demo](https://vm-com.kubisiak.dev/)**
 
 📝 _Note:_ This is a demo version. Some functionalities, such as order finalization, are disabled.
-
----
 
 ## 🛠 Tech Stack
 
@@ -53,8 +49,6 @@ The frontend is built with **Angular**, **TypeScript**, **Bootstrap**, and **SAS
 ![IntelliJ IDEA](https://img.shields.io/badge/IntelliJIDEA-000000.svg?style=for-the-badge&logo=intellij-idea&logoColor=white)
 ![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white)
 
----
-
 ## 👥 Contributors
 
 ### Backend Development
@@ -65,18 +59,16 @@ The frontend is built with **Angular**, **TypeScript**, **Bootstrap**, and **SAS
 
 [![GitHub](https://img.shields.io/badge/GitHub-kkolcz-%23181717?style=flat&logo=github)](https://github.com/kkolcz/)
 
----
-
 ## 🖼 Screenshots
 
-### 🏠 Home Page
+### Home Page
 
 <img src="./assets/screenshot.png" width="500px">
 
-### 🛍️ Product Page
+### Product Page
 
 <img src="./assets/screenshot2.png" width="500px">
 
-### 🛒 Shopping Cart
+### Shopping Cart
 
 <img src="./assets/screenshot3.png" width="500px">
