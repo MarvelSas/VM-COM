@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.signInForm = new FormGroup({
-      email: new FormControl(null, Validators.required),
+      email: new FormControl(null, [Validators.required, Validators.email]),
       password: new FormControl(null, Validators.required),
     });
   }
@@ -40,16 +40,21 @@ export class LoginComponent implements OnInit {
         },
         error: (err) => {
           console.error(err.message);
-          this.toastr.error('Błąd logowania!', null, {
-            positionClass: 'toast-bottom-right',
-          });
+          if (err.status === 401) {
+            this.toastr.error('Nieprawidłowy adres e-mail lub hasło!', null, {
+              positionClass: 'toast-bottom-right',
+            });
+          } else {
+            this.toastr.error('Błąd logowania!', null, {
+              positionClass: 'toast-bottom-right',
+            });
+          }
+
+          this.signInForm.reset();
         },
       });
+    } else {
+      this.signInForm.markAllAsTouched();
     }
   }
-
-  //     firstname: 'Marvel',
-  //     lastname: 'Sas',
-  //     email: 'marvel@gmail.com',
-  //     password: 'test123',
 }

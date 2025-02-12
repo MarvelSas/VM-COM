@@ -18,7 +18,7 @@ import { SlideshowComponent } from './shared/slideshow/slideshow.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProductsComponent } from './pages/products/products.component';
 import { ProductDetailComponent } from './pages/product-detail/product-detail.component';
 import { AdminComponent } from './pages/admin/admin.component';
@@ -27,6 +27,17 @@ import { AdminProductsComponent } from './pages/admin/admin-products/admin-produ
 import { LoadingSpinnerComponent } from './shared/components/loading-spinner/loading-spinner.component';
 import { Toast, ToastrModule } from 'ngx-toastr';
 import { AuthInterceptorService } from './shared/services/auth-interceptor.service';
+import { ProductListItemComponent } from './shared/components/product-list-item/product-list-item.component';
+import { TabsModule } from 'ngx-bootstrap/tabs';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { UserProfileComponent } from './pages/user-profile/user-profile.component';
+import { HasRoleDirective } from './shared/directives/has-role.directive';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { HelpUserComponent } from './pages/help-user/help-user.component';
+import { FavoritesProductsComponent } from './pages/favorites-products/favorites-products.component';
+import { ErrorComponent } from './pages/error/error.component';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 @NgModule({
   declarations: [
@@ -49,14 +60,26 @@ import { AuthInterceptorService } from './shared/services/auth-interceptor.servi
     AdminCategoriesComponent,
     AdminProductsComponent,
     LoadingSpinnerComponent,
+    ProductListItemComponent,
+    UserProfileComponent,
+    HasRoleDirective,
+    HelpUserComponent,
+    FavoritesProductsComponent,
+    ErrorComponent,
   ],
   imports: [
+    FontAwesomeModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
     ReactiveFormsModule,
     ToastrModule.forRoot(),
+    TooltipModule.forRoot(),
+    TabsModule,
+    FormsModule,
+    PaginationModule,
+    ModalModule.forRoot(),
   ],
   providers: [
     {

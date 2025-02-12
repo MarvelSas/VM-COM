@@ -1,9 +1,7 @@
 package com.VMcom.VMcom.controller;
 
 
-import com.VMcom.VMcom.model.Product;
-import com.VMcom.VMcom.model.ProductCategory;
-import com.VMcom.VMcom.model.Response;
+import com.VMcom.VMcom.model.*;
 import com.VMcom.VMcom.services.ProductService;
 import jakarta.activation.FileTypeMap;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +27,48 @@ public class ProductController {
 
 
     //Product endpoints
+    @GetMapping("/products")
+    public ResponseEntity<Response> getAllProductsWithPagingAndFilter(@RequestParam("page") int page,
+                                                   @RequestParam("pageSize") int pageSize,
+                                                   @RequestParam(value = "category",required = false) String category,
+                                                   @RequestParam(value = "sortBy", defaultValue = "name",required = false) String sortBy,
+                                                   @RequestParam(value = "order", defaultValue = "asc",required = false) String order ,
+                                                   @RequestParam(value = "minPrice", defaultValue = "0",required = false) Double minPrice,
+                                                   @RequestParam(value = "maxPrice", defaultValue = "100000000",required = false) Double maxPrice,
+                                                   @RequestParam(value = "hideOutOfStock",defaultValue = "false",required = false) boolean hideOutOfStock,
+                                                   @RequestParam(value = "name",defaultValue = "",required = false) String name
+
+    ){
+
+        try {
+            return ResponseEntity.ok(
+                    Response.builder()
+                            .timeStamp(LocalDateTime.now())
+                            .data(productService.getAllProductsWithPagingAndFilter(page, pageSize,category,sortBy,order,minPrice,maxPrice, hideOutOfStock,name))
+                            .message("All products was returned successfully")
+                            .status(HttpStatus.OK)
+                            .statusCode(HttpStatus.OK.value())
+                            .build()
+            );
+        }catch (Exception e){
+
+            return ResponseEntity.badRequest().body(
+                    Response.builder()
+                            .timeStamp(LocalDateTime.now())
+                            .data(Map.of("Message", e.getMessage()))
+                            .message("All products was not returned successfully")
+                            .status(HttpStatus.BAD_REQUEST)
+                            .statusCode(HttpStatus.BAD_REQUEST.value())
+                            .build()
+            );
+
+
+        }
+
+    }
+
+
+
 
     @GetMapping("/getAll")
     public ResponseEntity<Response> getAllProducts(){
@@ -46,12 +86,12 @@ public class ProductController {
 
 
     @PostMapping("/add")
-    public ResponseEntity<Response> addProduct(@RequestBody Product product){
+    public ResponseEntity<Response> addProduct(@RequestBody ProductWithSpecification productWithSpecification){
 
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(LocalDateTime.now())
-                        .data(Map.of("product", productService.addProduct(product)))
+                        .data(Map.of("product", productService.addProduct(productWithSpecification)))
                         .message("Product was added successfully")
                         .status(HttpStatus.OK)
                         .statusCode(HttpStatus.OK.value())
@@ -95,6 +135,70 @@ public class ProductController {
                         .build()
         );
     }
+
+    @PutMapping("/update/{productId}")
+    public ResponseEntity<Response> putProduct(@RequestBody ProductWithSpecification productWithSpecification, @PathVariable("productId") Long productId){
+
+        try {
+
+           return ResponseEntity.ok(
+                    Response.builder()
+                            .timeStamp(LocalDateTime.now())
+                            .data(Map.of("product",productService.updateProduct(productWithSpecification,productId)))
+                            .message("Product returned")
+                            .status(HttpStatus.OK)
+                            .statusCode(HttpStatus.OK.value())
+                            .build()
+            );
+
+
+        }catch (Exception e){
+
+            return ResponseEntity.badRequest().body(
+                    Response.builder()
+                            .timeStamp(LocalDateTime.now())
+                            .data(Map.of("Message", e.getMessage()))
+                            .message("Product was not updated successfully")
+                            .status(HttpStatus.BAD_REQUEST)
+                            .statusCode(HttpStatus.BAD_REQUEST.value())
+                            .build()
+            );
+
+        }
+
+
+    }
+
+    @DeleteMapping("/delete/{productId}")
+    public ResponseEntity<Response> deleteProduct(@PathVariable("productId") long productId){
+
+        try {
+
+            return ResponseEntity.ok(
+                    Response.builder()
+                            .timeStamp(LocalDateTime.now())
+                            .data(Map.of("product",productService.deleteProduct(productId)))
+                            .message("Product was deleted successfully")
+                            .status(HttpStatus.OK)
+                            .statusCode(HttpStatus.OK.value())
+                            .build()
+            );
+
+        }catch (Exception e){
+
+            return ResponseEntity.badRequest().body(
+                    Response.builder()
+                            .timeStamp(LocalDateTime.now())
+                            .data(Map.of("Message", e.getMessage()))
+                            .message("Product was not deleted successfully")
+                            .status(HttpStatus.BAD_REQUEST)
+                            .statusCode(HttpStatus.BAD_REQUEST.value())
+                            .build()
+            );
+        }
+
+    }
+
 
 
 
@@ -192,7 +296,7 @@ public class ProductController {
             return ResponseEntity.ok(
                     Response.builder()
                             .timeStamp(LocalDateTime.now())
-                            .data(Map.of("isProductCategoryDeleted", productService.deleteProductCategory (categoryId)))
+                            .data(Map.of("isProductCategoryDeleted", productService.deleteProductCategory(categoryId)))
                             .message("Product category with id:"+ categoryId+" was deleted successfully")
                             .status(HttpStatus.OK)
                             .statusCode(HttpStatus.OK.value())
@@ -213,6 +317,108 @@ public class ProductController {
 
         }
     }
+
+
+
+
+    //Product specification
+
+    @PostMapping("/{productId}/productSpecificationLine")
+    public ResponseEntity<Response> addSpecificationLine(@RequestBody ProductSpecificationLine productSpecificationLine,@PathVariable("productId") Long productId){
+
+        try {
+
+            return ResponseEntity.ok(
+                    Response.builder()
+                            .timeStamp(LocalDateTime.now())
+                            .data(Map.of("productSpecificationLine", productService.addProductSpecificationLine(productSpecificationLine,productId)))
+                            .message("Product specification line was added successfully")
+                            .status(HttpStatus.OK)
+                            .statusCode(HttpStatus.OK.value())
+                            .build()
+            );
+
+        }catch (Exception e){
+
+            return ResponseEntity.badRequest().body(
+                    Response.builder()
+                            .timeStamp(LocalDateTime.now())
+                            .data(Map.of("Message", e.getMessage()))
+                            .message("Product specification line was not added successfully")
+                            .status(HttpStatus.BAD_REQUEST)
+                            .statusCode(HttpStatus.BAD_REQUEST.value())
+                            .build()
+            );
+
+        }
+
+    }
+
+
+    @DeleteMapping("/productSpecificationLine/{productSpecificationLineId}")
+    public ResponseEntity<Response> deleteProductSpecificationLine(@PathVariable("productSpecificationLineId") Long productSpecificationLineId){
+
+        try {
+
+            return ResponseEntity.ok(
+                    Response.builder()
+                            .timeStamp(LocalDateTime.now())
+                            .data(Map.of("isProductCategoryDeleted", productService.deleteProductSpecificationLine(productSpecificationLineId)))
+                            .message("Product specification with id:"+ productSpecificationLineId+" was deleted successfully")
+                            .status(HttpStatus.OK)
+                            .statusCode(HttpStatus.OK.value())
+                            .build()
+            );
+
+        }catch (Exception e){
+
+            return ResponseEntity.badRequest().body(
+                    Response.builder()
+                            .timeStamp(LocalDateTime.now())
+                            .data(Map.of("message", e.getMessage()))
+                            .message("Product specification was not deleted successfully")
+                            .status(HttpStatus.CONFLICT)
+                            .statusCode(HttpStatus.CONFLICT.value())
+                            .build()
+            );
+
+        }
+    }
+
+
+    @PutMapping("/productSpecificationLine/{productSpecificationLineId}")
+    public ResponseEntity<Response> putProductSpecificationLine(@RequestBody ProductSpecificationLine productSpecificationLine,@PathVariable("productSpecificationLineId") Long productSpecificationLineId){
+
+        try {
+
+            return ResponseEntity.ok(
+                    Response.builder()
+                            .timeStamp(LocalDateTime.now())
+                            .data(Map.of("productSpecificationLine",productService.updateProductSpecificationLine(productSpecificationLine,productSpecificationLineId)))
+                            .message("Product specification line was updated successfully")
+                            .status(HttpStatus.OK)
+                            .statusCode(HttpStatus.OK.value())
+                            .build()
+            );
+
+
+        }catch (Exception e){
+
+            return ResponseEntity.badRequest().body(
+                    Response.builder()
+                            .timeStamp(LocalDateTime.now())
+                            .data(Map.of("Message", e.getMessage()))
+                            .message("Product specification line was not updated successfully")
+                            .status(HttpStatus.BAD_REQUEST)
+                            .statusCode(HttpStatus.BAD_REQUEST.value())
+                            .build()
+            );
+
+        }
+
+
+    }
+
 
 
 

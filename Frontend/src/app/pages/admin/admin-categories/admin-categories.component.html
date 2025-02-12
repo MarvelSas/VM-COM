@@ -1,18 +1,94 @@
 <h4 class="categoryTitle">Lista kategorii</h4>
-<ul class="categoryList">
-    <li class="categoryItem" *ngFor="let category of categories">{{category.name}} <!-- [{{category.id}}] -->
-        <span><button class="btn btn-edit" (click)="onEditCategory(category.id)">Edytuj</button>
-            <button class="btn btn-delete" (click)="onDeleteCategory(category.id)">Usuń</button></span>
+
+<div
+  *ngIf="isLoading"
+  class="d-flex justify-content-center align-items-center my-5"
+>
+  <loading-spinner></loading-spinner>
+</div>
+
+<ng-container *ngIf="!isLoading">
+  <ul class="categoryList" *ngIf="categories.length; else noCategories">
+    <li class="categoryItem" *ngFor="let category of categories">
+      <span class="categoryName">{{ category.name }}</span>
+      <span class="categoryActions">
+        <button class="button btn-edit" (click)="onEditCategory(category.id)">
+          Edytuj
+        </button>
+        <button
+          class="button btn-delete"
+          data-bs-toggle="modal"
+          data-bs-target="#deleteCategoryModal"
+          (click)="setCategoryToDelete(category.id)"
+        >
+          Usuń
+        </button>
+      </span>
     </li>
-</ul>
-<h4 class="newCategoryTitle">{{isEditing ? 'Edytuj kategorię' : 'Dodaj nową kategorię'}}</h4>
+  </ul>
+
+  <ng-template #noCategories>
+    <p class="text-center">Brak kategorii</p>
+  </ng-template>
+</ng-container>
+
+<h4 class="newCategoryTitle">
+  {{ isEditing ? "Edytuj kategorię" : "Dodaj nową kategorię" }}
+</h4>
 <form [formGroup]="addCategoryForm" (ngSubmit)="onSubmit()">
-    <div class="inputCategoryName">
-        <label for="categoryName">Nazwa kategorii: </label>
-        <input type="text" name="categoryName" formControlName="categoryName" placeholder="Komputery">
-    </div>
-    <div class="buttonsSection">
-        <button class="btn btn-submit" type="submit">{{isEditing ? 'Zapisz' : 'Dodaj kategorię'}}</button>
-        <button class="btn btn-clear" (click)="onClear($event)">{{isEditing ? 'Cofnij' : 'Wyczyść'}}</button>
-    </div>
+  <div class="inputCategoryName">
+    <label for="categoryName">Nazwa kategorii: </label>
+    <input
+      type="text"
+      name="categoryName"
+      formControlName="categoryName"
+      placeholder="Komputery"
+    />
+  </div>
+  <div class="buttonsSection">
+    <button class="button btn-submit" type="submit">
+      {{ isEditing ? "Zapisz" : "Dodaj kategorię" }}
+    </button>
+    <button class="button btn-clear" (click)="onClear($event)">
+      {{ isEditing ? "Cofnij" : "Wyczyść" }}
+    </button>
+  </div>
 </form>
+
+<div
+  class="modal fade"
+  id="deleteCategoryModal"
+  tabindex="-1"
+  aria-labelledby="deleteCategoryModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteCategoryModalLabel">
+          Potwierdzenie usunięcia
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">Czy na pewno chcesz usunąć tę kategorię?</div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Anuluj
+        </button>
+        <button
+          type="button"
+          class="btn btn-danger"
+          (click)="confirmDelete()"
+          data-bs-dismiss="modal"
+        >
+          Usuń
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

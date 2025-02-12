@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { adminProductsService } from './admin-products.service';
 import { IProduct } from 'src/app/shared/models/product.model';
 import { ICategory } from '../admin-categories/category.model';
@@ -7,11 +13,7 @@ import { adminCategoriesService } from '../admin-categories/admin-categories.ser
 import { ToastrService } from 'ngx-toastr';
 import { environment } from 'src/environments/environment';
 import { IProductNew } from './product.model';
-
-interface IImage {
-  imageUrl: string;
-  isSelected: boolean;
-}
+import { IImage } from 'src/app/shared/models/image.model';
 
 @Component({
   selector: 'app-admin-products',
@@ -22,22 +24,108 @@ export class AdminProductsComponent implements OnInit {
   isEditing: boolean = false;
   editProductId: number = null;
   addProductForm: FormGroup;
-  products: IProduct[];
+  products: IProduct[] = [];
   categories: ICategory[];
   formData: FormData = new FormData();
   characterCount: number = 0;
   images: IImage[] = [];
   imagesName: string[] = [];
   selectedMainPhoto: number = 0;
+  isLoading = false;
+  isSubmitting = false;
+  searchProduct: string = '';
+  productToDelete: number = null;
 
   constructor(
     private adminProductsService: adminProductsService,
     private adminCategoriesService: adminCategoriesService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private fb: FormBuilder
   ) {}
 
+  // INICJALIZACJA
+  ngOnInit(): void {
+    this.formInit();
+    this.getProducts();
+  }
+
+  formInit() {
+    this.getCategories();
+    this.addProductForm = new FormGroup({
+      productName: new FormControl(null, Validators.required),
+      productDescription: new FormControl(null, [
+        Validators.required,
+        Validators.maxLength(8000),
+      ]),
+      productPrice: new FormControl(null, [
+        Validators.required,
+        Validators.pattern(/^[\d,\.]+$/),
+      ]),
+      productAmount: new FormControl(null, [
+        Validators.required,
+        Validators.pattern(/^\d+$/),
+      ]),
+      productImage: new FormControl(null),
+      productCategory: new FormControl(null, Validators.required),
+      specifications: this.fb.array([]),
+      hasAdditionalInfo: new FormControl(false),
+      additionalInformation: new FormControl(''),
+    });
+
+    this.addProductForm
+      .get('productDescription')!
+      .valueChanges.subscribe((value) => {
+        this.characterCount = value ? value.length : 0;
+      });
+  }
+
+  get specifications(): FormArray {
+    return this.addProductForm.get('specifications') as FormArray;
+  }
+
+  addSpecification(): void {
+    this.specifications.push(
+      this.fb.group({
+        title: ['', Validators.required],
+        value: ['', Validators.required],
+      })
+    );
+  }
+
+  removeSpecification(index: number): void {
+    this.specifications.removeAt(index);
+  }
+
+  getProducts() {
+    this.isLoading = true;
+    this.adminProductsService.getProducts(this.searchProduct).subscribe({
+      next: (res) => {
+        console.log(res.data.products);
+        this.products = res.data.products;
+      },
+      error: (err) => {
+        console.error(err);
+      },
+      complete: () => {
+        this.isLoading = false;
+      },
+    });
+  }
+
+  getCategories() {
+    this.adminCategoriesService.getCategories().subscribe({
+      next: (res) => {
+        this.categories = res.data.productCategories;
+      },
+      error: (err) => {
+        console.error(err);
+      },
+      complete: () => {},
+    });
+  }
+
   selectMainPhoto(index) {
-    console.log('Selected main photo: ' + index);
+    // console.log('Selected main photo: ' + index);
     // console.log(index);
     this.selectedMainPhoto = index;
     // console.log(this.selectedMainPhoto);
@@ -70,28 +158,63 @@ export class AdminProductsComponent implements OnInit {
   }
 
   onEditProduct(id: number) {
+    this.isSubmitting = false;
+    this.isEditing = true;
     this.editProductId = id;
-    console.log(this.images);
-    console.log('test');
-    console.log(this.products[id]);
-    this.addProductForm.setValue({
-      productName: 'test',
-      productDescription: 'test',
-      productPrice: 1,
-      productAmount: 1,
-      productImage: null,
-      productCategory: 1,
-    });
-
-    this.imagesName = this.products[id].photos;
-    this.images = this.products[id].photos.map((photo) => {
+    const editedProduct: IProduct = this.products.find(
+      (product) => product.id === id
+    );
+    this.images = editedProduct.photos.map((photo) => {
+      console.log(editedProduct);
       return { imageUrl: environment.API_IMG + photo, isSelected: false };
     });
+    this.imagesName = editedProduct.photos;
+    this.selectMainPhoto(editedProduct.mainPhotoId);
+
+    this.specifications.clear();
+    Object.entries(editedProduct.productSpecificationLines).forEach(
+      ([key, value]) => {
+        this.specifications.push(
+          this.fb.group({
+            title: [value.title, Validators.required],
+            value: [value.value, Validators.required],
+          })
+        );
+      }
+    );
+
+    this.addProductForm.setValue({
+      productName: editedProduct.name,
+      productDescription: editedProduct.description,
+      productPrice: editedProduct.price,
+      productAmount: 5,
+      productImage: null,
+      productCategory: editedProduct.productCategory.id,
+      specifications: this.specifications.value,
+      hasAdditionalInfo: editedProduct.additionalInformation ? true : false,
+      additionalInformation: editedProduct.additionalInformation,
+    });
   }
-  onDeleteProduct(id: number) {}
+
+  onDeleteProduct(id: number) {
+    this.adminProductsService.deleteProduct(id).subscribe({
+      next: (res) => {
+        this.products = this.products.filter((product) => product.id !== id);
+        if (res.statusCode === 200) {
+          this.toastr.success('Pomyślnie dodano produkt!', null, {
+            positionClass: 'toast-bottom-right',
+          });
+        }
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
+  }
 
   // PRZESŁANIE FORMULARZA Z PRODUKTEM NA SERWER
   onSubmitNew() {
+    this.isSubmitting = true;
     if (!this.addProductForm.valid) {
       return;
     }
@@ -103,12 +226,21 @@ export class AdminProductsComponent implements OnInit {
     const productCategory =
       this.categories[this.addProductForm.value.productCategory - 1];
 
+    const specifications = this.addProductForm.value.specifications.reduce(
+      (acc, spec) => {
+        acc[spec.title] = spec.value;
+        return acc;
+      },
+      {}
+    );
+
     // WYODRĘBNIA Z TABLICY TYLKO URL ZDJĘĆ
     // const imagesUrls = this.images.map((image) => {
     //   return image.imageUrl;
     // });
 
     const product: IProductNew = {
+      id: this.isEditing ? this.editProductId : null,
       name: productName,
       price: productPrice,
       productCategory: productCategory,
@@ -116,14 +248,16 @@ export class AdminProductsComponent implements OnInit {
       description: productDescription,
       photos: this.imagesName,
       mainPhotoId: this.selectedMainPhoto,
+      productSpecificationLines: specifications,
+      additionalInformation: this.addProductForm.value.hasAdditionalInfo
+        ? this.addProductForm.value.additionalInformation
+        : '',
     };
 
     // this.formData.append(
     //   'product',
     //   new Blob([JSON.stringify(product)], { type: 'application/json' })
     // );
-
-    console.log(product);
 
     // DODANIE DO FORMULARZA URL ZDJĘĆ
     // this.formData.append('images', JSON.stringify(this.images));
@@ -139,9 +273,14 @@ export class AdminProductsComponent implements OnInit {
         },
         error: (err) => {
           console.error(err.message);
+          this.isSubmitting = false;
           this.toastr.error('Błąd dodawania produktu!', null, {
             positionClass: 'toast-bottom-right',
           });
+        },
+        complete: () => {
+          this.onClear();
+          this.isSubmitting = false;
         },
       });
     } else {
@@ -149,17 +288,28 @@ export class AdminProductsComponent implements OnInit {
         .editProduct(this.editProductId, product)
         .subscribe({
           next: (res) => {
-            console.log(res);
+            this.isEditing = false;
           },
           error: (err) => {
             console.error(err.message);
+          },
+          complete: () => {
+            this.getProducts();
+            this.onClear();
+            this.isSubmitting = false;
           },
         });
     }
 
     // this.adminProductsService.addProductNew(this.formData).subscribe();
+  }
 
-    this.onClear();
+  setProductToDelete(id: number) {
+    this.productToDelete = id;
+  }
+  confirmDelete() {
+    this.onDeleteProduct(this.productToDelete);
+    this.productToDelete = null;
   }
 
   //
@@ -191,44 +341,18 @@ export class AdminProductsComponent implements OnInit {
   // }
 
   // WYCZYSZCZENIE FORMULARZA
-  onClear() {
+  onClear(e?: Event) {
+    if (e) {
+      e.preventDefault();
+    }
     this.addProductForm.reset();
     this.images = [];
     this.imagesName = [];
   }
 
-  // INICJALIZACJA
-  ngOnInit(): void {
-    this.adminProductsService.getProducts().subscribe((res) => {
-      this.products = res.data.products;
-      // console.log(res);
-    });
-    this.adminCategoriesService.getCategories().subscribe((res) => {
-      this.categories = res.data.productCategories;
-      // console.log(res.data.productCategories);
-    });
-    this.addProductForm = new FormGroup({
-      productName: new FormControl(null, Validators.required),
-      productDescription: new FormControl(null, [
-        Validators.required,
-        Validators.maxLength(8000),
-      ]),
-      productPrice: new FormControl(null, [
-        Validators.required,
-        Validators.pattern(/^[\d,\.]+$/),
-      ]),
-      productAmount: new FormControl(null, [
-        Validators.required,
-        Validators.pattern(/^\d+$/),
-      ]),
-      productImage: new FormControl(null),
-      productCategory: new FormControl(null, Validators.required),
-    });
-
-    this.addProductForm
-      .get('productDescription')!
-      .valueChanges.subscribe((value) => {
-        this.characterCount = value ? value.length : 0;
-      });
+  toggleAdditionalInfo(): void {
+    const hasAdditionalInfo =
+      this.addProductForm.get('hasAdditionalInfo').value;
+    this.addProductForm.patchValue({ hasAdditionalInfo: !hasAdditionalInfo });
   }
 }

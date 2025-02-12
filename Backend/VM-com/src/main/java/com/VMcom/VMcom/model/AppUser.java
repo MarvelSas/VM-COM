@@ -2,7 +2,6 @@ package com.VMcom.VMcom.model;
 
 import com.VMcom.VMcom.enums.AppUserRole;
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,10 +11,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 @Getter
 @Setter
-@EqualsAndHashCode
 @NoArgsConstructor
 @Entity
 public class AppUser implements UserDetails {
@@ -31,24 +30,39 @@ public class AppUser implements UserDetails {
             generator = "user_sequence"
     )
     private Long id;
-    private String name;
-    private String surname;
+    private String firstName;
+    private String lastName;
     private String username;
     private String password;
+    private String phoneNumber;
 
     @Enumerated(EnumType.STRING)
     private AppUserRole appUserRole;
     private Boolean locked;
     private Boolean enabled;
+    @OneToMany(mappedBy = "appUser")
+    private List<Token> tokens;
 
-    public AppUser(String name, String surname, String username, String password, AppUserRole appUserRole, Boolean locked, Boolean enabled) {
-        this.name = name;
-        this.surname = surname;
+    @OneToMany(mappedBy = "appUser")
+    private List<Address> addresses;
+
+    @OneToOne(mappedBy = "appUser")
+    private ShopCart shopCart;
+
+    @OneToMany(mappedBy = "appUser")
+    private List<AppUserOrder> appUserOrders;
+
+
+
+    public AppUser(String firstName, String lastName, String username, String password, AppUserRole appUserRole, Boolean locked, Boolean enabled,String phoneNumber) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.username = username;
         this.password = password;
         this.appUserRole = appUserRole;
         this.locked = locked;
         this.enabled = enabled;
+        this.phoneNumber = phoneNumber;
     }
 
     @Override
@@ -86,6 +100,7 @@ public class AppUser implements UserDetails {
     public boolean isEnabled() {
         return enabled;
     }
+
 
 
 }

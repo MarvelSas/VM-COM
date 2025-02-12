@@ -13,8 +13,9 @@ export class AdminCategoriesComponent implements OnInit {
   addCategoryForm: FormGroup;
   categories: ICategory[] = [];
   isEditing = false;
+  isLoading = false;
   editingCategory: { id: number; name: string } = null;
-
+  categoryToDelete: number = null;
   constructor(
     private adminCategoriesService: adminCategoriesService,
     private toastr: ToastrService
@@ -22,12 +23,26 @@ export class AdminCategoriesComponent implements OnInit {
 
   // INITIALIZATION
   ngOnInit(): void {
-    this.adminCategoriesService.getCategories().subscribe((res) => {
-      this.categories = res.data.productCategories;
-      // console.log(res);
-    });
+    this.getCategories();
+
     this.addCategoryForm = new FormGroup({
       categoryName: new FormControl(null, Validators.required),
+    });
+  }
+
+  // GET CATEGORIES
+  getCategories() {
+    this.isLoading = true;
+    this.adminCategoriesService.getCategories().subscribe({
+      next: (res) => {
+        this.categories = res.data.productCategories;
+      },
+      error: (err) => {
+        console.error(err);
+      },
+      complete: () => {
+        this.isLoading = false;
+      },
     });
   }
 
@@ -129,5 +144,13 @@ export class AdminCategoriesComponent implements OnInit {
   onClear2() {
     this.addCategoryForm.reset();
     this.isEditing = false;
+  }
+
+  setCategoryToDelete(id: any) {
+    this.categoryToDelete = id;
+  }
+  confirmDelete() {
+    this.onDeleteCategory(this.categoryToDelete);
+    this.categoryToDelete = null;
   }
 }

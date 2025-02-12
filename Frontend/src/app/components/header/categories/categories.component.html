@@ -1,7 +1,17 @@
 <div class="categories">
-    <a href="#">Laptopy</a>
-    <a href="#">Smartfony</a>
-    <a href="#">Gaming</a>
-    <a href="#">TV</a>
-    <a href="#">Akcesoria</a>
+  <a [routerLink]="['/products']" [queryParams]="{ category: 'Laptopy' }"
+    ><i class="fa-solid fa-laptop"></i><span class="title">Laptopy</span></a
+  >
+  <a [routerLink]="['/products']" [queryParams]="{ category: 'Smartfony' }"
+    ><i class="fa-solid fa-laptop"></i><span class="title">Smartfony</span></a
+  >
+  <a [routerLink]="['/products']" [queryParams]="{ category: 'Gaming' }"
+    ><i class="fa-solid fa-gamepad"></i><span class="title">Gaming</span></a
+  >
+  <a [routerLink]="['/products']" [queryParams]="{ category: 'TV' }"
+    ><i class="fa-solid fa-tv"></i><span class="title">Telewizory</span></a
+  >
+  <a [routerLink]="['/products']" [queryParams]="{ category: 'Akcesoria' }"
+    ><i class="fa-solid fa-keyboard"></i><span class="title">Akcesoria</span></a
+  >
 </div>
