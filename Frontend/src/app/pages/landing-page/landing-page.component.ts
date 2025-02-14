@@ -11,6 +11,7 @@ import { ProductsService } from 'src/app/shared/services/products.service';
 export class LandingPageComponent implements OnInit {
   MAX_PRODUCTS = 4;
   isLoading = false;
+  randomProducts: IProduct[] = [];
 
   products: IProduct[] = [];
 
@@ -22,6 +23,7 @@ export class LandingPageComponent implements OnInit {
     this.isLoading = true;
     this.productsService.getProducts().subscribe((res) => {
       this.products = res.data.products.splice(0, this.MAX_PRODUCTS); // GET ONLY 5 PRODUCTS
+      this.randomProducts = this.products.sort(() => Math.random() - 0.5);
       this.isLoading = false;
     });
   }

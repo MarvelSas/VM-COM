@@ -50,7 +50,4 @@ export class RegisterComponent implements OnInit {
       });
     }
   }
-
-  //     email: 'marvel@gmail.com',
-  //     password: 'test123',
 }

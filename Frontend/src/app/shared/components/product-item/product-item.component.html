@@ -1,8 +1,8 @@
 <a
   class="productItem"
-  [routerLink]="['/product', product.id]"
   [tooltip]="shortDescription"
   placement="bottom"
+  (click)="onSelectItem($event)"
 >
   <span class="addCart" (click)="addToCart($event)"
     ><i class="fa-solid fa-cart-shopping fa-xl"></i

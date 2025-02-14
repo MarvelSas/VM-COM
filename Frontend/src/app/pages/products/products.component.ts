@@ -33,9 +33,7 @@ export class ProductsComponent {
     private router: Router
   ) {}
   ngOnInit(): void {
-    // this.getProducts();
     this.getCategories();
-    // this.getPageableProducts();
 
     this.route.queryParams.subscribe((queryParams) => {
       if (queryParams['category']) {
@@ -70,10 +68,7 @@ export class ProductsComponent {
       },
     });
 
-    this.productsService.getProducts().subscribe((res) => {
-      // console.log(res);
-      // console.log(this.products[1]);
-    });
+    this.productsService.getProducts().subscribe((_) => {});
   }
 
   getPageableProducts() {
@@ -100,19 +95,6 @@ export class ProductsComponent {
       },
     });
   }
-
-  // changePage(newPage: number): void {
-  //   if (newPage >= 1 && newPage <= this.totalPages) {
-  //     this.currentPage = newPage;
-  //   }
-  //   // if (pageSize > 0) {
-  //   //   this.pageSize = parseInt(pageSize);
-  //   // } else {
-  //   //   pageSize = 10;
-  //   // }
-  //   this.getPageableProducts();
-  //   // console.log(pageSize);
-  // }
 
   pageChanged(event: any) {
     if (this.currentPage !== event.page) {

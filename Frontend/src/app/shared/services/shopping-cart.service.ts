@@ -15,13 +15,9 @@ export class ShoppingCartService {
   private items = [];
   public cartQuantitySubject = new BehaviorSubject<number>(0);
 
-  constructor(private http: HttpClient) {
-    console.log(this.items);
-  }
+  constructor(private http: HttpClient) {}
 
   addItem(product: IAddProductReq) {
-    // this.items.push(product);
-    // console.log(product);
     this.cartQuantitySubject.next(this.cartQuantitySubject.value + 1);
 
     return this.http.post(`${this.API_URL + endpoints.cardAddItem}`, product);
@@ -37,15 +33,11 @@ export class ShoppingCartService {
             0
           );
           this.cartQuantitySubject.next(totalQuantity);
-          console.log(totalQuantity);
         })
       );
   }
 
   changeQuantity(productId: number, quantity: number) {
-    // console.log(productId, quantity);
-    // console.log(quantity);
-    // this.cartQuantitySubject.next(quantity);
     return this.http.patch(
       `${this.API_URL + endpoints.cardChangeQuantity + '/' + productId}`,
       quantity

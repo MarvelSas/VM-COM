@@ -13,6 +13,9 @@ import { environment } from 'src/environments/environment';
 })
 export class ShopingCartComponent implements OnInit {
   productsInCart: ICartProducts[] = [];
+  totalPrice = 0;
+  productsPrice = 0;
+  shipmentPrice = 19.99;
   API_IMG = environment.API_IMG;
   isLoading = false;
 
@@ -29,7 +32,6 @@ export class ShopingCartComponent implements OnInit {
 
   ngOnInit(): void {
     this.getShoppingCart();
-    // console.log(this.productsInCart);
   }
 
   getShoppingCart(): void {
@@ -37,6 +39,8 @@ export class ShopingCartComponent implements OnInit {
     this.shoppingCartService.getItems().subscribe({
       next: (data) => {
         this.productsInCart = data.data['data'].shopCardLines;
+        this.productsPrice = data.data['data'].totalPrice;
+        this.totalPrice = data.data['data'].totalPrice + this.shipmentPrice;
       },
       error: (error) => {
         console.error(error);
@@ -50,9 +54,7 @@ export class ShopingCartComponent implements OnInit {
   changeQuantity(productId: number, quantity: number): void {
     if (quantity >= 1) {
       this.shoppingCartService.changeQuantity(productId, quantity).subscribe({
-        next: (response) => {
-          console.log('Quantity updated successfully', response);
-        },
+        next: (_) => {},
         error: (error) => {
           console.error('Error updating quantity', error);
         },
@@ -67,8 +69,7 @@ export class ShopingCartComponent implements OnInit {
 
   removeFromCart(productId: number): void {
     this.shoppingCartService.removeItem(productId).subscribe({
-      next: (response) => {
-        console.log('Item removed successfully', response);
+      next: (_) => {
       },
       error: (error) => {
         console.error('Error removing item', error);
@@ -77,5 +78,9 @@ export class ShopingCartComponent implements OnInit {
         this.getShoppingCart();
       },
     });
+  }
+
+  finalizePurchase(): void {
+    alert('To jest tylko wersja demonstracyjna, nie można dokonywać zakupów!');
   }
 }

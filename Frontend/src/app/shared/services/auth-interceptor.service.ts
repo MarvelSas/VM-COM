@@ -22,9 +22,7 @@ export class AuthInterceptorService {
         if (!user) {
           if (this.authService.REFRESH_TOKEN) {
             this.authService.refreshToken().subscribe({
-              next: (res) => {
-                console.log(res);
-              },
+              next: (_) => {},
             });
             return next.handle(req);
           } else {
@@ -35,13 +33,10 @@ export class AuthInterceptorService {
         const decodedToken = jwtDecode(user.token);
         const validationResult = decodedToken.exp * 1000 > new Date().getTime();
         if (user.token && !validationResult) {
-          console.log('Token expired! Need to refresh token!');
           this.authService.refreshToken().subscribe({
-            next: (res) => {
-              console.log(res);
-            },
+            next: (_) => {},
             error: (err) => {
-              console.log(err);
+              console.error(err);
             },
           });
         }
@@ -54,8 +49,6 @@ export class AuthInterceptorService {
           headers: new HttpHeaders(headerDict),
         });
 
-        // console.log(user);
-        // console.log('INTERCEPTOR');
         return next.handle(modifiedReq);
       })
     );

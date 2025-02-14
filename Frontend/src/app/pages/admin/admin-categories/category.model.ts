@@ -1,7 +1,6 @@
 export interface ICategory {
   id: number;
   name: string;
-  // name?: string;
 }
 
 export class Category {

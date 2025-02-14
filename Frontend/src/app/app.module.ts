@@ -14,7 +14,6 @@ import { ShopingCartComponent } from './pages/shoping-cart/shoping-cart.componen
 import { CategoriesComponent } from './components/header/categories/categories.component';
 import { VerifyEmailComponent } from './pages/verify-email/verify-email.component';
 import { ProductItemComponent } from './shared/components/product-item/product-item.component';
-import { SlideshowComponent } from './shared/slideshow/slideshow.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
@@ -53,7 +52,6 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     CategoriesComponent,
     VerifyEmailComponent,
     ProductItemComponent,
-    SlideshowComponent,
     ProductsComponent,
     ProductDetailComponent,
     AdminComponent,

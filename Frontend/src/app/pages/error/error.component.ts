@@ -17,7 +17,7 @@ export class ErrorComponent implements OnInit {
     this.route.params.subscribe((params) => {
       this.errorCode = +params['code'] || 404;
       this.setErrorMessage();
-      console.log(this.errorCode);
+      console.error(this.errorCode);
     });
   }
 

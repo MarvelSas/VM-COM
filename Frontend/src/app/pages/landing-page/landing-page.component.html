@@ -1,22 +1,13 @@
-<!-- <p>landing-page works!</p> -->
-<!-- <app-slideshow [slides]="slides"></app-slideshow> -->
-
 <div class="page">
   <div class="sidebar">
-    <h3 class="sidebar-title">Promocje</h3>
+    <h3 class="sidebar-title">Polecamy</h3>
     <ul class="sidebar-list">
-      <li>
-        <a>Produkt 1</a>
-      </li>
-      <li>
-        <a>Produkt 2</a>
-      </li>
-      <li>
-        <a>Produkt 3</a>
+      <li *ngFor="let product of randomProducts">
+        <a [routerLink]="['/product', product.id]">{{ product.name }}</a>
       </li>
     </ul>
 
-    <h3 class="sidebar-title">Produkty</h3>
+    <h3 class="sidebar-title">Kategorie</h3>
     <ul class="sidebar-list">
       <li>
         <a [routerLink]="['/products']" [queryParams]="{ category: 'Laptopy' }"
@@ -95,13 +86,6 @@
             ></app-product-item>
           </ng-container>
         </div>
-
-        <!-- 
-        [name]="productEl.name"
-        [price]="productEl.price"
-        [photos]="productEl.photos"
-        [mainPhotoId]="productEl.mainPhotoId"
-        [description]="productEl.description" -->
 
         <div class="newProductsControls">
           <button class="button p-3 h-50" (click)="onShowMore()">

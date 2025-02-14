@@ -1,0 +1,24 @@
+.prices h6 {
+  color: gray;
+}
+
+.prices h6:nth-child(2) {
+  font-size: 0.9rem;
+  margin-top: 5px;
+  margin-bottom: 0;
+}
+
+input {
+  width: 36px;
+  text-align: center;
+}
+
+.no-spinners {
+  -moz-appearance: textfield;
+}
+
+.no-spinners::-webkit-outer-spin-button,
+.no-spinners::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

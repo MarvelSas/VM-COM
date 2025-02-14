@@ -35,8 +35,6 @@ export class adminProductsService {
   }
 
   addProductNew(body: any) {
-    console.log(body);
-
     return this.http.post<IProductResponseData>(
       this.API_URL + endpoints.addProduct,
       body
@@ -46,17 +44,14 @@ export class adminProductsService {
   uploadPhoto(photoFile: File) {
     const formData = new FormData();
     formData.append('picture', photoFile);
-    console.log(formData);
 
     return this.http.post<IResPhotoUpload>(
       this.API_URL + endpoints.uploadImage,
-      // 'http://localhost:8088/upload', //DEBUG
       formData
     );
   }
 
   editProduct(id: number, product: IProductNew) {
-    console.log(product);
     return this.http.put(
       this.API_URL + endpoints.editProduct + '/' + id,
       product
@@ -64,33 +59,8 @@ export class adminProductsService {
   }
 
   deleteProduct(id: number) {
-    console.log(id);
     return this.http.delete<IProductResponseData>(
       this.API_URL + endpoints.deleteProduct + '/' + id
     );
   }
-
-  // addProduct(
-  //   name,
-  //   price,
-  //   imageUrl,
-  //   description,
-  //   productCategory
-  // ): Observable<IProductResponseData> {
-  //   console.log(productCategory);
-  //   const body = {
-  //     name: name,
-  //     price: price,
-  //     url: imageUrl,
-  //     photoUrl: imageUrl, //TODO
-  //     productCategory: productCategory, //TODO
-  //     amount: 5, //TODO
-  //     description: description,
-  //   };
-
-  //   return this.http.post<IProductResponseData>(
-  //     this.API_URL,
-  //     body
-  //   );
-  // }
 }
