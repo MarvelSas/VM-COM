@@ -1,8 +1,0 @@
-<div class="slider-wrapper">
-    <button class="slide-button prev" (click)="prev()">&#8249;</button>
-    <button class="slide-button next" (click)="next()">&#8250;</button>
-    <ng-container class="slides-container" *ngFor="let slide of slides; let i = index">
-        <img *ngIf="i === currentSlide" src="{{slide.src}}" class="slide" @carouselAnimation>
-    </ng-container>
-
-</div>

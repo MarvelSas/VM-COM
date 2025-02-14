@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject, tap } from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
 
@@ -16,7 +16,7 @@ import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root',
 })
-export class AuthService implements OnInit {
+export class AuthService {
   user = new BehaviorSubject(null);
   currentUserEmail: string | null = null;
   API_URL = environment.API_URL;
@@ -30,7 +30,7 @@ export class AuthService implements OnInit {
     private router: Router
   ) {}
 
-  signIn(loginData) {
+  signIn(loginData: { email: string; password: string }) {
     const body = {
       username: loginData.email,
       password: loginData.password,
@@ -43,7 +43,6 @@ export class AuthService implements OnInit {
       )
       .pipe(
         tap((resData) => {
-          // console.log(resData);
           if (resData.statusCode === 200) {
             const accessToken = resData.data.token.accessToken;
             const refreshToken = resData.data.token.refreshToken;
@@ -61,7 +60,12 @@ export class AuthService implements OnInit {
       );
   }
 
-  signUp(registerData) {
+  signUp(registerData: {
+    firstname: string;
+    lastname: string;
+    email: string;
+    password: string;
+  }) {
     const body = {
       firstname: registerData.firstname,
       lastname: registerData.lastname,
@@ -94,7 +98,7 @@ export class AuthService implements OnInit {
       );
   }
 
-  changePassword(passwordData) {
+  changePassword(passwordData: { oldPassword: string; newPassword: string }) {
     const body = {
       oldPassword: passwordData.oldPassword,
       newPassword: passwordData.newPassword,
@@ -110,10 +114,6 @@ export class AuthService implements OnInit {
     this.REFRESH_TOKEN = refreshToken;
 
     if (!accessToken) {
-      // console.log('No access token found!');
-      // this.toastr.error('Błąd autologowania!', null, {
-      //   positionClass: 'toast-bottom-right',
-      // });
       return;
     }
 
@@ -127,11 +127,7 @@ export class AuthService implements OnInit {
     // console.log('Current time: ', new Date());
 
     const tokenIsValid = this.tokenIsValid(accessToken);
-    // console.log('Token is valid: ', tokenIsValid);
     if (accessToken && tokenIsValid) {
-      // this.toastr.success('Zalogowano pomyślne!', null, {
-      //   positionClass: 'toast-bottom-right',
-      // });
       const user = new User(
         decodedToken.sub,
         decodedToken.roles,
@@ -140,7 +136,6 @@ export class AuthService implements OnInit {
       );
       this.authorizeUser(user, accessToken, refreshToken);
     } else if (this.tokenIsValid(refreshToken)) {
-      // console.log('Odswiezam token!');
       this.refreshToken().subscribe({
         next: (res) => {
           // console.log(res);
@@ -149,11 +144,6 @@ export class AuthService implements OnInit {
           console.error(err);
         },
       });
-    } else {
-      // console.log('Tokens is not valid!');
-      // this.toastr.error('Błąd autologowania!', null, {
-      //   positionClass: 'toast-bottom-right',
-      // });
     }
   }
 
@@ -210,8 +200,5 @@ export class AuthService implements OnInit {
     this.user.next(user);
     this.roleService.setRoles([user.role]);
     this.currentUserEmail = user.email;
-    // console.log('User role:', user.role);
   }
-
-  ngOnInit(): void {}
 }

@@ -58,7 +58,6 @@ export class AdminCategoriesComponent implements OnInit {
   onDeleteCategory(id: number) {
     this.adminCategoriesService.deleteCategory(id).subscribe({
       next: (res) => {
-        console.log('Successfully deleted category!', id);
         this.toastr.success('Pomyślnie usunięto kategorię!', null, {
           positionClass: 'toast-bottom-right',
         });
@@ -78,14 +77,10 @@ export class AdminCategoriesComponent implements OnInit {
 
     // EDITING CATEGORY
     if (this.isEditing) {
-      console.log('Editing category');
-      console.log(categoryName);
       this.adminCategoriesService
         .updateCategory(this.editingCategory.id, categoryName)
         .subscribe({
           next: (res) => {
-            console.log(res);
-
             this.categories = this.categories.map((category) => {
               if (category.id === this.editingCategory.id) {
                 category.name = categoryName;
@@ -113,10 +108,7 @@ export class AdminCategoriesComponent implements OnInit {
     //ADDING CATEGORY
     this.adminCategoriesService.addCategory(categoryName).subscribe({
       next: (res) => {
-        console.log(res);
         if (res.statusCode === 200) {
-          console.log('Successfully added category!');
-          // const newId = Math.round(Math.random() * 1000); // TODO: Set id from response
           const newId = this.categories.length + 1;
           this.categories.push(new Category(newId, categoryName));
           this.toastr.success('Pomyślnie dodano kategorię!', null, {

@@ -25,7 +25,6 @@
   margin: 3rem;
   padding: 1rem;
   border-radius: 4px;
-  // width: 15rem;
 }
 
 .titleContainer .infoSection h2,
@@ -35,10 +34,6 @@ h5 {
 
 .titleContainer .infoSection h4 {
   text-align: right;
-}
-
-.mainTitle {
-  // border: 1px solid red;
 }
 
 .iconCart {
@@ -59,7 +54,6 @@ h5 {
 }
 
 .iconFavorites {
-  // margin-left: auto;
   margin: 0 10px;
   color: red;
   border: 1px solid #434343;
@@ -121,10 +115,6 @@ h5 {
   cursor: pointer;
   width: 50%;
   height: 50px;
-}
-
-.button:hover {
-  // background-color: $button-hover-background-color;
 }
 
 .imageSection {
@@ -198,7 +188,7 @@ h5 {
 
 .rating .fa {
   font-size: 1rem;
-  color: #ffd700; /* Gold color for stars */
+  color: #ffd700;
   margin-right: 0.25rem;
 }
 
@@ -207,7 +197,6 @@ tabset {
 }
 
 // MODAL
-
 .modal-image {
   width: 100%;
   max-width: 100%;

@@ -79,7 +79,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
         next: (res) => {
           const products = res.data?.products || [];
           this.searchResults = products;
-          console.log(this.searchResults);
         },
         error: (error) => {
           console.error(error);
@@ -88,7 +87,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   onSelectProduct(product: IProduct) {
-    console.log(`Selected product: ${product.name}`);
     this.router.navigate(['product', product.id]);
     this.closeSearchResults();
     this.clearSearchInput();

@@ -15,7 +15,6 @@ export class ProductListItemComponent {
   @Input() mainPhotoId: number;
   @Input() description: any;
   API_IMG = environment.API_IMG;
-  // console.log(this.name)
 
   constructor(private router: Router, private route: ActivatedRoute) {}
 
@@ -25,6 +24,5 @@ export class ProductListItemComponent {
 
   onSelectItem() {
     this.router.navigate(['product', this.id]);
-    // console.log(this.id);
   }
 }

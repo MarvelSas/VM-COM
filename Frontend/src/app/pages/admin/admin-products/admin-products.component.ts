@@ -100,7 +100,6 @@ export class AdminProductsComponent implements OnInit {
     this.isLoading = true;
     this.adminProductsService.getProducts(this.searchProduct).subscribe({
       next: (res) => {
-        console.log(res.data.products);
         this.products = res.data.products;
       },
       error: (err) => {
@@ -125,17 +124,8 @@ export class AdminProductsComponent implements OnInit {
   }
 
   selectMainPhoto(index) {
-    // console.log('Selected main photo: ' + index);
-    // console.log(index);
     this.selectedMainPhoto = index;
-    // console.log(this.selectedMainPhoto);
   }
-
-  // OLD
-  // onAddFile(event: Event) {
-  //   const file = (event.target as HTMLInputElement).files[0];
-  //   this.formData.append('picture', file);
-  // }
 
   // PRZESYŁANIE ZDJĘĆ NA SERWER
   onAddImage(e: any) {
@@ -147,8 +137,6 @@ export class AdminProductsComponent implements OnInit {
             isSelected: false,
           });
           this.imagesName.push(res.data.productPhotoName);
-          // console.log(res.data.productPhotoName);
-          console.log(environment.API_IMG + res.data.productPhotoName);
         },
         error: (err) => {
           console.error(err);
@@ -165,7 +153,6 @@ export class AdminProductsComponent implements OnInit {
       (product) => product.id === id
     );
     this.images = editedProduct.photos.map((photo) => {
-      console.log(editedProduct);
       return { imageUrl: environment.API_IMG + photo, isSelected: false };
     });
     this.imagesName = editedProduct.photos;
@@ -207,7 +194,7 @@ export class AdminProductsComponent implements OnInit {
         }
       },
       error: (err) => {
-        console.log(err);
+        console.error(err);
       },
     });
   }
@@ -234,11 +221,6 @@ export class AdminProductsComponent implements OnInit {
       {}
     );
 
-    // WYODRĘBNIA Z TABLICY TYLKO URL ZDJĘĆ
-    // const imagesUrls = this.images.map((image) => {
-    //   return image.imageUrl;
-    // });
-
     const product: IProductNew = {
       id: this.isEditing ? this.editProductId : null,
       name: productName,
@@ -253,14 +235,6 @@ export class AdminProductsComponent implements OnInit {
         ? this.addProductForm.value.additionalInformation
         : '',
     };
-
-    // this.formData.append(
-    //   'product',
-    //   new Blob([JSON.stringify(product)], { type: 'application/json' })
-    // );
-
-    // DODANIE DO FORMULARZA URL ZDJĘĆ
-    // this.formData.append('images', JSON.stringify(this.images));
 
     if (!this.isEditing) {
       this.adminProductsService.addProductNew(product).subscribe({
@@ -300,8 +274,6 @@ export class AdminProductsComponent implements OnInit {
           },
         });
     }
-
-    // this.adminProductsService.addProductNew(this.formData).subscribe();
   }
 
   setProductToDelete(id: number) {
@@ -311,34 +283,6 @@ export class AdminProductsComponent implements OnInit {
     this.onDeleteProduct(this.productToDelete);
     this.productToDelete = null;
   }
-
-  //
-  // OLD
-  //
-  // onSubmit() {
-  //   if (!this.addProductForm.valid) {
-  //     return;
-  //   }
-
-  //   const productName = this.addProductForm.value.productName;
-  //   const productPrice = this.addProductForm.value.productPrice;
-  //   const productDescription = this.addProductForm.value.productDescription;
-  //   const imageUrl = '';
-  //   const productCategory =
-  //     this.categories[this.addProductForm.value.productCategory - 1];
-
-  //   this.adminProductsService
-  //     .addProduct(
-  //       productName,
-  //       productPrice,
-  //       imageUrl,
-  //       productDescription,
-  //       productCategory
-  //     )
-  //     .subscribe((res) => {
-  //       console.log(res);
-  //     });
-  // }
 
   // WYCZYSZCZENIE FORMULARZA
   onClear(e?: Event) {

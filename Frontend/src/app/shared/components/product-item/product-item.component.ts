@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { ShoppingCartService } from '../../services/shopping-cart.service';
 import { IAddProductReq, IProduct } from '../../models/product.model';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-product-item',
@@ -21,12 +22,11 @@ export class ProductItemComponent implements OnInit {
   shortDescription: string;
 
   API_IMG = environment.API_IMG;
-  // console.log(this.name)
-
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private shoppingCartService: ShoppingCartService
+    private shoppingCartService: ShoppingCartService,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -37,24 +37,28 @@ export class ProductItemComponent implements OnInit {
     return this.API_IMG + this.product.photos[this.product.mainPhotoId];
   }
 
-  onSelectItem() {
+  onSelectItem(event: Event) {
     this.router.navigate(['product', this.product.id]);
-    // console.log(this.id);
   }
 
   addToCart(event: Event) {
     event.stopPropagation();
-    console.log(this.product);
 
     this.shoppingCartService
       .addItem({ product: this.product, quantity: 1 })
       .subscribe({
-        next: (res) => {},
+        next: (res) => {
+          this.toastr.success('Dodano do koszyka!', null, {
+            positionClass: 'toast-bottom-right',
+          });
+        },
         error: (error) => {
           console.error(error);
+          this.toastr.error('Błąd przy dodawaniu!', null, {
+            positionClass: 'toast-bottom-right',
+          });
         },
         complete: () => {},
       });
-    console.log('add to cart');
   }
 }
